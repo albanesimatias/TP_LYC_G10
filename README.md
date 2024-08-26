@@ -20,6 +20,7 @@ Para ejecutar el codigo, sigue los siguientes pasos:
    ```
 
 2. **Instalar dependencias**
+
    Si ya tenes pipenv instalado podes ejecutar:
    ```bash
    pipenv install
@@ -30,6 +31,7 @@ Para ejecutar el codigo, sigue los siguientes pasos:
    ```
 
 3. **Ejecutar**
+
    Si estas usando pipenv
    ```bash
    pipenv shell
