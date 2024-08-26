@@ -28,3 +28,17 @@ Para ejecutar el codigo, sigue los siguientes pasos:
    ```bash
    pip install ply
    ```
+
+3. **Ejecutar**
+   Si estas usando pipenv
+   ```bash
+   pipenv shell
+   ```
+   ```bash
+   python parser.py
+   ```
+
+   Si instalaste 'ply' globalmente simplemente ejecuta:
+   ```bash
+   python parser.py
+   ```
