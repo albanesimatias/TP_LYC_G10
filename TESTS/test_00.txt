@@ -1,0 +1,8 @@
+if(hola == hola){
+    var_prueba1=2
+    "Texto de prueba if or and"*-Este un if @|/*ñ@ or comentario-*
+}
+else{
+    var_prueba2=hola
+}
+while(1==1 and 2>=2 or 2<=2)
