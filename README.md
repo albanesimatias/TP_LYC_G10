@@ -1,14 +1,30 @@
-<h1 align="center">TP COMPILADOR UNLaM 2024</h1>
-\## 📁 Como ejecutar
+# TP COMPILADOR UNLaM 2024
 
-Para poder ejecutar el proyecto es necesario:
-    * Tener python instalado
-    * Tener el paquete 'ply' instalado
-    Si tenes instalado pipenv, pode simplemente ejecutar
-        pipenv install
-        pipenv shell
-        python parser.py
-    Si no podes instalar globalmente 'ply' usando:
-        pip install ply
-        python parser.py
-\## 🛠️ Abre y ejecuta el proyecto
+## Integrantes
+- Integrante 1: Matias Albanesi
+- Integrante 2: Matias Gallues
+- Integrante 3: Agustin Federico
+
+## Ejecución
+
+**Requisitos**
+   -Python 3.12
+   -pip
+   -Paquete 'ply'
+
+Para ejecutar el codigo, sigue los siguientes pasos:
+
+1. **Clonar el repositorio:**
+   ```bash
+   git clone https://github.com/albanesimatias/TP_LYC_G10.git
+   ```
+
+2. **Instalar dependencias**
+   Si ya tenes pipenv instalado podes ejecutar:
+   ```bash
+   pipenv install
+   ```
+   Si no tenes pipenv podes instalar 'ply' globalmente
+   ```bash
+   pip install ply
+   ```
