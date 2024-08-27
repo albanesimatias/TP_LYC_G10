@@ -1,6 +1,6 @@
 import ply.lex as lex
 from pathlib import Path
-
+simbol_table = {''}
 reserved = {
     'if': 'IF',
     'else': 'ELSE',
@@ -79,7 +79,7 @@ def t_VARIABLE(t):
 
 
 def t_CADENA(t):
-    r'"(\w|\s)*"'
+    r'".*"'
     if len(t.value) > 40:
         raise Exception('La cadena exed el limite de caracteres (MAX_40)')
     return t
@@ -128,7 +128,7 @@ lexer = lex.lex()
 
 # path = Path('./TESTS/test_01.txt')
 # data = path.read_text()
-# lexer.input('[var,"ho la",123]')
+# lexer.input(data)
 
 # while True:
 #     token = lexer.token()

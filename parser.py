@@ -5,8 +5,6 @@
 from lexer import tokens  # Se importan los tokens generado previamente en el lexer
 import ply.yacc as yacc  # analizador sintactico
 
-SYMBOL_TABLE = {}
-
 
 def p_programa(p):
     '''programa : sentencia programa
@@ -115,7 +113,6 @@ def p_comparador(p):
                   | MAYORI
                   | IGUALI
      '''
-
     p[0] = p[1]
 
 
