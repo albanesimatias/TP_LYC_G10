@@ -35,7 +35,7 @@ def p_bloque_declaracion(p):
 
 
 def p_declaraciones(p):
-    '''declaraciones : declaracion declaraciones
+    '''declaraciones : declaraciones declaracion
                      | declaracion
     '''
     # reveer logica
@@ -43,15 +43,13 @@ def p_declaraciones(p):
 
 
 def p_declaracion(p):
-    '''declaracion : lista_variables DOS_PUNTOS tipo_dato
-                   | lista_variables DOS_PUNTOS tipo_dato declaracion
-    '''
+    '''declaracion : lista_variables DOS_PUNTOS tipo_dato'''
     p[0] = p[1]
 
 
 def p_lista_variables(p):
     '''lista_variables : VARIABLE
-                       | VARIABLE COMA lista_variables
+                       | lista_variables COMA VARIABLE
     '''
 
 
@@ -115,7 +113,6 @@ def p_comparador(p):
                   | MAYORI
                   | IGUALI
      '''
-
     p[0] = p[1]
 
 
