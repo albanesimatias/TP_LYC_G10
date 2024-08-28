@@ -78,7 +78,7 @@ def p_seleccion(p):
     if p[3]:
         p[0] = p[5]
     else:
-        if len(p) >= 6:
+        if len(p) == 8:
             p[0] = p[7]
 
 
@@ -121,7 +121,7 @@ def p_comparador(p):
                   | MAYORQ
                   | MAYORI
                   | IGUALI
-                  | DISTONTOQ
+                  | DISTINTOQ
      '''
     p[0] = p[1]
 

@@ -13,6 +13,7 @@ reserved = {
     'write': 'WRITE',
     'or': 'OR',
     'and': 'AND',
+    'not': 'NOT',
     'suma_los_ultimos': 'SUMA_LOS_ULTIMOS'
 }
 
@@ -81,7 +82,7 @@ def t_VARIABLE(t):
 
 
 def t_CADENA(t):
-    r'".*"'
+    r'"[^"]*"'
     if len(t.value) > 40:
         raise Exception('La cadena exed el limite de caracteres (MAX_40)')
     return t
@@ -130,7 +131,7 @@ lexer = lex.lex()
 
 # path = Path('./TESTS/test_01.txt')
 # data = path.read_text()
-# lexer.input(data)
+# lexer.input('" -hola-*/12_/@"')
 
 # while True:
 #     token = lexer.token()
