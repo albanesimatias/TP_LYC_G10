@@ -79,16 +79,15 @@ def p_iteracion(p):
 
 
 def p_condicion(p):
-    '''condicion : condicion OR comparacion
-                 | condicion AND comparacion
+    '''condicion : comparacion OR comparacion
+                 | comparacion AND comparacion
+                 | NOT comparacion
                  | comparacion
     '''
-    if len(p) == 4:
-        match p[2]:
-            case 'or': p[0] = p[1] or p[3]
-            case 'and': p[0] = p[1] and p[3]
-    if len(p) == 2:
-        p[0] = bool(p[1])
+    match len(p):
+        case 4: p[0] = p[1] or p[3] if p[2] == 'or' else p[1] and p[3]
+        case 3: p[0] = not bool(p[2])
+        case _: p[0] = bool(p[1])
 
 
 def p_comparacion(p):
@@ -112,6 +111,7 @@ def p_comparador(p):
                   | MAYORQ
                   | MAYORI
                   | IGUALI
+                  | DISTONTOQ
      '''
     p[0] = p[1]
 
