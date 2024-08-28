@@ -30,6 +30,7 @@ tokens = [
     'CADENA',
     'VARIABLE',
     'MENORI',
+    'DISTINTOQ',
     'MAYORI',
     'IGUALI',
     'MENORQ',
@@ -48,6 +49,7 @@ tokens = [
 t_MENORI = r'\<\='
 t_MAYORI = r'\>\='
 t_IGUALI = r'\=\='
+t_DISTINTOQ = r'!='
 t_MENORQ = r'\<'
 t_MAYORQ = r'\>'
 t_SUMA = r'\+'
