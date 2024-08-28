@@ -23,9 +23,21 @@ def p_sentencia(p):
                  | iteracion
                  | seleccion
                  | bloque_declaracion
+                 | read
+                 | write
                  | suma_los_ultimos
     '''
     p[0] = p[1]
+
+
+def p_read(p):
+    '''read : READ A_PARENTESIS elemento C_PARENTESIS'''
+    print(p[3])
+
+
+def p_write(p):
+    '''write : WRITE A_PARENTESIS elemento C_PARENTESIS'''
+    print(p[3])
 
 
 def p_bloque_declaracion(p):
