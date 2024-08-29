@@ -132,11 +132,7 @@ def p_bloque(p):
 
 
 def p_asignacion(p):
-    '''asignacion : VARIABLE ASIGNACION VARIABLE
-                  | VARIABLE ASIGNACION N_ENTERO
-                  | VARIABLE ASIGNACION N_DECIMAL
-                  | VARIABLE ASIGNACION CADENA
-                  | VARIABLE ASIGNACION N_BINARIO
+    '''asignacion : VARIABLE ASIGNACION elemento
                   | VARIABLE ASIGNACION lista
     '''
     p[0] = p[3]
@@ -154,8 +150,13 @@ def p_sumaLosUltimos(p):
 
 
 def p_lista(p):
-    '''lista : A_CORCHETE elementos C_CORCHETE'''
-    p[0] = p[2]
+    '''lista : A_CORCHETE elementos C_CORCHETE
+             | A_CORCHETE C_CORCHETE
+    '''
+    if len(p) == 4:
+        p[0] = p[2]
+    if len(p) == 3:
+        p[0] = []
 
 
 def p_elementos(p):

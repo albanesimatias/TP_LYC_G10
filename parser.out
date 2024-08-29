@@ -46,34 +46,31 @@ Rule 33    comparador -> MAYORI
 Rule 34    comparador -> IGUALI
 Rule 35    comparador -> DISTINTOQ
 Rule 36    bloque -> A_LLAVE programa C_LLAVE
-Rule 37    asignacion -> VARIABLE ASIGNACION VARIABLE
-Rule 38    asignacion -> VARIABLE ASIGNACION N_ENTERO
-Rule 39    asignacion -> VARIABLE ASIGNACION N_DECIMAL
-Rule 40    asignacion -> VARIABLE ASIGNACION CADENA
-Rule 41    asignacion -> VARIABLE ASIGNACION N_BINARIO
-Rule 42    asignacion -> VARIABLE ASIGNACION lista
-Rule 43    suma_los_ultimos -> SUMA_LOS_ULTIMOS A_PARENTESIS N_ENTERO PUNTO_Y_COMA lista C_PARENTESIS
-Rule 44    lista -> A_CORCHETE elementos C_CORCHETE
-Rule 45    elementos -> elementos COMA elemento
-Rule 46    elementos -> elemento
-Rule 47    elemento -> N_ENTERO
-Rule 48    elemento -> N_DECIMAL
-Rule 49    elemento -> N_BINARIO
-Rule 50    elemento -> VARIABLE
-Rule 51    elemento -> CADENA
+Rule 37    asignacion -> VARIABLE ASIGNACION elemento
+Rule 38    asignacion -> VARIABLE ASIGNACION lista
+Rule 39    suma_los_ultimos -> SUMA_LOS_ULTIMOS A_PARENTESIS N_ENTERO PUNTO_Y_COMA lista C_PARENTESIS
+Rule 40    lista -> A_CORCHETE elementos C_CORCHETE
+Rule 41    lista -> A_CORCHETE C_CORCHETE
+Rule 42    elementos -> elementos COMA elemento
+Rule 43    elementos -> elemento
+Rule 44    elemento -> N_ENTERO
+Rule 45    elemento -> N_DECIMAL
+Rule 46    elemento -> N_BINARIO
+Rule 47    elemento -> VARIABLE
+Rule 48    elemento -> CADENA
 
 Terminals, with rules where they appear
 
 AND                  : 25
-ASIGNACION           : 37 38 39 40 41 42
-A_CORCHETE           : 44
+ASIGNACION           : 37 38
+A_CORCHETE           : 40 41
 A_LLAVE              : 12 36
-A_PARENTESIS         : 10 11 21 22 23 43
-CADENA               : 40 51
-COMA                 : 17 45
-C_CORCHETE           : 44
+A_PARENTESIS         : 10 11 21 22 23 39
+CADENA               : 48
+COMA                 : 17 42
+C_CORCHETE           : 40 41
 C_LLAVE              : 12 36
-C_PARENTESIS         : 10 11 21 22 23 43
+C_PARENTESIS         : 10 11 21 22 23 39
 DISTINTOQ            : 35
 DIVISION             : 
 DOS_PUNTOS           : 15
@@ -89,17 +86,17 @@ MENORI               : 30
 MENORQ               : 31
 MULTIPLICACION       : 
 NOT                  : 26
-N_BINARIO            : 41 49
-N_DECIMAL            : 39 48
-N_ENTERO             : 38 43 47
+N_BINARIO            : 46
+N_DECIMAL            : 45
+N_ENTERO             : 39 44
 OR                   : 24
-PUNTO_Y_COMA         : 43
+PUNTO_Y_COMA         : 39
 READ                 : 10
 RESTA                : 
 STR                  : 20
 SUMA                 : 
-SUMA_LOS_ULTIMOS     : 43
-VARIABLE             : 16 17 37 37 38 39 40 41 42 50
+SUMA_LOS_ULTIMOS     : 39
+VARIABLE             : 16 17 37 38 47
 WHILE                : 23
 WRITE                : 11
 error                : 
@@ -114,10 +111,10 @@ comparador           : 28
 condicion            : 21 22 23
 declaracion          : 13 14
 declaraciones        : 12 13
-elemento             : 10 11 28 28 29 45 46
-elementos            : 44 45
+elemento             : 10 11 28 28 29 37 42 43
+elementos            : 40 42
 iteracion            : 4
-lista                : 42 43
+lista                : 38 39
 lista_variables      : 15 17
 programa             : 1 36 0
 read                 : 7
@@ -141,19 +138,15 @@ state 0
     (7) sentencia -> . read
     (8) sentencia -> . write
     (9) sentencia -> . suma_los_ultimos
-    (37) asignacion -> . VARIABLE ASIGNACION VARIABLE
-    (38) asignacion -> . VARIABLE ASIGNACION N_ENTERO
-    (39) asignacion -> . VARIABLE ASIGNACION N_DECIMAL
-    (40) asignacion -> . VARIABLE ASIGNACION CADENA
-    (41) asignacion -> . VARIABLE ASIGNACION N_BINARIO
-    (42) asignacion -> . VARIABLE ASIGNACION lista
+    (37) asignacion -> . VARIABLE ASIGNACION elemento
+    (38) asignacion -> . VARIABLE ASIGNACION lista
     (23) iteracion -> . WHILE A_PARENTESIS condicion C_PARENTESIS bloque
     (21) seleccion -> . IF A_PARENTESIS condicion C_PARENTESIS bloque
     (22) seleccion -> . IF A_PARENTESIS condicion C_PARENTESIS bloque ELSE bloque
     (12) bloque_declaracion -> . INIT A_LLAVE declaraciones C_LLAVE
     (10) read -> . READ A_PARENTESIS elemento C_PARENTESIS
     (11) write -> . WRITE A_PARENTESIS elemento C_PARENTESIS
-    (43) suma_los_ultimos -> . SUMA_LOS_ULTIMOS A_PARENTESIS N_ENTERO PUNTO_Y_COMA lista C_PARENTESIS
+    (39) suma_los_ultimos -> . SUMA_LOS_ULTIMOS A_PARENTESIS N_ENTERO PUNTO_Y_COMA lista C_PARENTESIS
 
     VARIABLE        shift and go to state 10
     WHILE           shift and go to state 11
@@ -192,19 +185,15 @@ state 2
     (7) sentencia -> . read
     (8) sentencia -> . write
     (9) sentencia -> . suma_los_ultimos
-    (37) asignacion -> . VARIABLE ASIGNACION VARIABLE
-    (38) asignacion -> . VARIABLE ASIGNACION N_ENTERO
-    (39) asignacion -> . VARIABLE ASIGNACION N_DECIMAL
-    (40) asignacion -> . VARIABLE ASIGNACION CADENA
-    (41) asignacion -> . VARIABLE ASIGNACION N_BINARIO
-    (42) asignacion -> . VARIABLE ASIGNACION lista
+    (37) asignacion -> . VARIABLE ASIGNACION elemento
+    (38) asignacion -> . VARIABLE ASIGNACION lista
     (23) iteracion -> . WHILE A_PARENTESIS condicion C_PARENTESIS bloque
     (21) seleccion -> . IF A_PARENTESIS condicion C_PARENTESIS bloque
     (22) seleccion -> . IF A_PARENTESIS condicion C_PARENTESIS bloque ELSE bloque
     (12) bloque_declaracion -> . INIT A_LLAVE declaraciones C_LLAVE
     (10) read -> . READ A_PARENTESIS elemento C_PARENTESIS
     (11) write -> . WRITE A_PARENTESIS elemento C_PARENTESIS
-    (43) suma_los_ultimos -> . SUMA_LOS_ULTIMOS A_PARENTESIS N_ENTERO PUNTO_Y_COMA lista C_PARENTESIS
+    (39) suma_los_ultimos -> . SUMA_LOS_ULTIMOS A_PARENTESIS N_ENTERO PUNTO_Y_COMA lista C_PARENTESIS
 
     $end            reduce using rule 2 (programa -> sentencia .)
     C_LLAVE         reduce using rule 2 (programa -> sentencia .)
@@ -333,12 +322,8 @@ state 9
 
 state 10
 
-    (37) asignacion -> VARIABLE . ASIGNACION VARIABLE
-    (38) asignacion -> VARIABLE . ASIGNACION N_ENTERO
-    (39) asignacion -> VARIABLE . ASIGNACION N_DECIMAL
-    (40) asignacion -> VARIABLE . ASIGNACION CADENA
-    (41) asignacion -> VARIABLE . ASIGNACION N_BINARIO
-    (42) asignacion -> VARIABLE . ASIGNACION lista
+    (37) asignacion -> VARIABLE . ASIGNACION elemento
+    (38) asignacion -> VARIABLE . ASIGNACION lista
 
     ASIGNACION      shift and go to state 18
 
@@ -381,7 +366,7 @@ state 15
 
 state 16
 
-    (43) suma_los_ultimos -> SUMA_LOS_ULTIMOS . A_PARENTESIS N_ENTERO PUNTO_Y_COMA lista C_PARENTESIS
+    (39) suma_los_ultimos -> SUMA_LOS_ULTIMOS . A_PARENTESIS N_ENTERO PUNTO_Y_COMA lista C_PARENTESIS
 
     A_PARENTESIS    shift and go to state 24
 
@@ -396,22 +381,25 @@ state 17
 
 state 18
 
-    (37) asignacion -> VARIABLE ASIGNACION . VARIABLE
-    (38) asignacion -> VARIABLE ASIGNACION . N_ENTERO
-    (39) asignacion -> VARIABLE ASIGNACION . N_DECIMAL
-    (40) asignacion -> VARIABLE ASIGNACION . CADENA
-    (41) asignacion -> VARIABLE ASIGNACION . N_BINARIO
-    (42) asignacion -> VARIABLE ASIGNACION . lista
-    (44) lista -> . A_CORCHETE elementos C_CORCHETE
+    (37) asignacion -> VARIABLE ASIGNACION . elemento
+    (38) asignacion -> VARIABLE ASIGNACION . lista
+    (44) elemento -> . N_ENTERO
+    (45) elemento -> . N_DECIMAL
+    (46) elemento -> . N_BINARIO
+    (47) elemento -> . VARIABLE
+    (48) elemento -> . CADENA
+    (40) lista -> . A_CORCHETE elementos C_CORCHETE
+    (41) lista -> . A_CORCHETE C_CORCHETE
 
+    N_ENTERO        shift and go to state 28
+    N_DECIMAL       shift and go to state 29
+    N_BINARIO       shift and go to state 30
     VARIABLE        shift and go to state 25
-    N_ENTERO        shift and go to state 26
-    N_DECIMAL       shift and go to state 27
-    CADENA          shift and go to state 28
-    N_BINARIO       shift and go to state 29
-    A_CORCHETE      shift and go to state 31
+    CADENA          shift and go to state 31
+    A_CORCHETE      shift and go to state 32
 
-    lista                          shift and go to state 30
+    elemento                       shift and go to state 26
+    lista                          shift and go to state 27
 
 state 19
 
@@ -422,22 +410,22 @@ state 19
     (27) condicion -> . comparacion
     (28) comparacion -> . elemento comparador elemento
     (29) comparacion -> . elemento
-    (47) elemento -> . N_ENTERO
-    (48) elemento -> . N_DECIMAL
-    (49) elemento -> . N_BINARIO
-    (50) elemento -> . VARIABLE
-    (51) elemento -> . CADENA
+    (44) elemento -> . N_ENTERO
+    (45) elemento -> . N_DECIMAL
+    (46) elemento -> . N_BINARIO
+    (47) elemento -> . VARIABLE
+    (48) elemento -> . CADENA
 
-    NOT             shift and go to state 34
-    N_ENTERO        shift and go to state 36
-    N_DECIMAL       shift and go to state 37
-    N_BINARIO       shift and go to state 38
-    VARIABLE        shift and go to state 39
-    CADENA          shift and go to state 40
+    NOT             shift and go to state 35
+    N_ENTERO        shift and go to state 28
+    N_DECIMAL       shift and go to state 29
+    N_BINARIO       shift and go to state 30
+    VARIABLE        shift and go to state 25
+    CADENA          shift and go to state 31
 
-    condicion                      shift and go to state 32
-    comparacion                    shift and go to state 33
-    elemento                       shift and go to state 35
+    condicion                      shift and go to state 33
+    comparacion                    shift and go to state 34
+    elemento                       shift and go to state 36
 
 state 20
 
@@ -449,22 +437,22 @@ state 20
     (27) condicion -> . comparacion
     (28) comparacion -> . elemento comparador elemento
     (29) comparacion -> . elemento
-    (47) elemento -> . N_ENTERO
-    (48) elemento -> . N_DECIMAL
-    (49) elemento -> . N_BINARIO
-    (50) elemento -> . VARIABLE
-    (51) elemento -> . CADENA
+    (44) elemento -> . N_ENTERO
+    (45) elemento -> . N_DECIMAL
+    (46) elemento -> . N_BINARIO
+    (47) elemento -> . VARIABLE
+    (48) elemento -> . CADENA
 
-    NOT             shift and go to state 34
-    N_ENTERO        shift and go to state 36
-    N_DECIMAL       shift and go to state 37
-    N_BINARIO       shift and go to state 38
-    VARIABLE        shift and go to state 39
-    CADENA          shift and go to state 40
+    NOT             shift and go to state 35
+    N_ENTERO        shift and go to state 28
+    N_DECIMAL       shift and go to state 29
+    N_BINARIO       shift and go to state 30
+    VARIABLE        shift and go to state 25
+    CADENA          shift and go to state 31
 
-    condicion                      shift and go to state 41
-    comparacion                    shift and go to state 33
-    elemento                       shift and go to state 35
+    condicion                      shift and go to state 37
+    comparacion                    shift and go to state 34
+    elemento                       shift and go to state 36
 
 state 21
 
@@ -475,202 +463,274 @@ state 21
     (16) lista_variables -> . VARIABLE
     (17) lista_variables -> . lista_variables COMA VARIABLE
 
-    VARIABLE        shift and go to state 45
+    VARIABLE        shift and go to state 41
 
-    declaraciones                  shift and go to state 42
-    declaracion                    shift and go to state 43
-    lista_variables                shift and go to state 44
+    declaraciones                  shift and go to state 38
+    declaracion                    shift and go to state 39
+    lista_variables                shift and go to state 40
 
 state 22
 
     (10) read -> READ A_PARENTESIS . elemento C_PARENTESIS
-    (47) elemento -> . N_ENTERO
-    (48) elemento -> . N_DECIMAL
-    (49) elemento -> . N_BINARIO
-    (50) elemento -> . VARIABLE
-    (51) elemento -> . CADENA
+    (44) elemento -> . N_ENTERO
+    (45) elemento -> . N_DECIMAL
+    (46) elemento -> . N_BINARIO
+    (47) elemento -> . VARIABLE
+    (48) elemento -> . CADENA
 
-    N_ENTERO        shift and go to state 36
-    N_DECIMAL       shift and go to state 37
-    N_BINARIO       shift and go to state 38
-    VARIABLE        shift and go to state 39
-    CADENA          shift and go to state 40
+    N_ENTERO        shift and go to state 28
+    N_DECIMAL       shift and go to state 29
+    N_BINARIO       shift and go to state 30
+    VARIABLE        shift and go to state 25
+    CADENA          shift and go to state 31
 
-    elemento                       shift and go to state 46
+    elemento                       shift and go to state 42
 
 state 23
 
     (11) write -> WRITE A_PARENTESIS . elemento C_PARENTESIS
-    (47) elemento -> . N_ENTERO
-    (48) elemento -> . N_DECIMAL
-    (49) elemento -> . N_BINARIO
-    (50) elemento -> . VARIABLE
-    (51) elemento -> . CADENA
+    (44) elemento -> . N_ENTERO
+    (45) elemento -> . N_DECIMAL
+    (46) elemento -> . N_BINARIO
+    (47) elemento -> . VARIABLE
+    (48) elemento -> . CADENA
 
-    N_ENTERO        shift and go to state 36
-    N_DECIMAL       shift and go to state 37
-    N_BINARIO       shift and go to state 38
-    VARIABLE        shift and go to state 39
-    CADENA          shift and go to state 40
+    N_ENTERO        shift and go to state 28
+    N_DECIMAL       shift and go to state 29
+    N_BINARIO       shift and go to state 30
+    VARIABLE        shift and go to state 25
+    CADENA          shift and go to state 31
 
-    elemento                       shift and go to state 47
+    elemento                       shift and go to state 43
 
 state 24
 
-    (43) suma_los_ultimos -> SUMA_LOS_ULTIMOS A_PARENTESIS . N_ENTERO PUNTO_Y_COMA lista C_PARENTESIS
+    (39) suma_los_ultimos -> SUMA_LOS_ULTIMOS A_PARENTESIS . N_ENTERO PUNTO_Y_COMA lista C_PARENTESIS
 
-    N_ENTERO        shift and go to state 48
+    N_ENTERO        shift and go to state 44
 
 
 state 25
 
-    (37) asignacion -> VARIABLE ASIGNACION VARIABLE .
+    (47) elemento -> VARIABLE .
 
-    VARIABLE        reduce using rule 37 (asignacion -> VARIABLE ASIGNACION VARIABLE .)
-    WHILE           reduce using rule 37 (asignacion -> VARIABLE ASIGNACION VARIABLE .)
-    IF              reduce using rule 37 (asignacion -> VARIABLE ASIGNACION VARIABLE .)
-    INIT            reduce using rule 37 (asignacion -> VARIABLE ASIGNACION VARIABLE .)
-    READ            reduce using rule 37 (asignacion -> VARIABLE ASIGNACION VARIABLE .)
-    WRITE           reduce using rule 37 (asignacion -> VARIABLE ASIGNACION VARIABLE .)
-    SUMA_LOS_ULTIMOS reduce using rule 37 (asignacion -> VARIABLE ASIGNACION VARIABLE .)
-    $end            reduce using rule 37 (asignacion -> VARIABLE ASIGNACION VARIABLE .)
-    C_LLAVE         reduce using rule 37 (asignacion -> VARIABLE ASIGNACION VARIABLE .)
+    VARIABLE        reduce using rule 47 (elemento -> VARIABLE .)
+    WHILE           reduce using rule 47 (elemento -> VARIABLE .)
+    IF              reduce using rule 47 (elemento -> VARIABLE .)
+    INIT            reduce using rule 47 (elemento -> VARIABLE .)
+    READ            reduce using rule 47 (elemento -> VARIABLE .)
+    WRITE           reduce using rule 47 (elemento -> VARIABLE .)
+    SUMA_LOS_ULTIMOS reduce using rule 47 (elemento -> VARIABLE .)
+    $end            reduce using rule 47 (elemento -> VARIABLE .)
+    C_LLAVE         reduce using rule 47 (elemento -> VARIABLE .)
+    MENORI          reduce using rule 47 (elemento -> VARIABLE .)
+    MENORQ          reduce using rule 47 (elemento -> VARIABLE .)
+    MAYORQ          reduce using rule 47 (elemento -> VARIABLE .)
+    MAYORI          reduce using rule 47 (elemento -> VARIABLE .)
+    IGUALI          reduce using rule 47 (elemento -> VARIABLE .)
+    DISTINTOQ       reduce using rule 47 (elemento -> VARIABLE .)
+    OR              reduce using rule 47 (elemento -> VARIABLE .)
+    AND             reduce using rule 47 (elemento -> VARIABLE .)
+    C_PARENTESIS    reduce using rule 47 (elemento -> VARIABLE .)
+    C_CORCHETE      reduce using rule 47 (elemento -> VARIABLE .)
+    COMA            reduce using rule 47 (elemento -> VARIABLE .)
 
 
 state 26
 
-    (38) asignacion -> VARIABLE ASIGNACION N_ENTERO .
+    (37) asignacion -> VARIABLE ASIGNACION elemento .
 
-    VARIABLE        reduce using rule 38 (asignacion -> VARIABLE ASIGNACION N_ENTERO .)
-    WHILE           reduce using rule 38 (asignacion -> VARIABLE ASIGNACION N_ENTERO .)
-    IF              reduce using rule 38 (asignacion -> VARIABLE ASIGNACION N_ENTERO .)
-    INIT            reduce using rule 38 (asignacion -> VARIABLE ASIGNACION N_ENTERO .)
-    READ            reduce using rule 38 (asignacion -> VARIABLE ASIGNACION N_ENTERO .)
-    WRITE           reduce using rule 38 (asignacion -> VARIABLE ASIGNACION N_ENTERO .)
-    SUMA_LOS_ULTIMOS reduce using rule 38 (asignacion -> VARIABLE ASIGNACION N_ENTERO .)
-    $end            reduce using rule 38 (asignacion -> VARIABLE ASIGNACION N_ENTERO .)
-    C_LLAVE         reduce using rule 38 (asignacion -> VARIABLE ASIGNACION N_ENTERO .)
+    VARIABLE        reduce using rule 37 (asignacion -> VARIABLE ASIGNACION elemento .)
+    WHILE           reduce using rule 37 (asignacion -> VARIABLE ASIGNACION elemento .)
+    IF              reduce using rule 37 (asignacion -> VARIABLE ASIGNACION elemento .)
+    INIT            reduce using rule 37 (asignacion -> VARIABLE ASIGNACION elemento .)
+    READ            reduce using rule 37 (asignacion -> VARIABLE ASIGNACION elemento .)
+    WRITE           reduce using rule 37 (asignacion -> VARIABLE ASIGNACION elemento .)
+    SUMA_LOS_ULTIMOS reduce using rule 37 (asignacion -> VARIABLE ASIGNACION elemento .)
+    $end            reduce using rule 37 (asignacion -> VARIABLE ASIGNACION elemento .)
+    C_LLAVE         reduce using rule 37 (asignacion -> VARIABLE ASIGNACION elemento .)
 
 
 state 27
 
-    (39) asignacion -> VARIABLE ASIGNACION N_DECIMAL .
+    (38) asignacion -> VARIABLE ASIGNACION lista .
 
-    VARIABLE        reduce using rule 39 (asignacion -> VARIABLE ASIGNACION N_DECIMAL .)
-    WHILE           reduce using rule 39 (asignacion -> VARIABLE ASIGNACION N_DECIMAL .)
-    IF              reduce using rule 39 (asignacion -> VARIABLE ASIGNACION N_DECIMAL .)
-    INIT            reduce using rule 39 (asignacion -> VARIABLE ASIGNACION N_DECIMAL .)
-    READ            reduce using rule 39 (asignacion -> VARIABLE ASIGNACION N_DECIMAL .)
-    WRITE           reduce using rule 39 (asignacion -> VARIABLE ASIGNACION N_DECIMAL .)
-    SUMA_LOS_ULTIMOS reduce using rule 39 (asignacion -> VARIABLE ASIGNACION N_DECIMAL .)
-    $end            reduce using rule 39 (asignacion -> VARIABLE ASIGNACION N_DECIMAL .)
-    C_LLAVE         reduce using rule 39 (asignacion -> VARIABLE ASIGNACION N_DECIMAL .)
+    VARIABLE        reduce using rule 38 (asignacion -> VARIABLE ASIGNACION lista .)
+    WHILE           reduce using rule 38 (asignacion -> VARIABLE ASIGNACION lista .)
+    IF              reduce using rule 38 (asignacion -> VARIABLE ASIGNACION lista .)
+    INIT            reduce using rule 38 (asignacion -> VARIABLE ASIGNACION lista .)
+    READ            reduce using rule 38 (asignacion -> VARIABLE ASIGNACION lista .)
+    WRITE           reduce using rule 38 (asignacion -> VARIABLE ASIGNACION lista .)
+    SUMA_LOS_ULTIMOS reduce using rule 38 (asignacion -> VARIABLE ASIGNACION lista .)
+    $end            reduce using rule 38 (asignacion -> VARIABLE ASIGNACION lista .)
+    C_LLAVE         reduce using rule 38 (asignacion -> VARIABLE ASIGNACION lista .)
 
 
 state 28
 
-    (40) asignacion -> VARIABLE ASIGNACION CADENA .
+    (44) elemento -> N_ENTERO .
 
-    VARIABLE        reduce using rule 40 (asignacion -> VARIABLE ASIGNACION CADENA .)
-    WHILE           reduce using rule 40 (asignacion -> VARIABLE ASIGNACION CADENA .)
-    IF              reduce using rule 40 (asignacion -> VARIABLE ASIGNACION CADENA .)
-    INIT            reduce using rule 40 (asignacion -> VARIABLE ASIGNACION CADENA .)
-    READ            reduce using rule 40 (asignacion -> VARIABLE ASIGNACION CADENA .)
-    WRITE           reduce using rule 40 (asignacion -> VARIABLE ASIGNACION CADENA .)
-    SUMA_LOS_ULTIMOS reduce using rule 40 (asignacion -> VARIABLE ASIGNACION CADENA .)
-    $end            reduce using rule 40 (asignacion -> VARIABLE ASIGNACION CADENA .)
-    C_LLAVE         reduce using rule 40 (asignacion -> VARIABLE ASIGNACION CADENA .)
+    VARIABLE        reduce using rule 44 (elemento -> N_ENTERO .)
+    WHILE           reduce using rule 44 (elemento -> N_ENTERO .)
+    IF              reduce using rule 44 (elemento -> N_ENTERO .)
+    INIT            reduce using rule 44 (elemento -> N_ENTERO .)
+    READ            reduce using rule 44 (elemento -> N_ENTERO .)
+    WRITE           reduce using rule 44 (elemento -> N_ENTERO .)
+    SUMA_LOS_ULTIMOS reduce using rule 44 (elemento -> N_ENTERO .)
+    $end            reduce using rule 44 (elemento -> N_ENTERO .)
+    C_LLAVE         reduce using rule 44 (elemento -> N_ENTERO .)
+    MENORI          reduce using rule 44 (elemento -> N_ENTERO .)
+    MENORQ          reduce using rule 44 (elemento -> N_ENTERO .)
+    MAYORQ          reduce using rule 44 (elemento -> N_ENTERO .)
+    MAYORI          reduce using rule 44 (elemento -> N_ENTERO .)
+    IGUALI          reduce using rule 44 (elemento -> N_ENTERO .)
+    DISTINTOQ       reduce using rule 44 (elemento -> N_ENTERO .)
+    OR              reduce using rule 44 (elemento -> N_ENTERO .)
+    AND             reduce using rule 44 (elemento -> N_ENTERO .)
+    C_PARENTESIS    reduce using rule 44 (elemento -> N_ENTERO .)
+    C_CORCHETE      reduce using rule 44 (elemento -> N_ENTERO .)
+    COMA            reduce using rule 44 (elemento -> N_ENTERO .)
 
 
 state 29
 
-    (41) asignacion -> VARIABLE ASIGNACION N_BINARIO .
+    (45) elemento -> N_DECIMAL .
 
-    VARIABLE        reduce using rule 41 (asignacion -> VARIABLE ASIGNACION N_BINARIO .)
-    WHILE           reduce using rule 41 (asignacion -> VARIABLE ASIGNACION N_BINARIO .)
-    IF              reduce using rule 41 (asignacion -> VARIABLE ASIGNACION N_BINARIO .)
-    INIT            reduce using rule 41 (asignacion -> VARIABLE ASIGNACION N_BINARIO .)
-    READ            reduce using rule 41 (asignacion -> VARIABLE ASIGNACION N_BINARIO .)
-    WRITE           reduce using rule 41 (asignacion -> VARIABLE ASIGNACION N_BINARIO .)
-    SUMA_LOS_ULTIMOS reduce using rule 41 (asignacion -> VARIABLE ASIGNACION N_BINARIO .)
-    $end            reduce using rule 41 (asignacion -> VARIABLE ASIGNACION N_BINARIO .)
-    C_LLAVE         reduce using rule 41 (asignacion -> VARIABLE ASIGNACION N_BINARIO .)
+    VARIABLE        reduce using rule 45 (elemento -> N_DECIMAL .)
+    WHILE           reduce using rule 45 (elemento -> N_DECIMAL .)
+    IF              reduce using rule 45 (elemento -> N_DECIMAL .)
+    INIT            reduce using rule 45 (elemento -> N_DECIMAL .)
+    READ            reduce using rule 45 (elemento -> N_DECIMAL .)
+    WRITE           reduce using rule 45 (elemento -> N_DECIMAL .)
+    SUMA_LOS_ULTIMOS reduce using rule 45 (elemento -> N_DECIMAL .)
+    $end            reduce using rule 45 (elemento -> N_DECIMAL .)
+    C_LLAVE         reduce using rule 45 (elemento -> N_DECIMAL .)
+    MENORI          reduce using rule 45 (elemento -> N_DECIMAL .)
+    MENORQ          reduce using rule 45 (elemento -> N_DECIMAL .)
+    MAYORQ          reduce using rule 45 (elemento -> N_DECIMAL .)
+    MAYORI          reduce using rule 45 (elemento -> N_DECIMAL .)
+    IGUALI          reduce using rule 45 (elemento -> N_DECIMAL .)
+    DISTINTOQ       reduce using rule 45 (elemento -> N_DECIMAL .)
+    OR              reduce using rule 45 (elemento -> N_DECIMAL .)
+    AND             reduce using rule 45 (elemento -> N_DECIMAL .)
+    C_PARENTESIS    reduce using rule 45 (elemento -> N_DECIMAL .)
+    C_CORCHETE      reduce using rule 45 (elemento -> N_DECIMAL .)
+    COMA            reduce using rule 45 (elemento -> N_DECIMAL .)
 
 
 state 30
 
-    (42) asignacion -> VARIABLE ASIGNACION lista .
+    (46) elemento -> N_BINARIO .
 
-    VARIABLE        reduce using rule 42 (asignacion -> VARIABLE ASIGNACION lista .)
-    WHILE           reduce using rule 42 (asignacion -> VARIABLE ASIGNACION lista .)
-    IF              reduce using rule 42 (asignacion -> VARIABLE ASIGNACION lista .)
-    INIT            reduce using rule 42 (asignacion -> VARIABLE ASIGNACION lista .)
-    READ            reduce using rule 42 (asignacion -> VARIABLE ASIGNACION lista .)
-    WRITE           reduce using rule 42 (asignacion -> VARIABLE ASIGNACION lista .)
-    SUMA_LOS_ULTIMOS reduce using rule 42 (asignacion -> VARIABLE ASIGNACION lista .)
-    $end            reduce using rule 42 (asignacion -> VARIABLE ASIGNACION lista .)
-    C_LLAVE         reduce using rule 42 (asignacion -> VARIABLE ASIGNACION lista .)
+    VARIABLE        reduce using rule 46 (elemento -> N_BINARIO .)
+    WHILE           reduce using rule 46 (elemento -> N_BINARIO .)
+    IF              reduce using rule 46 (elemento -> N_BINARIO .)
+    INIT            reduce using rule 46 (elemento -> N_BINARIO .)
+    READ            reduce using rule 46 (elemento -> N_BINARIO .)
+    WRITE           reduce using rule 46 (elemento -> N_BINARIO .)
+    SUMA_LOS_ULTIMOS reduce using rule 46 (elemento -> N_BINARIO .)
+    $end            reduce using rule 46 (elemento -> N_BINARIO .)
+    C_LLAVE         reduce using rule 46 (elemento -> N_BINARIO .)
+    MENORI          reduce using rule 46 (elemento -> N_BINARIO .)
+    MENORQ          reduce using rule 46 (elemento -> N_BINARIO .)
+    MAYORQ          reduce using rule 46 (elemento -> N_BINARIO .)
+    MAYORI          reduce using rule 46 (elemento -> N_BINARIO .)
+    IGUALI          reduce using rule 46 (elemento -> N_BINARIO .)
+    DISTINTOQ       reduce using rule 46 (elemento -> N_BINARIO .)
+    OR              reduce using rule 46 (elemento -> N_BINARIO .)
+    AND             reduce using rule 46 (elemento -> N_BINARIO .)
+    C_PARENTESIS    reduce using rule 46 (elemento -> N_BINARIO .)
+    C_CORCHETE      reduce using rule 46 (elemento -> N_BINARIO .)
+    COMA            reduce using rule 46 (elemento -> N_BINARIO .)
 
 
 state 31
 
-    (44) lista -> A_CORCHETE . elementos C_CORCHETE
-    (45) elementos -> . elementos COMA elemento
-    (46) elementos -> . elemento
-    (47) elemento -> . N_ENTERO
-    (48) elemento -> . N_DECIMAL
-    (49) elemento -> . N_BINARIO
-    (50) elemento -> . VARIABLE
-    (51) elemento -> . CADENA
+    (48) elemento -> CADENA .
 
-    N_ENTERO        shift and go to state 36
-    N_DECIMAL       shift and go to state 37
-    N_BINARIO       shift and go to state 38
-    VARIABLE        shift and go to state 39
-    CADENA          shift and go to state 40
+    VARIABLE        reduce using rule 48 (elemento -> CADENA .)
+    WHILE           reduce using rule 48 (elemento -> CADENA .)
+    IF              reduce using rule 48 (elemento -> CADENA .)
+    INIT            reduce using rule 48 (elemento -> CADENA .)
+    READ            reduce using rule 48 (elemento -> CADENA .)
+    WRITE           reduce using rule 48 (elemento -> CADENA .)
+    SUMA_LOS_ULTIMOS reduce using rule 48 (elemento -> CADENA .)
+    $end            reduce using rule 48 (elemento -> CADENA .)
+    C_LLAVE         reduce using rule 48 (elemento -> CADENA .)
+    MENORI          reduce using rule 48 (elemento -> CADENA .)
+    MENORQ          reduce using rule 48 (elemento -> CADENA .)
+    MAYORQ          reduce using rule 48 (elemento -> CADENA .)
+    MAYORI          reduce using rule 48 (elemento -> CADENA .)
+    IGUALI          reduce using rule 48 (elemento -> CADENA .)
+    DISTINTOQ       reduce using rule 48 (elemento -> CADENA .)
+    OR              reduce using rule 48 (elemento -> CADENA .)
+    AND             reduce using rule 48 (elemento -> CADENA .)
+    C_PARENTESIS    reduce using rule 48 (elemento -> CADENA .)
+    C_CORCHETE      reduce using rule 48 (elemento -> CADENA .)
+    COMA            reduce using rule 48 (elemento -> CADENA .)
 
-    elementos                      shift and go to state 49
-    elemento                       shift and go to state 50
 
 state 32
 
-    (23) iteracion -> WHILE A_PARENTESIS condicion . C_PARENTESIS bloque
+    (40) lista -> A_CORCHETE . elementos C_CORCHETE
+    (41) lista -> A_CORCHETE . C_CORCHETE
+    (42) elementos -> . elementos COMA elemento
+    (43) elementos -> . elemento
+    (44) elemento -> . N_ENTERO
+    (45) elemento -> . N_DECIMAL
+    (46) elemento -> . N_BINARIO
+    (47) elemento -> . VARIABLE
+    (48) elemento -> . CADENA
 
-    C_PARENTESIS    shift and go to state 51
+    C_CORCHETE      shift and go to state 46
+    N_ENTERO        shift and go to state 28
+    N_DECIMAL       shift and go to state 29
+    N_BINARIO       shift and go to state 30
+    VARIABLE        shift and go to state 25
+    CADENA          shift and go to state 31
 
+    elementos                      shift and go to state 45
+    elemento                       shift and go to state 47
 
 state 33
+
+    (23) iteracion -> WHILE A_PARENTESIS condicion . C_PARENTESIS bloque
+
+    C_PARENTESIS    shift and go to state 48
+
+
+state 34
 
     (24) condicion -> comparacion . OR comparacion
     (25) condicion -> comparacion . AND comparacion
     (27) condicion -> comparacion .
 
-    OR              shift and go to state 52
-    AND             shift and go to state 53
+    OR              shift and go to state 49
+    AND             shift and go to state 50
     C_PARENTESIS    reduce using rule 27 (condicion -> comparacion .)
 
 
-state 34
+state 35
 
     (26) condicion -> NOT . comparacion
     (28) comparacion -> . elemento comparador elemento
     (29) comparacion -> . elemento
-    (47) elemento -> . N_ENTERO
-    (48) elemento -> . N_DECIMAL
-    (49) elemento -> . N_BINARIO
-    (50) elemento -> . VARIABLE
-    (51) elemento -> . CADENA
+    (44) elemento -> . N_ENTERO
+    (45) elemento -> . N_DECIMAL
+    (46) elemento -> . N_BINARIO
+    (47) elemento -> . VARIABLE
+    (48) elemento -> . CADENA
 
-    N_ENTERO        shift and go to state 36
-    N_DECIMAL       shift and go to state 37
-    N_BINARIO       shift and go to state 38
-    VARIABLE        shift and go to state 39
-    CADENA          shift and go to state 40
+    N_ENTERO        shift and go to state 28
+    N_DECIMAL       shift and go to state 29
+    N_BINARIO       shift and go to state 30
+    VARIABLE        shift and go to state 25
+    CADENA          shift and go to state 31
 
-    comparacion                    shift and go to state 54
-    elemento                       shift and go to state 35
+    comparacion                    shift and go to state 51
+    elemento                       shift and go to state 36
 
-state 35
+state 36
 
     (28) comparacion -> elemento . comparador elemento
     (29) comparacion -> elemento .
@@ -684,109 +744,24 @@ state 35
     OR              reduce using rule 29 (comparacion -> elemento .)
     AND             reduce using rule 29 (comparacion -> elemento .)
     C_PARENTESIS    reduce using rule 29 (comparacion -> elemento .)
-    MENORI          shift and go to state 56
-    MENORQ          shift and go to state 57
-    MAYORQ          shift and go to state 58
-    MAYORI          shift and go to state 59
-    IGUALI          shift and go to state 60
-    DISTINTOQ       shift and go to state 61
+    MENORI          shift and go to state 53
+    MENORQ          shift and go to state 54
+    MAYORQ          shift and go to state 55
+    MAYORI          shift and go to state 56
+    IGUALI          shift and go to state 57
+    DISTINTOQ       shift and go to state 58
 
-    comparador                     shift and go to state 55
-
-state 36
-
-    (47) elemento -> N_ENTERO .
-
-    MENORI          reduce using rule 47 (elemento -> N_ENTERO .)
-    MENORQ          reduce using rule 47 (elemento -> N_ENTERO .)
-    MAYORQ          reduce using rule 47 (elemento -> N_ENTERO .)
-    MAYORI          reduce using rule 47 (elemento -> N_ENTERO .)
-    IGUALI          reduce using rule 47 (elemento -> N_ENTERO .)
-    DISTINTOQ       reduce using rule 47 (elemento -> N_ENTERO .)
-    OR              reduce using rule 47 (elemento -> N_ENTERO .)
-    AND             reduce using rule 47 (elemento -> N_ENTERO .)
-    C_PARENTESIS    reduce using rule 47 (elemento -> N_ENTERO .)
-    C_CORCHETE      reduce using rule 47 (elemento -> N_ENTERO .)
-    COMA            reduce using rule 47 (elemento -> N_ENTERO .)
-
+    comparador                     shift and go to state 52
 
 state 37
-
-    (48) elemento -> N_DECIMAL .
-
-    MENORI          reduce using rule 48 (elemento -> N_DECIMAL .)
-    MENORQ          reduce using rule 48 (elemento -> N_DECIMAL .)
-    MAYORQ          reduce using rule 48 (elemento -> N_DECIMAL .)
-    MAYORI          reduce using rule 48 (elemento -> N_DECIMAL .)
-    IGUALI          reduce using rule 48 (elemento -> N_DECIMAL .)
-    DISTINTOQ       reduce using rule 48 (elemento -> N_DECIMAL .)
-    OR              reduce using rule 48 (elemento -> N_DECIMAL .)
-    AND             reduce using rule 48 (elemento -> N_DECIMAL .)
-    C_PARENTESIS    reduce using rule 48 (elemento -> N_DECIMAL .)
-    C_CORCHETE      reduce using rule 48 (elemento -> N_DECIMAL .)
-    COMA            reduce using rule 48 (elemento -> N_DECIMAL .)
-
-
-state 38
-
-    (49) elemento -> N_BINARIO .
-
-    MENORI          reduce using rule 49 (elemento -> N_BINARIO .)
-    MENORQ          reduce using rule 49 (elemento -> N_BINARIO .)
-    MAYORQ          reduce using rule 49 (elemento -> N_BINARIO .)
-    MAYORI          reduce using rule 49 (elemento -> N_BINARIO .)
-    IGUALI          reduce using rule 49 (elemento -> N_BINARIO .)
-    DISTINTOQ       reduce using rule 49 (elemento -> N_BINARIO .)
-    OR              reduce using rule 49 (elemento -> N_BINARIO .)
-    AND             reduce using rule 49 (elemento -> N_BINARIO .)
-    C_PARENTESIS    reduce using rule 49 (elemento -> N_BINARIO .)
-    C_CORCHETE      reduce using rule 49 (elemento -> N_BINARIO .)
-    COMA            reduce using rule 49 (elemento -> N_BINARIO .)
-
-
-state 39
-
-    (50) elemento -> VARIABLE .
-
-    MENORI          reduce using rule 50 (elemento -> VARIABLE .)
-    MENORQ          reduce using rule 50 (elemento -> VARIABLE .)
-    MAYORQ          reduce using rule 50 (elemento -> VARIABLE .)
-    MAYORI          reduce using rule 50 (elemento -> VARIABLE .)
-    IGUALI          reduce using rule 50 (elemento -> VARIABLE .)
-    DISTINTOQ       reduce using rule 50 (elemento -> VARIABLE .)
-    OR              reduce using rule 50 (elemento -> VARIABLE .)
-    AND             reduce using rule 50 (elemento -> VARIABLE .)
-    C_PARENTESIS    reduce using rule 50 (elemento -> VARIABLE .)
-    C_CORCHETE      reduce using rule 50 (elemento -> VARIABLE .)
-    COMA            reduce using rule 50 (elemento -> VARIABLE .)
-
-
-state 40
-
-    (51) elemento -> CADENA .
-
-    MENORI          reduce using rule 51 (elemento -> CADENA .)
-    MENORQ          reduce using rule 51 (elemento -> CADENA .)
-    MAYORQ          reduce using rule 51 (elemento -> CADENA .)
-    MAYORI          reduce using rule 51 (elemento -> CADENA .)
-    IGUALI          reduce using rule 51 (elemento -> CADENA .)
-    DISTINTOQ       reduce using rule 51 (elemento -> CADENA .)
-    OR              reduce using rule 51 (elemento -> CADENA .)
-    AND             reduce using rule 51 (elemento -> CADENA .)
-    C_PARENTESIS    reduce using rule 51 (elemento -> CADENA .)
-    C_CORCHETE      reduce using rule 51 (elemento -> CADENA .)
-    COMA            reduce using rule 51 (elemento -> CADENA .)
-
-
-state 41
 
     (21) seleccion -> IF A_PARENTESIS condicion . C_PARENTESIS bloque
     (22) seleccion -> IF A_PARENTESIS condicion . C_PARENTESIS bloque ELSE bloque
 
-    C_PARENTESIS    shift and go to state 62
+    C_PARENTESIS    shift and go to state 59
 
 
-state 42
+state 38
 
     (12) bloque_declaracion -> INIT A_LLAVE declaraciones . C_LLAVE
     (13) declaraciones -> declaraciones . declaracion
@@ -794,13 +769,13 @@ state 42
     (16) lista_variables -> . VARIABLE
     (17) lista_variables -> . lista_variables COMA VARIABLE
 
-    C_LLAVE         shift and go to state 63
-    VARIABLE        shift and go to state 45
+    C_LLAVE         shift and go to state 60
+    VARIABLE        shift and go to state 41
 
-    declaracion                    shift and go to state 64
-    lista_variables                shift and go to state 44
+    declaracion                    shift and go to state 61
+    lista_variables                shift and go to state 40
 
-state 43
+state 39
 
     (14) declaraciones -> declaracion .
 
@@ -808,16 +783,16 @@ state 43
     VARIABLE        reduce using rule 14 (declaraciones -> declaracion .)
 
 
-state 44
+state 40
 
     (15) declaracion -> lista_variables . DOS_PUNTOS tipo_dato
     (17) lista_variables -> lista_variables . COMA VARIABLE
 
-    DOS_PUNTOS      shift and go to state 65
-    COMA            shift and go to state 66
+    DOS_PUNTOS      shift and go to state 62
+    COMA            shift and go to state 63
 
 
-state 45
+state 41
 
     (16) lista_variables -> VARIABLE .
 
@@ -825,118 +800,134 @@ state 45
     COMA            reduce using rule 16 (lista_variables -> VARIABLE .)
 
 
-state 46
+state 42
 
     (10) read -> READ A_PARENTESIS elemento . C_PARENTESIS
 
-    C_PARENTESIS    shift and go to state 67
+    C_PARENTESIS    shift and go to state 64
+
+
+state 43
+
+    (11) write -> WRITE A_PARENTESIS elemento . C_PARENTESIS
+
+    C_PARENTESIS    shift and go to state 65
+
+
+state 44
+
+    (39) suma_los_ultimos -> SUMA_LOS_ULTIMOS A_PARENTESIS N_ENTERO . PUNTO_Y_COMA lista C_PARENTESIS
+
+    PUNTO_Y_COMA    shift and go to state 66
+
+
+state 45
+
+    (40) lista -> A_CORCHETE elementos . C_CORCHETE
+    (42) elementos -> elementos . COMA elemento
+
+    C_CORCHETE      shift and go to state 67
+    COMA            shift and go to state 68
+
+
+state 46
+
+    (41) lista -> A_CORCHETE C_CORCHETE .
+
+    VARIABLE        reduce using rule 41 (lista -> A_CORCHETE C_CORCHETE .)
+    WHILE           reduce using rule 41 (lista -> A_CORCHETE C_CORCHETE .)
+    IF              reduce using rule 41 (lista -> A_CORCHETE C_CORCHETE .)
+    INIT            reduce using rule 41 (lista -> A_CORCHETE C_CORCHETE .)
+    READ            reduce using rule 41 (lista -> A_CORCHETE C_CORCHETE .)
+    WRITE           reduce using rule 41 (lista -> A_CORCHETE C_CORCHETE .)
+    SUMA_LOS_ULTIMOS reduce using rule 41 (lista -> A_CORCHETE C_CORCHETE .)
+    $end            reduce using rule 41 (lista -> A_CORCHETE C_CORCHETE .)
+    C_LLAVE         reduce using rule 41 (lista -> A_CORCHETE C_CORCHETE .)
+    C_PARENTESIS    reduce using rule 41 (lista -> A_CORCHETE C_CORCHETE .)
 
 
 state 47
 
-    (11) write -> WRITE A_PARENTESIS elemento . C_PARENTESIS
+    (43) elementos -> elemento .
 
-    C_PARENTESIS    shift and go to state 68
+    C_CORCHETE      reduce using rule 43 (elementos -> elemento .)
+    COMA            reduce using rule 43 (elementos -> elemento .)
 
 
 state 48
 
-    (43) suma_los_ultimos -> SUMA_LOS_ULTIMOS A_PARENTESIS N_ENTERO . PUNTO_Y_COMA lista C_PARENTESIS
-
-    PUNTO_Y_COMA    shift and go to state 69
-
-
-state 49
-
-    (44) lista -> A_CORCHETE elementos . C_CORCHETE
-    (45) elementos -> elementos . COMA elemento
-
-    C_CORCHETE      shift and go to state 70
-    COMA            shift and go to state 71
-
-
-state 50
-
-    (46) elementos -> elemento .
-
-    C_CORCHETE      reduce using rule 46 (elementos -> elemento .)
-    COMA            reduce using rule 46 (elementos -> elemento .)
-
-
-state 51
-
     (23) iteracion -> WHILE A_PARENTESIS condicion C_PARENTESIS . bloque
     (36) bloque -> . A_LLAVE programa C_LLAVE
 
-    A_LLAVE         shift and go to state 73
+    A_LLAVE         shift and go to state 70
 
-    bloque                         shift and go to state 72
+    bloque                         shift and go to state 69
 
-state 52
+state 49
 
     (24) condicion -> comparacion OR . comparacion
     (28) comparacion -> . elemento comparador elemento
     (29) comparacion -> . elemento
-    (47) elemento -> . N_ENTERO
-    (48) elemento -> . N_DECIMAL
-    (49) elemento -> . N_BINARIO
-    (50) elemento -> . VARIABLE
-    (51) elemento -> . CADENA
+    (44) elemento -> . N_ENTERO
+    (45) elemento -> . N_DECIMAL
+    (46) elemento -> . N_BINARIO
+    (47) elemento -> . VARIABLE
+    (48) elemento -> . CADENA
 
-    N_ENTERO        shift and go to state 36
-    N_DECIMAL       shift and go to state 37
-    N_BINARIO       shift and go to state 38
-    VARIABLE        shift and go to state 39
-    CADENA          shift and go to state 40
+    N_ENTERO        shift and go to state 28
+    N_DECIMAL       shift and go to state 29
+    N_BINARIO       shift and go to state 30
+    VARIABLE        shift and go to state 25
+    CADENA          shift and go to state 31
 
-    comparacion                    shift and go to state 74
-    elemento                       shift and go to state 35
+    comparacion                    shift and go to state 71
+    elemento                       shift and go to state 36
 
-state 53
+state 50
 
     (25) condicion -> comparacion AND . comparacion
     (28) comparacion -> . elemento comparador elemento
     (29) comparacion -> . elemento
-    (47) elemento -> . N_ENTERO
-    (48) elemento -> . N_DECIMAL
-    (49) elemento -> . N_BINARIO
-    (50) elemento -> . VARIABLE
-    (51) elemento -> . CADENA
+    (44) elemento -> . N_ENTERO
+    (45) elemento -> . N_DECIMAL
+    (46) elemento -> . N_BINARIO
+    (47) elemento -> . VARIABLE
+    (48) elemento -> . CADENA
 
-    N_ENTERO        shift and go to state 36
-    N_DECIMAL       shift and go to state 37
-    N_BINARIO       shift and go to state 38
-    VARIABLE        shift and go to state 39
-    CADENA          shift and go to state 40
+    N_ENTERO        shift and go to state 28
+    N_DECIMAL       shift and go to state 29
+    N_BINARIO       shift and go to state 30
+    VARIABLE        shift and go to state 25
+    CADENA          shift and go to state 31
 
-    comparacion                    shift and go to state 75
-    elemento                       shift and go to state 35
+    comparacion                    shift and go to state 72
+    elemento                       shift and go to state 36
 
-state 54
+state 51
 
     (26) condicion -> NOT comparacion .
 
     C_PARENTESIS    reduce using rule 26 (condicion -> NOT comparacion .)
 
 
-state 55
+state 52
 
     (28) comparacion -> elemento comparador . elemento
-    (47) elemento -> . N_ENTERO
-    (48) elemento -> . N_DECIMAL
-    (49) elemento -> . N_BINARIO
-    (50) elemento -> . VARIABLE
-    (51) elemento -> . CADENA
+    (44) elemento -> . N_ENTERO
+    (45) elemento -> . N_DECIMAL
+    (46) elemento -> . N_BINARIO
+    (47) elemento -> . VARIABLE
+    (48) elemento -> . CADENA
 
-    N_ENTERO        shift and go to state 36
-    N_DECIMAL       shift and go to state 37
-    N_BINARIO       shift and go to state 38
-    VARIABLE        shift and go to state 39
-    CADENA          shift and go to state 40
+    N_ENTERO        shift and go to state 28
+    N_DECIMAL       shift and go to state 29
+    N_BINARIO       shift and go to state 30
+    VARIABLE        shift and go to state 25
+    CADENA          shift and go to state 31
 
-    elemento                       shift and go to state 76
+    elemento                       shift and go to state 73
 
-state 56
+state 53
 
     (30) comparador -> MENORI .
 
@@ -947,7 +938,7 @@ state 56
     CADENA          reduce using rule 30 (comparador -> MENORI .)
 
 
-state 57
+state 54
 
     (31) comparador -> MENORQ .
 
@@ -958,7 +949,7 @@ state 57
     CADENA          reduce using rule 31 (comparador -> MENORQ .)
 
 
-state 58
+state 55
 
     (32) comparador -> MAYORQ .
 
@@ -969,7 +960,7 @@ state 58
     CADENA          reduce using rule 32 (comparador -> MAYORQ .)
 
 
-state 59
+state 56
 
     (33) comparador -> MAYORI .
 
@@ -980,7 +971,7 @@ state 59
     CADENA          reduce using rule 33 (comparador -> MAYORI .)
 
 
-state 60
+state 57
 
     (34) comparador -> IGUALI .
 
@@ -991,7 +982,7 @@ state 60
     CADENA          reduce using rule 34 (comparador -> IGUALI .)
 
 
-state 61
+state 58
 
     (35) comparador -> DISTINTOQ .
 
@@ -1002,17 +993,17 @@ state 61
     CADENA          reduce using rule 35 (comparador -> DISTINTOQ .)
 
 
-state 62
+state 59
 
     (21) seleccion -> IF A_PARENTESIS condicion C_PARENTESIS . bloque
     (22) seleccion -> IF A_PARENTESIS condicion C_PARENTESIS . bloque ELSE bloque
     (36) bloque -> . A_LLAVE programa C_LLAVE
 
-    A_LLAVE         shift and go to state 73
+    A_LLAVE         shift and go to state 70
 
-    bloque                         shift and go to state 77
+    bloque                         shift and go to state 74
 
-state 63
+state 60
 
     (12) bloque_declaracion -> INIT A_LLAVE declaraciones C_LLAVE .
 
@@ -1027,7 +1018,7 @@ state 63
     C_LLAVE         reduce using rule 12 (bloque_declaracion -> INIT A_LLAVE declaraciones C_LLAVE .)
 
 
-state 64
+state 61
 
     (13) declaraciones -> declaraciones declaracion .
 
@@ -1035,27 +1026,27 @@ state 64
     VARIABLE        reduce using rule 13 (declaraciones -> declaraciones declaracion .)
 
 
-state 65
+state 62
 
     (15) declaracion -> lista_variables DOS_PUNTOS . tipo_dato
     (18) tipo_dato -> . FLOAT
     (19) tipo_dato -> . INT
     (20) tipo_dato -> . STR
 
-    FLOAT           shift and go to state 79
-    INT             shift and go to state 80
-    STR             shift and go to state 81
+    FLOAT           shift and go to state 76
+    INT             shift and go to state 77
+    STR             shift and go to state 78
 
-    tipo_dato                      shift and go to state 78
+    tipo_dato                      shift and go to state 75
 
-state 66
+state 63
 
     (17) lista_variables -> lista_variables COMA . VARIABLE
 
-    VARIABLE        shift and go to state 82
+    VARIABLE        shift and go to state 79
 
 
-state 67
+state 64
 
     (10) read -> READ A_PARENTESIS elemento C_PARENTESIS .
 
@@ -1070,7 +1061,7 @@ state 67
     C_LLAVE         reduce using rule 10 (read -> READ A_PARENTESIS elemento C_PARENTESIS .)
 
 
-state 68
+state 65
 
     (11) write -> WRITE A_PARENTESIS elemento C_PARENTESIS .
 
@@ -1085,49 +1076,50 @@ state 68
     C_LLAVE         reduce using rule 11 (write -> WRITE A_PARENTESIS elemento C_PARENTESIS .)
 
 
+state 66
+
+    (39) suma_los_ultimos -> SUMA_LOS_ULTIMOS A_PARENTESIS N_ENTERO PUNTO_Y_COMA . lista C_PARENTESIS
+    (40) lista -> . A_CORCHETE elementos C_CORCHETE
+    (41) lista -> . A_CORCHETE C_CORCHETE
+
+    A_CORCHETE      shift and go to state 32
+
+    lista                          shift and go to state 80
+
+state 67
+
+    (40) lista -> A_CORCHETE elementos C_CORCHETE .
+
+    VARIABLE        reduce using rule 40 (lista -> A_CORCHETE elementos C_CORCHETE .)
+    WHILE           reduce using rule 40 (lista -> A_CORCHETE elementos C_CORCHETE .)
+    IF              reduce using rule 40 (lista -> A_CORCHETE elementos C_CORCHETE .)
+    INIT            reduce using rule 40 (lista -> A_CORCHETE elementos C_CORCHETE .)
+    READ            reduce using rule 40 (lista -> A_CORCHETE elementos C_CORCHETE .)
+    WRITE           reduce using rule 40 (lista -> A_CORCHETE elementos C_CORCHETE .)
+    SUMA_LOS_ULTIMOS reduce using rule 40 (lista -> A_CORCHETE elementos C_CORCHETE .)
+    $end            reduce using rule 40 (lista -> A_CORCHETE elementos C_CORCHETE .)
+    C_LLAVE         reduce using rule 40 (lista -> A_CORCHETE elementos C_CORCHETE .)
+    C_PARENTESIS    reduce using rule 40 (lista -> A_CORCHETE elementos C_CORCHETE .)
+
+
+state 68
+
+    (42) elementos -> elementos COMA . elemento
+    (44) elemento -> . N_ENTERO
+    (45) elemento -> . N_DECIMAL
+    (46) elemento -> . N_BINARIO
+    (47) elemento -> . VARIABLE
+    (48) elemento -> . CADENA
+
+    N_ENTERO        shift and go to state 28
+    N_DECIMAL       shift and go to state 29
+    N_BINARIO       shift and go to state 30
+    VARIABLE        shift and go to state 25
+    CADENA          shift and go to state 31
+
+    elemento                       shift and go to state 81
+
 state 69
-
-    (43) suma_los_ultimos -> SUMA_LOS_ULTIMOS A_PARENTESIS N_ENTERO PUNTO_Y_COMA . lista C_PARENTESIS
-    (44) lista -> . A_CORCHETE elementos C_CORCHETE
-
-    A_CORCHETE      shift and go to state 31
-
-    lista                          shift and go to state 83
-
-state 70
-
-    (44) lista -> A_CORCHETE elementos C_CORCHETE .
-
-    VARIABLE        reduce using rule 44 (lista -> A_CORCHETE elementos C_CORCHETE .)
-    WHILE           reduce using rule 44 (lista -> A_CORCHETE elementos C_CORCHETE .)
-    IF              reduce using rule 44 (lista -> A_CORCHETE elementos C_CORCHETE .)
-    INIT            reduce using rule 44 (lista -> A_CORCHETE elementos C_CORCHETE .)
-    READ            reduce using rule 44 (lista -> A_CORCHETE elementos C_CORCHETE .)
-    WRITE           reduce using rule 44 (lista -> A_CORCHETE elementos C_CORCHETE .)
-    SUMA_LOS_ULTIMOS reduce using rule 44 (lista -> A_CORCHETE elementos C_CORCHETE .)
-    $end            reduce using rule 44 (lista -> A_CORCHETE elementos C_CORCHETE .)
-    C_LLAVE         reduce using rule 44 (lista -> A_CORCHETE elementos C_CORCHETE .)
-    C_PARENTESIS    reduce using rule 44 (lista -> A_CORCHETE elementos C_CORCHETE .)
-
-
-state 71
-
-    (45) elementos -> elementos COMA . elemento
-    (47) elemento -> . N_ENTERO
-    (48) elemento -> . N_DECIMAL
-    (49) elemento -> . N_BINARIO
-    (50) elemento -> . VARIABLE
-    (51) elemento -> . CADENA
-
-    N_ENTERO        shift and go to state 36
-    N_DECIMAL       shift and go to state 37
-    N_BINARIO       shift and go to state 38
-    VARIABLE        shift and go to state 39
-    CADENA          shift and go to state 40
-
-    elemento                       shift and go to state 84
-
-state 72
 
     (23) iteracion -> WHILE A_PARENTESIS condicion C_PARENTESIS bloque .
 
@@ -1142,7 +1134,7 @@ state 72
     C_LLAVE         reduce using rule 23 (iteracion -> WHILE A_PARENTESIS condicion C_PARENTESIS bloque .)
 
 
-state 73
+state 70
 
     (36) bloque -> A_LLAVE . programa C_LLAVE
     (1) programa -> . sentencia programa
@@ -1154,19 +1146,15 @@ state 73
     (7) sentencia -> . read
     (8) sentencia -> . write
     (9) sentencia -> . suma_los_ultimos
-    (37) asignacion -> . VARIABLE ASIGNACION VARIABLE
-    (38) asignacion -> . VARIABLE ASIGNACION N_ENTERO
-    (39) asignacion -> . VARIABLE ASIGNACION N_DECIMAL
-    (40) asignacion -> . VARIABLE ASIGNACION CADENA
-    (41) asignacion -> . VARIABLE ASIGNACION N_BINARIO
-    (42) asignacion -> . VARIABLE ASIGNACION lista
+    (37) asignacion -> . VARIABLE ASIGNACION elemento
+    (38) asignacion -> . VARIABLE ASIGNACION lista
     (23) iteracion -> . WHILE A_PARENTESIS condicion C_PARENTESIS bloque
     (21) seleccion -> . IF A_PARENTESIS condicion C_PARENTESIS bloque
     (22) seleccion -> . IF A_PARENTESIS condicion C_PARENTESIS bloque ELSE bloque
     (12) bloque_declaracion -> . INIT A_LLAVE declaraciones C_LLAVE
     (10) read -> . READ A_PARENTESIS elemento C_PARENTESIS
     (11) write -> . WRITE A_PARENTESIS elemento C_PARENTESIS
-    (43) suma_los_ultimos -> . SUMA_LOS_ULTIMOS A_PARENTESIS N_ENTERO PUNTO_Y_COMA lista C_PARENTESIS
+    (39) suma_los_ultimos -> . SUMA_LOS_ULTIMOS A_PARENTESIS N_ENTERO PUNTO_Y_COMA lista C_PARENTESIS
 
     VARIABLE        shift and go to state 10
     WHILE           shift and go to state 11
@@ -1176,7 +1164,7 @@ state 73
     WRITE           shift and go to state 15
     SUMA_LOS_ULTIMOS shift and go to state 16
 
-    programa                       shift and go to state 85
+    programa                       shift and go to state 82
     sentencia                      shift and go to state 2
     asignacion                     shift and go to state 3
     iteracion                      shift and go to state 4
@@ -1186,21 +1174,21 @@ state 73
     write                          shift and go to state 8
     suma_los_ultimos               shift and go to state 9
 
-state 74
+state 71
 
     (24) condicion -> comparacion OR comparacion .
 
     C_PARENTESIS    reduce using rule 24 (condicion -> comparacion OR comparacion .)
 
 
-state 75
+state 72
 
     (25) condicion -> comparacion AND comparacion .
 
     C_PARENTESIS    reduce using rule 25 (condicion -> comparacion AND comparacion .)
 
 
-state 76
+state 73
 
     (28) comparacion -> elemento comparador elemento .
 
@@ -1209,7 +1197,7 @@ state 76
     C_PARENTESIS    reduce using rule 28 (comparacion -> elemento comparador elemento .)
 
 
-state 77
+state 74
 
     (21) seleccion -> IF A_PARENTESIS condicion C_PARENTESIS bloque .
     (22) seleccion -> IF A_PARENTESIS condicion C_PARENTESIS bloque . ELSE bloque
@@ -1223,10 +1211,10 @@ state 77
     SUMA_LOS_ULTIMOS reduce using rule 21 (seleccion -> IF A_PARENTESIS condicion C_PARENTESIS bloque .)
     $end            reduce using rule 21 (seleccion -> IF A_PARENTESIS condicion C_PARENTESIS bloque .)
     C_LLAVE         reduce using rule 21 (seleccion -> IF A_PARENTESIS condicion C_PARENTESIS bloque .)
-    ELSE            shift and go to state 86
+    ELSE            shift and go to state 83
 
 
-state 78
+state 75
 
     (15) declaracion -> lista_variables DOS_PUNTOS tipo_dato .
 
@@ -1234,7 +1222,7 @@ state 78
     VARIABLE        reduce using rule 15 (declaracion -> lista_variables DOS_PUNTOS tipo_dato .)
 
 
-state 79
+state 76
 
     (18) tipo_dato -> FLOAT .
 
@@ -1242,7 +1230,7 @@ state 79
     VARIABLE        reduce using rule 18 (tipo_dato -> FLOAT .)
 
 
-state 80
+state 77
 
     (19) tipo_dato -> INT .
 
@@ -1250,7 +1238,7 @@ state 80
     VARIABLE        reduce using rule 19 (tipo_dato -> INT .)
 
 
-state 81
+state 78
 
     (20) tipo_dato -> STR .
 
@@ -1258,7 +1246,7 @@ state 81
     VARIABLE        reduce using rule 20 (tipo_dato -> STR .)
 
 
-state 82
+state 79
 
     (17) lista_variables -> lista_variables COMA VARIABLE .
 
@@ -1266,53 +1254,53 @@ state 82
     COMA            reduce using rule 17 (lista_variables -> lista_variables COMA VARIABLE .)
 
 
-state 83
+state 80
 
-    (43) suma_los_ultimos -> SUMA_LOS_ULTIMOS A_PARENTESIS N_ENTERO PUNTO_Y_COMA lista . C_PARENTESIS
+    (39) suma_los_ultimos -> SUMA_LOS_ULTIMOS A_PARENTESIS N_ENTERO PUNTO_Y_COMA lista . C_PARENTESIS
 
-    C_PARENTESIS    shift and go to state 87
-
-
-state 84
-
-    (45) elementos -> elementos COMA elemento .
-
-    C_CORCHETE      reduce using rule 45 (elementos -> elementos COMA elemento .)
-    COMA            reduce using rule 45 (elementos -> elementos COMA elemento .)
+    C_PARENTESIS    shift and go to state 84
 
 
-state 85
+state 81
+
+    (42) elementos -> elementos COMA elemento .
+
+    C_CORCHETE      reduce using rule 42 (elementos -> elementos COMA elemento .)
+    COMA            reduce using rule 42 (elementos -> elementos COMA elemento .)
+
+
+state 82
 
     (36) bloque -> A_LLAVE programa . C_LLAVE
 
-    C_LLAVE         shift and go to state 88
+    C_LLAVE         shift and go to state 85
 
 
-state 86
+state 83
 
     (22) seleccion -> IF A_PARENTESIS condicion C_PARENTESIS bloque ELSE . bloque
     (36) bloque -> . A_LLAVE programa C_LLAVE
 
-    A_LLAVE         shift and go to state 73
+    A_LLAVE         shift and go to state 70
 
-    bloque                         shift and go to state 89
+    bloque                         shift and go to state 86
 
-state 87
+state 84
 
-    (43) suma_los_ultimos -> SUMA_LOS_ULTIMOS A_PARENTESIS N_ENTERO PUNTO_Y_COMA lista C_PARENTESIS .
+    (39) suma_los_ultimos -> SUMA_LOS_ULTIMOS A_PARENTESIS N_ENTERO PUNTO_Y_COMA lista C_PARENTESIS .
 
-    VARIABLE        reduce using rule 43 (suma_los_ultimos -> SUMA_LOS_ULTIMOS A_PARENTESIS N_ENTERO PUNTO_Y_COMA lista C_PARENTESIS .)
-    WHILE           reduce using rule 43 (suma_los_ultimos -> SUMA_LOS_ULTIMOS A_PARENTESIS N_ENTERO PUNTO_Y_COMA lista C_PARENTESIS .)
-    IF              reduce using rule 43 (suma_los_ultimos -> SUMA_LOS_ULTIMOS A_PARENTESIS N_ENTERO PUNTO_Y_COMA lista C_PARENTESIS .)
-    INIT            reduce using rule 43 (suma_los_ultimos -> SUMA_LOS_ULTIMOS A_PARENTESIS N_ENTERO PUNTO_Y_COMA lista C_PARENTESIS .)
-    READ            reduce using rule 43 (suma_los_ultimos -> SUMA_LOS_ULTIMOS A_PARENTESIS N_ENTERO PUNTO_Y_COMA lista C_PARENTESIS .)
-    WRITE           reduce using rule 43 (suma_los_ultimos -> SUMA_LOS_ULTIMOS A_PARENTESIS N_ENTERO PUNTO_Y_COMA lista C_PARENTESIS .)
-    SUMA_LOS_ULTIMOS reduce using rule 43 (suma_los_ultimos -> SUMA_LOS_ULTIMOS A_PARENTESIS N_ENTERO PUNTO_Y_COMA lista C_PARENTESIS .)
-    $end            reduce using rule 43 (suma_los_ultimos -> SUMA_LOS_ULTIMOS A_PARENTESIS N_ENTERO PUNTO_Y_COMA lista C_PARENTESIS .)
-    C_LLAVE         reduce using rule 43 (suma_los_ultimos -> SUMA_LOS_ULTIMOS A_PARENTESIS N_ENTERO PUNTO_Y_COMA lista C_PARENTESIS .)
+    VARIABLE        reduce using rule 39 (suma_los_ultimos -> SUMA_LOS_ULTIMOS A_PARENTESIS N_ENTERO PUNTO_Y_COMA lista C_PARENTESIS .)
+    WHILE           reduce using rule 39 (suma_los_ultimos -> SUMA_LOS_ULTIMOS A_PARENTESIS N_ENTERO PUNTO_Y_COMA lista C_PARENTESIS .)
+    IF              reduce using rule 39 (suma_los_ultimos -> SUMA_LOS_ULTIMOS A_PARENTESIS N_ENTERO PUNTO_Y_COMA lista C_PARENTESIS .)
+    INIT            reduce using rule 39 (suma_los_ultimos -> SUMA_LOS_ULTIMOS A_PARENTESIS N_ENTERO PUNTO_Y_COMA lista C_PARENTESIS .)
+    READ            reduce using rule 39 (suma_los_ultimos -> SUMA_LOS_ULTIMOS A_PARENTESIS N_ENTERO PUNTO_Y_COMA lista C_PARENTESIS .)
+    WRITE           reduce using rule 39 (suma_los_ultimos -> SUMA_LOS_ULTIMOS A_PARENTESIS N_ENTERO PUNTO_Y_COMA lista C_PARENTESIS .)
+    SUMA_LOS_ULTIMOS reduce using rule 39 (suma_los_ultimos -> SUMA_LOS_ULTIMOS A_PARENTESIS N_ENTERO PUNTO_Y_COMA lista C_PARENTESIS .)
+    $end            reduce using rule 39 (suma_los_ultimos -> SUMA_LOS_ULTIMOS A_PARENTESIS N_ENTERO PUNTO_Y_COMA lista C_PARENTESIS .)
+    C_LLAVE         reduce using rule 39 (suma_los_ultimos -> SUMA_LOS_ULTIMOS A_PARENTESIS N_ENTERO PUNTO_Y_COMA lista C_PARENTESIS .)
 
 
-state 88
+state 85
 
     (36) bloque -> A_LLAVE programa C_LLAVE .
 
@@ -1328,7 +1316,7 @@ state 88
     ELSE            reduce using rule 36 (bloque -> A_LLAVE programa C_LLAVE .)
 
 
-state 89
+state 86
 
     (22) seleccion -> IF A_PARENTESIS condicion C_PARENTESIS bloque ELSE bloque .
 
