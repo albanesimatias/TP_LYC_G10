@@ -10,7 +10,7 @@ Unused terminals:
 Grammar
 
 Rule 0     S' -> programa
-Rule 1     programa -> sentencia programa
+Rule 1     programa -> programa sentencia
 Rule 2     programa -> sentencia
 Rule 3     sentencia -> asignacion
 Rule 4     sentencia -> iteracion
@@ -129,7 +129,7 @@ Parsing method: LALR
 state 0
 
     (0) S' -> . programa
-    (1) programa -> . sentencia programa
+    (1) programa -> . programa sentencia
     (2) programa -> . sentencia
     (3) sentencia -> . asignacion
     (4) sentencia -> . iteracion
@@ -169,15 +169,7 @@ state 0
 state 1
 
     (0) S' -> programa .
-
-
-
-state 2
-
-    (1) programa -> sentencia . programa
-    (2) programa -> sentencia .
-    (1) programa -> . sentencia programa
-    (2) programa -> . sentencia
+    (1) programa -> programa . sentencia
     (3) sentencia -> . asignacion
     (4) sentencia -> . iteracion
     (5) sentencia -> . seleccion
@@ -195,8 +187,6 @@ state 2
     (11) write -> . WRITE A_PARENTESIS elemento C_PARENTESIS
     (39) suma_los_ultimos -> . SUMA_LOS_ULTIMOS A_PARENTESIS N_ENTERO PUNTO_Y_COMA lista C_PARENTESIS
 
-    $end            reduce using rule 2 (programa -> sentencia .)
-    C_LLAVE         reduce using rule 2 (programa -> sentencia .)
     VARIABLE        shift and go to state 10
     WHILE           shift and go to state 11
     IF              shift and go to state 12
@@ -205,8 +195,7 @@ state 2
     WRITE           shift and go to state 15
     SUMA_LOS_ULTIMOS shift and go to state 16
 
-    sentencia                      shift and go to state 2
-    programa                       shift and go to state 17
+    sentencia                      shift and go to state 17
     asignacion                     shift and go to state 3
     iteracion                      shift and go to state 4
     seleccion                      shift and go to state 5
@@ -214,6 +203,21 @@ state 2
     read                           shift and go to state 7
     write                          shift and go to state 8
     suma_los_ultimos               shift and go to state 9
+
+state 2
+
+    (2) programa -> sentencia .
+
+    VARIABLE        reduce using rule 2 (programa -> sentencia .)
+    WHILE           reduce using rule 2 (programa -> sentencia .)
+    IF              reduce using rule 2 (programa -> sentencia .)
+    INIT            reduce using rule 2 (programa -> sentencia .)
+    READ            reduce using rule 2 (programa -> sentencia .)
+    WRITE           reduce using rule 2 (programa -> sentencia .)
+    SUMA_LOS_ULTIMOS reduce using rule 2 (programa -> sentencia .)
+    $end            reduce using rule 2 (programa -> sentencia .)
+    C_LLAVE         reduce using rule 2 (programa -> sentencia .)
+
 
 state 3
 
@@ -373,10 +377,17 @@ state 16
 
 state 17
 
-    (1) programa -> sentencia programa .
+    (1) programa -> programa sentencia .
 
-    $end            reduce using rule 1 (programa -> sentencia programa .)
-    C_LLAVE         reduce using rule 1 (programa -> sentencia programa .)
+    VARIABLE        reduce using rule 1 (programa -> programa sentencia .)
+    WHILE           reduce using rule 1 (programa -> programa sentencia .)
+    IF              reduce using rule 1 (programa -> programa sentencia .)
+    INIT            reduce using rule 1 (programa -> programa sentencia .)
+    READ            reduce using rule 1 (programa -> programa sentencia .)
+    WRITE           reduce using rule 1 (programa -> programa sentencia .)
+    SUMA_LOS_ULTIMOS reduce using rule 1 (programa -> programa sentencia .)
+    $end            reduce using rule 1 (programa -> programa sentencia .)
+    C_LLAVE         reduce using rule 1 (programa -> programa sentencia .)
 
 
 state 18
@@ -1137,7 +1148,7 @@ state 69
 state 70
 
     (36) bloque -> A_LLAVE . programa C_LLAVE
-    (1) programa -> . sentencia programa
+    (1) programa -> . programa sentencia
     (2) programa -> . sentencia
     (3) sentencia -> . asignacion
     (4) sentencia -> . iteracion
@@ -1272,9 +1283,41 @@ state 81
 state 82
 
     (36) bloque -> A_LLAVE programa . C_LLAVE
+    (1) programa -> programa . sentencia
+    (3) sentencia -> . asignacion
+    (4) sentencia -> . iteracion
+    (5) sentencia -> . seleccion
+    (6) sentencia -> . bloque_declaracion
+    (7) sentencia -> . read
+    (8) sentencia -> . write
+    (9) sentencia -> . suma_los_ultimos
+    (37) asignacion -> . VARIABLE ASIGNACION elemento
+    (38) asignacion -> . VARIABLE ASIGNACION lista
+    (23) iteracion -> . WHILE A_PARENTESIS condicion C_PARENTESIS bloque
+    (21) seleccion -> . IF A_PARENTESIS condicion C_PARENTESIS bloque
+    (22) seleccion -> . IF A_PARENTESIS condicion C_PARENTESIS bloque ELSE bloque
+    (12) bloque_declaracion -> . INIT A_LLAVE declaraciones C_LLAVE
+    (10) read -> . READ A_PARENTESIS elemento C_PARENTESIS
+    (11) write -> . WRITE A_PARENTESIS elemento C_PARENTESIS
+    (39) suma_los_ultimos -> . SUMA_LOS_ULTIMOS A_PARENTESIS N_ENTERO PUNTO_Y_COMA lista C_PARENTESIS
 
     C_LLAVE         shift and go to state 85
+    VARIABLE        shift and go to state 10
+    WHILE           shift and go to state 11
+    IF              shift and go to state 12
+    INIT            shift and go to state 13
+    READ            shift and go to state 14
+    WRITE           shift and go to state 15
+    SUMA_LOS_ULTIMOS shift and go to state 16
 
+    sentencia                      shift and go to state 17
+    asignacion                     shift and go to state 3
+    iteracion                      shift and go to state 4
+    seleccion                      shift and go to state 5
+    bloque_declaracion             shift and go to state 6
+    read                           shift and go to state 7
+    write                          shift and go to state 8
+    suma_los_ultimos               shift and go to state 9
 
 state 83
 

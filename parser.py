@@ -7,7 +7,7 @@ import ply.yacc as yacc  # analizador sintactico
 
 
 def p_programa(p):
-    '''programa : sentencia programa
+    '''programa : programa sentencia 
                 | sentencia
     '''
     if len(p) == 3:
