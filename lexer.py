@@ -1,5 +1,9 @@
 import ply.lex as lex
 from pathlib import Path
+from utils import guardar_en_tabla_de_simbolos
+
+# 'var':['tipo','long','valor']
+# tabla_de_simbolos = {}
 
 reserved = {
     'if': 'IF',
@@ -15,7 +19,6 @@ reserved = {
     'and': 'AND',
     'not': 'NOT',
     'suma_los_ultimos': 'SUMA_LOS_ULTIMOS',
-    'contar_binarios': 'CONTAR_BINARIOS'
 }
 
 tokens = [
@@ -84,6 +87,7 @@ def t_VARIABLE(t):
 
 def t_CADENA(t):
     r'"[^"]*"'
+    # guardar_en_tabla_de_simbolos("VARIABLE", "hola", tabla_de_simbolos)
     if len(t.value) > 40:
         raise Exception('La cadena exed el limite de caracteres (MAX_40)')
     return t
@@ -132,8 +136,10 @@ lexer = lex.lex()
 
 # path = Path('./TESTS/test_01.txt')
 # data = path.read_text()
-# lexer.input('" -hola-*/12_/@"')
-
+# lexer.input('hola var "cadena" 1 1.5')
+# print(tabla_de_simbolos)
+# guardar_en_tabla_de_simbolos("VARIABLE", "hola", tabla_de_simbolos)
+# print(tabla_de_simbolos)
 # while True:
 #     token = lexer.token()
 #     if not token:

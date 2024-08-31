@@ -2,11 +2,12 @@
 # Generar txt de tabla de simbolos
 # parser.out -> se genera solo
 
-from lexer import tokens  # Se importan los tokens generado previamente en el lexer
+# Se importan los tokens generado previamente en el lexer
+from lexer import tokens  # , tabla_de_simbolos
 import ply.yacc as yacc  # analizador sintactico
 from pathlib import Path
-# 'var':['tipo','long','valor']
-simbol_table = {}
+
+# tabla_de_simbolos = {}
 
 precedence = (
     ('right', 'ASIGNACION'),
@@ -29,12 +30,12 @@ def p_programa(p):
 
 
 def p_sentencia(p):
-    '''sentencia : asignacion PUNTO_Y_COMA
+    '''sentencia : asignacion
                  | iteracion
                  | seleccion
                  | bloque_declaracion
-                 | read PUNTO_Y_COMA
-                 | write PUNTO_Y_COMA
+                 | read
+                 | write
     '''
     p[0] = p[1]
 
@@ -50,7 +51,7 @@ def p_write(p):
 
 
 def p_bloque_declaracion(p):
-    '''bloque_declaracion : INIT A_LLAVE declaraciones  C_LLAVE
+    '''bloque_declaracion : INIT A_LLAVE declaraciones C_LLAVE
     '''
     # p[0] = p[3]
 
@@ -63,7 +64,7 @@ def p_declaraciones(p):
 
 
 def p_declaracion(p):
-    '''declaracion : lista_variables DOS_PUNTOS tipo_dato PUNTO_Y_COMA'''
+    '''declaracion : lista_variables DOS_PUNTOS tipo_dato'''
     # p[0] = p[1]
 
 
@@ -142,14 +143,14 @@ def p_bloque(p):
 
 
 def p_asignacion(p):
-    '''asignacion : VARIABLE ASIGNACION lista PUNTO_Y_COMA
-                  | VARIABLE ASIGNACION expresion PUNTO_Y_COMA
-                  | VARIABLE ASIGNACION condicion PUNTO_Y_COMA
+    '''asignacion : VARIABLE ASIGNACION lista
+                  | VARIABLE ASIGNACION expresion
+                  | VARIABLE ASIGNACION condicion
     '''
     p[0] = p[3]
 
 
-def p_suma_los_ultimos(p):
+def p_sumarLosUltimos(p):
     '''suma_los_ultimos : SUMA_LOS_ULTIMOS  A_PARENTESIS N_ENTERO PUNTO_Y_COMA  lista  C_PARENTESIS
     '''
     lista = p[5]
@@ -160,8 +161,9 @@ def p_suma_los_ultimos(p):
         p[0] += num
 
 
-def p_contar_binarios(p):
-    ''''contar_binarios : CONTAR_BINARIOS A_PARENTESIS lista C_PARENTESIS '''
+# def p_contar_binarios(p):
+#     '''contar_binarios : CONTAR_BINARIOS A_PARENTESIS lista C_PARENTESIS'''
+#     p[0] = p[1]
 
 
 def p_lista(p):
@@ -227,9 +229,8 @@ def p_elemento(p):
                 | N_BINARIO
                 | VARIABLE
                 | CADENA
-                | sumar_los_ultimos
+                | suma_los_ultimos
                 | condicion
-                | contar_binarios
     '''
     p[0] = p[1]
 
@@ -244,5 +245,7 @@ def p_error(p):
 parser = yacc.yacc()
 path = Path("./TESTS/parser_test.txt")
 code = path.read_text()
+print(code)
 result = parser.parse(code)
+# print(tabla_de_simbolos)
 print(result)
