@@ -105,18 +105,18 @@ def t_N_BINARIO(t):
 
 
 def t_N_DECIMAL(t):
-    r'-?\d+\.\d+'
+    r'\d+\.\d+'
     t.value = float(t.value)
-    if Constantes.FLOAT32_MIN <= t.value <= Constantes.FLOAT32_MAX:
+    if t.value <= Constantes.FLOAT32_MAX:
         guardar_en_tabla_de_simbolos(t)
         return t
     print('Limite de 32bits para numeros decimales')
 
 
 def t_N_ENTERO(t):
-    r'-?\d+'
+    r'\d+'
     t.value = int(t.value)
-    if Constantes.INT16_MIN <= t.value <= Constantes.INT16_MAX:
+    if t.value <= Constantes.INT16_MAX:
         guardar_en_tabla_de_simbolos(t)
         return t
     print('Limite de 16bits para numeros enteros')
