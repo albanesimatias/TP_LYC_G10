@@ -34,3 +34,14 @@ var2 = -5 + 2 -(-3);
 
 var = sumar_los_ultimos(4;[1,2,3,4.5,var]);
 cont = contar_binarios([1,2,3,1111b,101b,3.5,var7]);
+
+*-Errores-*
+*-var =
+var = 1
+while(){}
+if()
+lista = [1 var3 1 2 3];
+1+1*2;
+var = sumar_los_ultimos(4.5;[1,2,3,4.5,var]);
+cont = contar_binarios("hola");
+-*
