@@ -9,7 +9,7 @@ if(1==1){
     write("hola");
 }
 else{
-    read("hola");
+    read("chau");
 }
 
 if(1==1 and 2==2){

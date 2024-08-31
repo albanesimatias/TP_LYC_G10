@@ -20,14 +20,19 @@ precedence = (
 )
 
 
+def p_start(p):
+    '''start : programa'''
+    print('FIN')
+
+
 def p_programa(p):
     '''programa : programa sentencia
                 | sentencia
     '''
-    # if len(p) == 3:
-    #     p[0] = p[1] + p[2]
-    # else:
-    #     p[0] = p[1]
+    if len(p) == 3:
+        print(f'programa sentencia -> programa')
+    else:
+        print(f'sentencia -> programa')
 
 
 def p_sentencia(p):
@@ -38,42 +43,48 @@ def p_sentencia(p):
                  | read PUNTO_Y_COMA
                  | write PUNTO_Y_COMA
     '''
-    # p[0] = p[1]
+    print(f'{p.slice[1].type} -> sentencia')
 
 
 def p_read(p):
     '''read : READ A_PARENTESIS elemento C_PARENTESIS'''
-    # print(p[3])
+    print(f'READ ( elemento ) -> read')
 
 
 def p_write(p):
     '''write : WRITE A_PARENTESIS elemento C_PARENTESIS'''
-    # print(p[3])
+    print(f'WRITE ( elemento ) -> write')
 
 
 def p_bloque_declaracion(p):
     '''bloque_declaracion : INIT A_LLAVE declaraciones C_LLAVE
     '''
-    # p[0] = p[3]
+    print('INIT { declaraciones } -> bloque_declaracion')
 
 
 def p_declaraciones(p):
     '''declaraciones : declaraciones declaracion
                      | declaracion
     '''
-    # p[0] = p[1]
+    if len(p) == 3:
+        print(f'declaraciones declaracion -> declaraciones')
+    else:
+        print(f' declaracion -> declaraciones')
 
 
 def p_declaracion(p):
     '''declaracion : lista_variables DOS_PUNTOS tipo_dato PUNTO_Y_COMA'''
-    # p[0] = p[1]
+    print(f' lista_variables : tipo_dato ; -> declaracion')
 
 
 def p_lista_variables(p):
     '''lista_variables : VARIABLE
                        | lista_variables COMA VARIABLE
     '''
-    # p[0] = p[1]
+    if len(p) == 4:
+        print(f'lista_variables ; variable -> lista_variables')
+    else:
+        print('VARIABLE -> lista_variables')
 
 
 def p_tipo_dato(p):
@@ -81,7 +92,7 @@ def p_tipo_dato(p):
                  | INT
                  | STR
     '''
-    # p[0] = p[1]
+    print(f'{p.slice[1].type} -> tipo_dato')
 
 
 def p_seleccion(p):
@@ -93,12 +104,15 @@ def p_seleccion(p):
     # else:
     #     if len(p) == 8:
     #         p[0] = p[7]
+    if len(p) == 8:
+        print('IF ( condicion ) bloque ELSE bloque -> seleccion')
+    else:
+        print('IF ( condicion ) bloque -> seleccion')
 
 
 def p_iteracion(p):
     '''iteracion : WHILE A_PARENTESIS condicion C_PARENTESIS bloque'''
-    # if p[3]:
-    #     p[0] = p[6]
+    print(' WHILE ( condicion ) bloque -> iteracion')
 
 
 def p_condicion(p):
@@ -112,6 +126,12 @@ def p_condicion(p):
     #     case 4: p[0] = p[1] or p[3] if p[2] == 'or' else p[1] and p[3]
     #     case 3: p[0] = not bool(p[2])
     #     case _: p[0] = bool(p[1])
+    if len(p) == 4:
+        print(f'comparacion {p.slice[2].type} comparacion -> condicion')
+    if len(p) == 3:
+        print('NOT comparacion -> condicion')
+    if len(p) == 2:
+        print('comparacion -> condicion')
 
 
 def p_comparacion(p):
@@ -127,6 +147,10 @@ def p_comparacion(p):
     #         case '<': p[0] = p[1] < p[3]
     # if len(p) == 2:
     #     p[0] = bool(p[1])
+    if len(p) == 4:
+        print('expresion comparador expresion -> comparacion')
+    else:
+        print('elemento -> comparacion')
 
 
 def p_comparador(p):
@@ -138,11 +162,13 @@ def p_comparador(p):
                   | DISTINTOQ
      '''
     # p[0] = p[1]
+    print(f'{p.slice[1].type} -> comparador')
 
 
 def p_bloque(p):
     '''bloque : A_LLAVE programa C_LLAVE'''
     # p[0] = p[2]
+    print('{ programa } -> bloque')
 
 
 def p_asignacion(p):
@@ -151,6 +177,7 @@ def p_asignacion(p):
                   | VARIABLE ASIGNACION condicion
     '''
     # p[0] = p[3]
+    print(f'VARIABLE ASIGNACION {p.slice[3].type} -> asignacion')
 
 
 def p_sumar_los_ultimos(p):
@@ -162,11 +189,12 @@ def p_sumar_los_ultimos(p):
     # p[0] = 0
     # for num in ultimos:
     #     p[0] += num
+    print('SUMAR_LOS_ULTIMOS (N_ENTERO ; lista ) -> sumar_los_ultimos')
 
 
 def p_contar_binarios(p):
     '''contar_binarios : CONTAR_BINARIOS A_PARENTESIS lista C_PARENTESIS'''
-    # p[0] = p[1]
+    print('CONTAR_BINARIOS ( lista ) -> contar_binarios')
 
 
 def p_lista(p):
@@ -177,31 +205,40 @@ def p_lista(p):
     #     p[0] = p[2]
     # if len(p) == 3:
     #     p[0] = []
+    if len(p) == 4:
+        print('[elementos] -> lista')
+    else:
+        print('[] -> lista')
 
 
 def p_expresion_mas(p):
     'expresion : expresion MAS termino'
     # p[0] = p[1] + p[3]
+    print('expresion + termino -> expresion')
 
 
 def p_expresion_menos_unario(p):
     'expresion : MENOS expresion %prec UMENOS'
     # p[0] = -p[2]
+    print('MENOS expresion %prec UMENOS -> expresion')
 
 
 def p_expresion_menos(p):
     'expresion : expresion MENOS termino'
     # p[0] = p[1] - p[3]
+    print('expresion - termino -> expresion')
 
 
 def p_expresion_termino(p):
     'expresion : termino'
     # p[0] = p[1]
+    print('termino -> expresion')
 
 
 def p_termino_multiplicacion(p):
     'termino : termino MULTIPLICACION elemento'
     # p[0] = p[1] * p[3]
+    print('termino * elemento -> termino')
 
 
 def p_termino_division(p):
@@ -210,16 +247,19 @@ def p_termino_division(p):
     #     print("no se pueden dividir cadenas")
     # else:
     #     p[0] = p[1] / p[3]
+    print('termino / elemento -> termino')
 
 
 def p_termino_elemento(p):
     'termino : elemento'
     # p[0] = p[1]
+    print('elemento -> termino')
 
 
 def p_elemento_expresion(p):
     'elemento : A_PARENTESIS expresion C_PARENTESIS'
     # p[0] = p[2]
+    print('( expresion ) -> elemento')
 
 
 def p_elementos(p):
@@ -229,6 +269,10 @@ def p_elementos(p):
     #     p[0] = p[1] + [p[3]]
     # else:
     #     p[0] = [p[1]]
+    if len(p) == 4:
+        print('elementos , elemento -> elementos')
+    else:
+        print('elemento -> elementos')
 
 
 def p_elemento(p):
@@ -241,10 +285,10 @@ def p_elemento(p):
                 | contar_binarios
     '''
     # p[0] = p[1]
+    print(f'{p.slice[1].type} -> elemento')
+
 
 # Error rule for syntax errors
-
-
 def p_error(p):
     print(f"Error en la linea {p.lineno or ''} at {p.value or ''}")
 
