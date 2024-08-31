@@ -4,10 +4,22 @@
 
 from lexer import tokens  # Se importan los tokens generado previamente en el lexer
 import ply.yacc as yacc  # analizador sintactico
+from pathlib import Path
+# 'var':['tipo','long','valor']
+simbol_table = {}
+
+precedence = (
+    ('right', 'ASIGNACION'),
+    ('right', 'IGUALI'),
+    ('left', 'MAYORQ', 'MENORQ', 'MAYORI', 'MENORI'),
+    ('left', 'MAS', 'MENOS'),
+    ('left', 'MULTIPLICACION', 'DIVISION'),
+    ('left', 'A_PARENTESIS', 'C_PARENTESIS'),
+)
 
 
 def p_programa(p):
-    '''programa : programa sentencia 
+    '''programa : programa sentencia
                 | sentencia
     '''
     if len(p) == 3:
@@ -17,13 +29,12 @@ def p_programa(p):
 
 
 def p_sentencia(p):
-    '''sentencia : asignacion
+    '''sentencia : asignacion PUNTO_Y_COMA
                  | iteracion
                  | seleccion
                  | bloque_declaracion
-                 | read
-                 | write
-                 | suma_los_ultimos
+                 | read PUNTO_Y_COMA
+                 | write PUNTO_Y_COMA
     '''
     p[0] = p[1]
 
@@ -41,20 +52,19 @@ def p_write(p):
 def p_bloque_declaracion(p):
     '''bloque_declaracion : INIT A_LLAVE declaraciones  C_LLAVE
     '''
-    p[0] = p[3]
+    # p[0] = p[3]
 
 
 def p_declaraciones(p):
     '''declaraciones : declaraciones declaracion
                      | declaracion
     '''
-    # reveer logica
-    p[0] = p[1]
+    # p[0] = p[1]
 
 
 def p_declaracion(p):
-    '''declaracion : lista_variables DOS_PUNTOS tipo_dato'''
-    p[0] = p[1]
+    '''declaracion : lista_variables DOS_PUNTOS tipo_dato PUNTO_Y_COMA'''
+    # p[0] = p[1]
 
 
 def p_lista_variables(p):
@@ -101,7 +111,7 @@ def p_condicion(p):
 
 
 def p_comparacion(p):
-    '''comparacion : elemento comparador elemento
+    '''comparacion : expresion comparador expresion
                    | elemento
     '''
     if len(p) == 4:
@@ -132,13 +142,14 @@ def p_bloque(p):
 
 
 def p_asignacion(p):
-    '''asignacion : VARIABLE ASIGNACION elemento
-                  | VARIABLE ASIGNACION lista
+    '''asignacion : VARIABLE ASIGNACION lista PUNTO_Y_COMA
+                  | VARIABLE ASIGNACION expresion PUNTO_Y_COMA
+                  | VARIABLE ASIGNACION condicion PUNTO_Y_COMA
     '''
     p[0] = p[3]
 
 
-def p_sumaLosUltimos(p):
+def p_suma_los_ultimos(p):
     '''suma_los_ultimos : SUMA_LOS_ULTIMOS  A_PARENTESIS N_ENTERO PUNTO_Y_COMA  lista  C_PARENTESIS
     '''
     lista = p[5]
@@ -149,6 +160,10 @@ def p_sumaLosUltimos(p):
         p[0] += num
 
 
+def p_contar_binarios(p):
+    ''''contar_binarios : CONTAR_BINARIOS A_PARENTESIS lista C_PARENTESIS '''
+
+
 def p_lista(p):
     '''lista : A_CORCHETE elementos C_CORCHETE
              | A_CORCHETE C_CORCHETE
@@ -157,6 +172,44 @@ def p_lista(p):
         p[0] = p[2]
     if len(p) == 3:
         p[0] = []
+
+
+def p_expresion_mas(p):
+    'expresion : expresion MAS termino'
+    p[0] = p[1] + p[3]
+
+
+def p_expresion_menos(p):
+    'expresion : expresion MENOS termino'
+    p[0] = p[1] - p[3]
+
+
+def p_expresion_termino(p):
+    'expresion : termino'
+    p[0] = p[1]
+
+
+def p_termino_multiplicacion(p):
+    'termino : termino MULTIPLICACION elemento'
+    p[0] = p[1] * p[3]
+
+
+def p_termino_division(p):
+    'termino : termino DIVISION elemento'
+    if type(p[1]) == str or type(p[3]) == str:
+        print("no se pueden dividir cadenas")
+    else:
+        p[0] = p[1] / p[3]
+
+
+def p_termino_elemento(p):
+    'termino : elemento'
+    p[0] = p[1]
+
+
+def p_elemento_expresion(p):
+    'elemento : A_PARENTESIS expresion C_PARENTESIS'
+    p[0] = p[2]
 
 
 def p_elementos(p):
@@ -174,6 +227,9 @@ def p_elemento(p):
                 | N_BINARIO
                 | VARIABLE
                 | CADENA
+                | sumar_los_ultimos
+                | condicion
+                | contar_binarios
     '''
     p[0] = p[1]
 
@@ -181,18 +237,12 @@ def p_elemento(p):
 
 
 def p_error(p):
-    print("Syntax error in input!")
+    print(f"Syntax error in linea {p.lineno} at value {p.value}")
 
 
 # Build the parser
 parser = yacc.yacc()
-
-while True:
-    try:
-        s = input('yacc > ')
-    except EOFError:
-        break
-    if not s:
-        continue
-    result = parser.parse(s)
-    print(result)
+path = Path("./TESTS/parser_test.txt")
+code = path.read_text()
+result = parser.parse(code)
+print(result)

@@ -6,9 +6,9 @@ _tabversion = '3.10'
 
 _lr_method = 'LALR'
 
-_lr_signature = 'AND ASIGNACION A_CORCHETE A_LLAVE A_PARENTESIS CADENA COMA C_CORCHETE C_LLAVE C_PARENTESIS DISTINTOQ DIVISION DOS_PUNTOS ELSE FLOAT IF IGUALI INIT INT MAYORI MAYORQ MENORI MENORQ MULTIPLICACION NOT N_BINARIO N_DECIMAL N_ENTERO OR PUNTO_Y_COMA READ RESTA STR SUMA SUMA_LOS_ULTIMOS VARIABLE WHILE WRITEprograma : programa sentencia \n                | sentencia\n    sentencia : asignacion\n                 | iteracion\n                 | seleccion\n                 | bloque_declaracion\n                 | read\n                 | write\n                 | suma_los_ultimos\n    read : READ A_PARENTESIS elemento C_PARENTESISwrite : WRITE A_PARENTESIS elemento C_PARENTESISbloque_declaracion : INIT A_LLAVE declaraciones  C_LLAVE\n    declaraciones : declaraciones declaracion\n                     | declaracion\n    declaracion : lista_variables DOS_PUNTOS tipo_datolista_variables : VARIABLE\n                       | lista_variables COMA VARIABLE\n    tipo_dato : FLOAT\n                 | INT\n                 | STR\n    seleccion : IF A_PARENTESIS condicion C_PARENTESIS bloque\n                 | IF A_PARENTESIS condicion C_PARENTESIS bloque ELSE bloque\n    iteracion : WHILE A_PARENTESIS condicion C_PARENTESIS bloquecondicion : comparacion OR comparacion\n                 | comparacion AND comparacion\n                 | NOT comparacion\n                 | comparacion\n    comparacion : elemento comparador elemento\n                   | elemento\n    comparador : MENORI\n                  | MENORQ\n                  | MAYORQ\n                  | MAYORI\n                  | IGUALI\n                  | DISTINTOQ\n     bloque : A_LLAVE programa C_LLAVEasignacion : VARIABLE ASIGNACION elemento\n                  | VARIABLE ASIGNACION lista\n    suma_los_ultimos : SUMA_LOS_ULTIMOS  A_PARENTESIS N_ENTERO PUNTO_Y_COMA  lista  C_PARENTESIS\n    lista : A_CORCHETE elementos C_CORCHETE\n             | A_CORCHETE C_CORCHETE\n    elementos : elementos COMA elemento\n                 | elementoelemento : N_ENTERO\n                | N_DECIMAL\n                | N_BINARIO\n                | VARIABLE\n                | CADENA\n    '
+_lr_signature = 'rightASIGNACIONrightIGUALIleftMAYORQMENORQMAYORIMENORIleftMASMENOSleftMULTIPLICACIONDIVISIONleftA_PARENTESISC_PARENTESISAND ASIGNACION A_CORCHETE A_LLAVE A_PARENTESIS CADENA COMA C_CORCHETE C_LLAVE C_PARENTESIS DISTINTOQ DIVISION DOS_PUNTOS ELSE FLOAT IF IGUALI INIT INT MAS MAYORI MAYORQ MENORI MENORQ MENOS MULTIPLICACION NOT N_BINARIO N_DECIMAL N_ENTERO OR PUNTO_Y_COMA READ STR SUMA_LOS_ULTIMOS VARIABLE WHILE WRITEprograma : programa sentencia\n                | sentencia\n    sentencia : asignacion\n                 | iteracion\n                 | seleccion\n                 | bloque_declaracion\n                 | read\n                 | write\n                 | suma_los_ultimos\n    read : READ A_PARENTESIS elemento C_PARENTESISwrite : WRITE A_PARENTESIS elemento C_PARENTESISbloque_declaracion : INIT A_LLAVE declaraciones  C_LLAVE\n    declaraciones : declaraciones declaracion\n                     | declaracion\n    declaracion : lista_variables DOS_PUNTOS tipo_datolista_variables : VARIABLE\n                       | lista_variables COMA VARIABLE\n    tipo_dato : FLOAT\n                 | INT\n                 | STR\n    seleccion : IF A_PARENTESIS condicion C_PARENTESIS bloque\n                 | IF A_PARENTESIS condicion C_PARENTESIS bloque ELSE bloque\n    iteracion : WHILE A_PARENTESIS condicion C_PARENTESIS bloquecondicion : comparacion OR comparacion\n                 | comparacion AND comparacion\n                 | NOT comparacion\n                 | comparacion\n    comparacion : expresion comparador expresion\n                   | elemento\n    comparador : MENORI\n                  | MENORQ\n                  | MAYORQ\n                  | MAYORI\n                  | IGUALI\n                  | DISTINTOQ\n     bloque : A_LLAVE programa C_LLAVEasignacion : VARIABLE ASIGNACION lista\n                  | VARIABLE ASIGNACION expresion\n    suma_los_ultimos : SUMA_LOS_ULTIMOS  A_PARENTESIS N_ENTERO PUNTO_Y_COMA  lista  C_PARENTESIS\n    lista : A_CORCHETE elementos C_CORCHETE\n             | A_CORCHETE C_CORCHETE\n    expresion : expresion MAS terminoexpresion : expresion MENOS terminoexpresion : terminotermino : termino MULTIPLICACION elementotermino : termino DIVISION elementotermino : elementoelemento : A_PARENTESIS expresion C_PARENTESISelementos : elementos COMA elemento\n                 | elementoelemento : N_ENTERO\n                | N_DECIMAL\n                | N_BINARIO\n                | VARIABLE\n                | CADENA\n    '
     
-_lr_action_items = {'VARIABLE':([0,1,2,3,4,5,6,7,8,9,17,18,19,20,21,22,23,25,26,27,28,29,30,31,32,35,38,39,46,49,50,52,53,54,55,56,57,58,60,61,63,64,65,67,68,69,70,74,75,76,77,78,82,84,85,86,],[10,10,-2,-3,-4,-5,-6,-7,-8,-9,-1,25,25,25,41,25,25,-47,-37,-38,-44,-45,-46,-48,25,25,41,-14,-41,25,25,25,-30,-31,-32,-33,-34,-35,-12,-13,79,-10,-11,-40,25,-23,10,-21,-15,-18,-19,-20,10,-39,-36,-22,]),'WHILE':([0,1,2,3,4,5,6,7,8,9,17,25,26,27,28,29,30,31,46,60,64,65,67,69,70,74,82,84,85,86,],[11,11,-2,-3,-4,-5,-6,-7,-8,-9,-1,-47,-37,-38,-44,-45,-46,-48,-41,-12,-10,-11,-40,-23,11,-21,11,-39,-36,-22,]),'IF':([0,1,2,3,4,5,6,7,8,9,17,25,26,27,28,29,30,31,46,60,64,65,67,69,70,74,82,84,85,86,],[12,12,-2,-3,-4,-5,-6,-7,-8,-9,-1,-47,-37,-38,-44,-45,-46,-48,-41,-12,-10,-11,-40,-23,12,-21,12,-39,-36,-22,]),'INIT':([0,1,2,3,4,5,6,7,8,9,17,25,26,27,28,29,30,31,46,60,64,65,67,69,70,74,82,84,85,86,],[13,13,-2,-3,-4,-5,-6,-7,-8,-9,-1,-47,-37,-38,-44,-45,-46,-48,-41,-12,-10,-11,-40,-23,13,-21,13,-39,-36,-22,]),'READ':([0,1,2,3,4,5,6,7,8,9,17,25,26,27,28,29,30,31,46,60,64,65,67,69,70,74,82,84,85,86,],[14,14,-2,-3,-4,-5,-6,-7,-8,-9,-1,-47,-37,-38,-44,-45,-46,-48,-41,-12,-10,-11,-40,-23,14,-21,14,-39,-36,-22,]),'WRITE':([0,1,2,3,4,5,6,7,8,9,17,25,26,27,28,29,30,31,46,60,64,65,67,69,70,74,82,84,85,86,],[15,15,-2,-3,-4,-5,-6,-7,-8,-9,-1,-47,-37,-38,-44,-45,-46,-48,-41,-12,-10,-11,-40,-23,15,-21,15,-39,-36,-22,]),'SUMA_LOS_ULTIMOS':([0,1,2,3,4,5,6,7,8,9,17,25,26,27,28,29,30,31,46,60,64,65,67,69,70,74,82,84,85,86,],[16,16,-2,-3,-4,-5,-6,-7,-8,-9,-1,-47,-37,-38,-44,-45,-46,-48,-41,-12,-10,-11,-40,-23,16,-21,16,-39,-36,-22,]),'$end':([1,2,3,4,5,6,7,8,9,17,25,26,27,28,29,30,31,46,60,64,65,67,69,74,84,85,86,],[0,-2,-3,-4,-5,-6,-7,-8,-9,-1,-47,-37,-38,-44,-45,-46,-48,-41,-12,-10,-11,-40,-23,-21,-39,-36,-22,]),'C_LLAVE':([2,3,4,5,6,7,8,9,17,25,26,27,28,29,30,31,38,39,46,60,61,64,65,67,69,74,75,76,77,78,82,84,85,86,],[-2,-3,-4,-5,-6,-7,-8,-9,-1,-47,-37,-38,-44,-45,-46,-48,60,-14,-41,-12,-13,-10,-11,-40,-23,-21,-15,-18,-19,-20,85,-39,-36,-22,]),'ASIGNACION':([10,],[18,]),'A_PARENTESIS':([11,12,14,15,16,],[19,20,22,23,24,]),'A_LLAVE':([13,48,59,83,],[21,70,70,70,]),'N_ENTERO':([18,19,20,22,23,24,32,35,49,50,52,53,54,55,56,57,58,68,],[28,28,28,28,28,44,28,28,28,28,28,-30,-31,-32,-33,-34,-35,28,]),'N_DECIMAL':([18,19,20,22,23,32,35,49,50,52,53,54,55,56,57,58,68,],[29,29,29,29,29,29,29,29,29,29,-30,-31,-32,-33,-34,-35,29,]),'N_BINARIO':([18,19,20,22,23,32,35,49,50,52,53,54,55,56,57,58,68,],[30,30,30,30,30,30,30,30,30,30,-30,-31,-32,-33,-34,-35,30,]),'CADENA':([18,19,20,22,23,32,35,49,50,52,53,54,55,56,57,58,68,],[31,31,31,31,31,31,31,31,31,31,-30,-31,-32,-33,-34,-35,31,]),'A_CORCHETE':([18,66,],[32,32,]),'NOT':([19,20,],[35,35,]),'MENORI':([25,28,29,30,31,36,],[-47,-44,-45,-46,-48,53,]),'MENORQ':([25,28,29,30,31,36,],[-47,-44,-45,-46,-48,54,]),'MAYORQ':([25,28,29,30,31,36,],[-47,-44,-45,-46,-48,55,]),'MAYORI':([25,28,29,30,31,36,],[-47,-44,-45,-46,-48,56,]),'IGUALI':([25,28,29,30,31,36,],[-47,-44,-45,-46,-48,57,]),'DISTINTOQ':([25,28,29,30,31,36,],[-47,-44,-45,-46,-48,58,]),'OR':([25,28,29,30,31,34,36,73,],[-47,-44,-45,-46,-48,49,-29,-28,]),'AND':([25,28,29,30,31,34,36,73,],[-47,-44,-45,-46,-48,50,-29,-28,]),'C_PARENTESIS':([25,28,29,30,31,33,34,36,37,42,43,46,51,67,71,72,73,80,],[-47,-44,-45,-46,-48,48,-27,-29,59,64,65,-41,-26,-40,-24,-25,-28,84,]),'C_CORCHETE':([25,28,29,30,31,32,45,47,81,],[-47,-44,-45,-46,-48,46,67,-43,-42,]),'COMA':([25,28,29,30,31,40,41,45,47,79,81,],[-47,-44,-45,-46,-48,63,-16,68,-43,-17,-42,]),'DOS_PUNTOS':([40,41,79,],[62,-16,-17,]),'PUNTO_Y_COMA':([44,],[66,]),'FLOAT':([62,],[76,]),'INT':([62,],[77,]),'STR':([62,],[78,]),'ELSE':([74,85,],[83,-36,]),}
+_lr_action_items = {'VARIABLE':([0,1,2,3,4,5,6,7,8,9,17,18,19,20,21,22,23,25,26,27,28,29,30,31,32,33,34,35,38,42,43,49,50,52,54,55,58,59,61,62,63,64,65,66,67,69,70,72,73,74,76,77,78,79,80,81,82,83,84,88,89,90,91,92,96,98,99,100,],[10,10,-2,-3,-4,-5,-6,-7,-8,-9,-1,25,25,25,45,25,25,-54,-37,-38,25,-44,-47,25,-51,-52,-53,-55,25,45,-14,25,25,-41,25,25,25,25,25,-30,-31,-32,-33,-34,-35,-12,-13,93,-10,-11,-42,-43,-40,25,-45,-46,-48,-23,10,-21,-15,-18,-19,-20,10,-39,-36,-22,]),'WHILE':([0,1,2,3,4,5,6,7,8,9,17,25,26,27,29,30,32,33,34,35,52,69,73,74,76,77,78,80,81,82,83,84,88,96,98,99,100,],[11,11,-2,-3,-4,-5,-6,-7,-8,-9,-1,-54,-37,-38,-44,-47,-51,-52,-53,-55,-41,-12,-10,-11,-42,-43,-40,-45,-46,-48,-23,11,-21,11,-39,-36,-22,]),'IF':([0,1,2,3,4,5,6,7,8,9,17,25,26,27,29,30,32,33,34,35,52,69,73,74,76,77,78,80,81,82,83,84,88,96,98,99,100,],[12,12,-2,-3,-4,-5,-6,-7,-8,-9,-1,-54,-37,-38,-44,-47,-51,-52,-53,-55,-41,-12,-10,-11,-42,-43,-40,-45,-46,-48,-23,12,-21,12,-39,-36,-22,]),'INIT':([0,1,2,3,4,5,6,7,8,9,17,25,26,27,29,30,32,33,34,35,52,69,73,74,76,77,78,80,81,82,83,84,88,96,98,99,100,],[13,13,-2,-3,-4,-5,-6,-7,-8,-9,-1,-54,-37,-38,-44,-47,-51,-52,-53,-55,-41,-12,-10,-11,-42,-43,-40,-45,-46,-48,-23,13,-21,13,-39,-36,-22,]),'READ':([0,1,2,3,4,5,6,7,8,9,17,25,26,27,29,30,32,33,34,35,52,69,73,74,76,77,78,80,81,82,83,84,88,96,98,99,100,],[14,14,-2,-3,-4,-5,-6,-7,-8,-9,-1,-54,-37,-38,-44,-47,-51,-52,-53,-55,-41,-12,-10,-11,-42,-43,-40,-45,-46,-48,-23,14,-21,14,-39,-36,-22,]),'WRITE':([0,1,2,3,4,5,6,7,8,9,17,25,26,27,29,30,32,33,34,35,52,69,73,74,76,77,78,80,81,82,83,84,88,96,98,99,100,],[15,15,-2,-3,-4,-5,-6,-7,-8,-9,-1,-54,-37,-38,-44,-47,-51,-52,-53,-55,-41,-12,-10,-11,-42,-43,-40,-45,-46,-48,-23,15,-21,15,-39,-36,-22,]),'SUMA_LOS_ULTIMOS':([0,1,2,3,4,5,6,7,8,9,17,25,26,27,29,30,32,33,34,35,52,69,73,74,76,77,78,80,81,82,83,84,88,96,98,99,100,],[16,16,-2,-3,-4,-5,-6,-7,-8,-9,-1,-54,-37,-38,-44,-47,-51,-52,-53,-55,-41,-12,-10,-11,-42,-43,-40,-45,-46,-48,-23,16,-21,16,-39,-36,-22,]),'$end':([1,2,3,4,5,6,7,8,9,17,25,26,27,29,30,32,33,34,35,52,69,73,74,76,77,78,80,81,82,83,88,98,99,100,],[0,-2,-3,-4,-5,-6,-7,-8,-9,-1,-54,-37,-38,-44,-47,-51,-52,-53,-55,-41,-12,-10,-11,-42,-43,-40,-45,-46,-48,-23,-21,-39,-36,-22,]),'C_LLAVE':([2,3,4,5,6,7,8,9,17,25,26,27,29,30,32,33,34,35,42,43,52,69,70,73,74,76,77,78,80,81,82,83,88,89,90,91,92,96,98,99,100,],[-2,-3,-4,-5,-6,-7,-8,-9,-1,-54,-37,-38,-44,-47,-51,-52,-53,-55,69,-14,-41,-12,-13,-10,-11,-42,-43,-40,-45,-46,-48,-23,-21,-15,-18,-19,-20,99,-39,-36,-22,]),'ASIGNACION':([10,],[18,]),'A_PARENTESIS':([11,12,14,15,16,18,19,20,22,23,28,31,38,49,50,54,55,58,59,61,62,63,64,65,66,67,79,],[19,20,22,23,24,31,31,31,31,31,31,31,31,31,31,31,31,31,31,31,-30,-31,-32,-33,-34,-35,31,]),'A_LLAVE':([13,57,68,97,],[21,84,84,84,]),'A_CORCHETE':([18,75,],[28,28,]),'N_ENTERO':([18,19,20,22,23,24,28,31,38,49,50,54,55,58,59,61,62,63,64,65,66,67,79,],[32,32,32,32,32,48,32,32,32,32,32,32,32,32,32,32,-30,-31,-32,-33,-34,-35,32,]),'N_DECIMAL':([18,19,20,22,23,28,31,38,49,50,54,55,58,59,61,62,63,64,65,66,67,79,],[33,33,33,33,33,33,33,33,33,33,33,33,33,33,33,-30,-31,-32,-33,-34,-35,33,]),'N_BINARIO':([18,19,20,22,23,28,31,38,49,50,54,55,58,59,61,62,63,64,65,66,67,79,],[34,34,34,34,34,34,34,34,34,34,34,34,34,34,34,-30,-31,-32,-33,-34,-35,34,]),'CADENA':([18,19,20,22,23,28,31,38,49,50,54,55,58,59,61,62,63,64,65,66,67,79,],[35,35,35,35,35,35,35,35,35,35,35,35,35,35,35,-30,-31,-32,-33,-34,-35,35,]),'NOT':([19,20,],[38,38,]),'MULTIPLICACION':([25,29,30,32,33,34,35,40,76,77,80,81,82,],[-54,54,-47,-51,-52,-53,-55,-47,54,54,-45,-46,-48,]),'DIVISION':([25,29,30,32,33,34,35,40,76,77,80,81,82,],[-54,55,-47,-51,-52,-53,-55,-47,55,55,-45,-46,-48,]),'MAS':([25,27,29,30,32,33,34,35,39,40,56,76,77,80,81,82,87,],[-54,49,-44,-47,-51,-52,-53,-55,49,-47,49,-42,-43,-45,-46,-48,49,]),'MENOS':([25,27,29,30,32,33,34,35,39,40,56,76,77,80,81,82,87,],[-54,50,-44,-47,-51,-52,-53,-55,50,-47,50,-42,-43,-45,-46,-48,50,]),'OR':([25,29,30,32,33,34,35,37,40,76,77,80,81,82,87,],[-54,-44,-47,-51,-52,-53,-55,58,-29,-42,-43,-45,-46,-48,-28,]),'AND':([25,29,30,32,33,34,35,37,40,76,77,80,81,82,87,],[-54,-44,-47,-51,-52,-53,-55,59,-29,-42,-43,-45,-46,-48,-28,]),'C_PARENTESIS':([25,29,30,32,33,34,35,36,37,40,41,46,47,52,56,60,76,77,78,80,81,82,85,86,87,94,],[-54,-44,-47,-51,-52,-53,-55,57,-27,-29,68,73,74,-41,82,-26,-42,-43,-40,-45,-46,-48,-24,-25,-28,98,]),'MENORI':([25,29,30,32,33,34,35,39,40,76,77,80,81,82,],[-54,-44,-47,-51,-52,-53,-55,62,-47,-42,-43,-45,-46,-48,]),'MENORQ':([25,29,30,32,33,34,35,39,40,76,77,80,81,82,],[-54,-44,-47,-51,-52,-53,-55,63,-47,-42,-43,-45,-46,-48,]),'MAYORQ':([25,29,30,32,33,34,35,39,40,76,77,80,81,82,],[-54,-44,-47,-51,-52,-53,-55,64,-47,-42,-43,-45,-46,-48,]),'MAYORI':([25,29,30,32,33,34,35,39,40,76,77,80,81,82,],[-54,-44,-47,-51,-52,-53,-55,65,-47,-42,-43,-45,-46,-48,]),'IGUALI':([25,29,30,32,33,34,35,39,40,76,77,80,81,82,],[-54,-44,-47,-51,-52,-53,-55,66,-47,-42,-43,-45,-46,-48,]),'DISTINTOQ':([25,29,30,32,33,34,35,39,40,76,77,80,81,82,],[-54,-44,-47,-51,-52,-53,-55,67,-47,-42,-43,-45,-46,-48,]),'C_CORCHETE':([25,28,32,33,34,35,51,53,82,95,],[-54,52,-51,-52,-53,-55,78,-50,-48,-49,]),'COMA':([25,32,33,34,35,44,45,51,53,82,93,95,],[-54,-51,-52,-53,-55,72,-16,79,-50,-48,-17,-49,]),'DOS_PUNTOS':([44,45,93,],[71,-16,-17,]),'PUNTO_Y_COMA':([48,],[75,]),'FLOAT':([71,],[90,]),'INT':([71,],[91,]),'STR':([71,],[92,]),'ELSE':([88,99,],[97,-36,]),}
 
 _lr_action = {}
 for _k, _v in _lr_action_items.items():
@@ -17,7 +17,7 @@ for _k, _v in _lr_action_items.items():
       _lr_action[_x][_k] = _y
 del _lr_action_items
 
-_lr_goto_items = {'programa':([0,70,],[1,82,]),'sentencia':([0,1,70,82,],[2,17,2,17,]),'asignacion':([0,1,70,82,],[3,3,3,3,]),'iteracion':([0,1,70,82,],[4,4,4,4,]),'seleccion':([0,1,70,82,],[5,5,5,5,]),'bloque_declaracion':([0,1,70,82,],[6,6,6,6,]),'read':([0,1,70,82,],[7,7,7,7,]),'write':([0,1,70,82,],[8,8,8,8,]),'suma_los_ultimos':([0,1,70,82,],[9,9,9,9,]),'elemento':([18,19,20,22,23,32,35,49,50,52,68,],[26,36,36,42,43,47,36,36,36,73,81,]),'lista':([18,66,],[27,80,]),'condicion':([19,20,],[33,37,]),'comparacion':([19,20,35,49,50,],[34,34,51,71,72,]),'declaraciones':([21,],[38,]),'declaracion':([21,38,],[39,61,]),'lista_variables':([21,38,],[40,40,]),'elementos':([32,],[45,]),'comparador':([36,],[52,]),'bloque':([48,59,83,],[69,74,86,]),'tipo_dato':([62,],[75,]),}
+_lr_goto_items = {'programa':([0,84,],[1,96,]),'sentencia':([0,1,84,96,],[2,17,2,17,]),'asignacion':([0,1,84,96,],[3,3,3,3,]),'iteracion':([0,1,84,96,],[4,4,4,4,]),'seleccion':([0,1,84,96,],[5,5,5,5,]),'bloque_declaracion':([0,1,84,96,],[6,6,6,6,]),'read':([0,1,84,96,],[7,7,7,7,]),'write':([0,1,84,96,],[8,8,8,8,]),'suma_los_ultimos':([0,1,84,96,],[9,9,9,9,]),'lista':([18,75,],[26,94,]),'expresion':([18,19,20,31,38,58,59,61,],[27,39,39,56,39,39,39,87,]),'termino':([18,19,20,31,38,49,50,58,59,61,],[29,29,29,29,29,76,77,29,29,29,]),'elemento':([18,19,20,22,23,28,31,38,49,50,54,55,58,59,61,79,],[30,40,40,46,47,53,30,40,30,30,80,81,40,40,30,95,]),'condicion':([19,20,],[36,41,]),'comparacion':([19,20,38,58,59,],[37,37,60,85,86,]),'declaraciones':([21,],[42,]),'declaracion':([21,42,],[43,70,]),'lista_variables':([21,42,],[44,44,]),'elementos':([28,],[51,]),'comparador':([39,],[61,]),'bloque':([57,68,97,],[83,88,100,]),'tipo_dato':([71,],[89,]),}
 
 _lr_goto = {}
 for _k, _v in _lr_goto_items.items():
@@ -27,52 +27,59 @@ for _k, _v in _lr_goto_items.items():
 del _lr_goto_items
 _lr_productions = [
   ("S' -> programa","S'",1,None,None,None),
-  ('programa -> programa sentencia','programa',2,'p_programa','parser.py',10),
-  ('programa -> sentencia','programa',1,'p_programa','parser.py',11),
-  ('sentencia -> asignacion','sentencia',1,'p_sentencia','parser.py',20),
-  ('sentencia -> iteracion','sentencia',1,'p_sentencia','parser.py',21),
-  ('sentencia -> seleccion','sentencia',1,'p_sentencia','parser.py',22),
-  ('sentencia -> bloque_declaracion','sentencia',1,'p_sentencia','parser.py',23),
-  ('sentencia -> read','sentencia',1,'p_sentencia','parser.py',24),
-  ('sentencia -> write','sentencia',1,'p_sentencia','parser.py',25),
-  ('sentencia -> suma_los_ultimos','sentencia',1,'p_sentencia','parser.py',26),
-  ('read -> READ A_PARENTESIS elemento C_PARENTESIS','read',4,'p_read','parser.py',32),
-  ('write -> WRITE A_PARENTESIS elemento C_PARENTESIS','write',4,'p_write','parser.py',37),
-  ('bloque_declaracion -> INIT A_LLAVE declaraciones C_LLAVE','bloque_declaracion',4,'p_bloque_declaracion','parser.py',42),
-  ('declaraciones -> declaraciones declaracion','declaraciones',2,'p_declaraciones','parser.py',48),
-  ('declaraciones -> declaracion','declaraciones',1,'p_declaraciones','parser.py',49),
-  ('declaracion -> lista_variables DOS_PUNTOS tipo_dato','declaracion',3,'p_declaracion','parser.py',56),
-  ('lista_variables -> VARIABLE','lista_variables',1,'p_lista_variables','parser.py',61),
-  ('lista_variables -> lista_variables COMA VARIABLE','lista_variables',3,'p_lista_variables','parser.py',62),
-  ('tipo_dato -> FLOAT','tipo_dato',1,'p_tipo_dato','parser.py',67),
-  ('tipo_dato -> INT','tipo_dato',1,'p_tipo_dato','parser.py',68),
-  ('tipo_dato -> STR','tipo_dato',1,'p_tipo_dato','parser.py',69),
-  ('seleccion -> IF A_PARENTESIS condicion C_PARENTESIS bloque','seleccion',5,'p_seleccion','parser.py',75),
-  ('seleccion -> IF A_PARENTESIS condicion C_PARENTESIS bloque ELSE bloque','seleccion',7,'p_seleccion','parser.py',76),
-  ('iteracion -> WHILE A_PARENTESIS condicion C_PARENTESIS bloque','iteracion',5,'p_iteracion','parser.py',86),
-  ('condicion -> comparacion OR comparacion','condicion',3,'p_condicion','parser.py',92),
-  ('condicion -> comparacion AND comparacion','condicion',3,'p_condicion','parser.py',93),
-  ('condicion -> NOT comparacion','condicion',2,'p_condicion','parser.py',94),
-  ('condicion -> comparacion','condicion',1,'p_condicion','parser.py',95),
-  ('comparacion -> elemento comparador elemento','comparacion',3,'p_comparacion','parser.py',104),
-  ('comparacion -> elemento','comparacion',1,'p_comparacion','parser.py',105),
-  ('comparador -> MENORI','comparador',1,'p_comparador','parser.py',119),
-  ('comparador -> MENORQ','comparador',1,'p_comparador','parser.py',120),
-  ('comparador -> MAYORQ','comparador',1,'p_comparador','parser.py',121),
-  ('comparador -> MAYORI','comparador',1,'p_comparador','parser.py',122),
-  ('comparador -> IGUALI','comparador',1,'p_comparador','parser.py',123),
-  ('comparador -> DISTINTOQ','comparador',1,'p_comparador','parser.py',124),
-  ('bloque -> A_LLAVE programa C_LLAVE','bloque',3,'p_bloque','parser.py',130),
-  ('asignacion -> VARIABLE ASIGNACION elemento','asignacion',3,'p_asignacion','parser.py',135),
-  ('asignacion -> VARIABLE ASIGNACION lista','asignacion',3,'p_asignacion','parser.py',136),
-  ('suma_los_ultimos -> SUMA_LOS_ULTIMOS A_PARENTESIS N_ENTERO PUNTO_Y_COMA lista C_PARENTESIS','suma_los_ultimos',6,'p_sumaLosUltimos','parser.py',142),
-  ('lista -> A_CORCHETE elementos C_CORCHETE','lista',3,'p_lista','parser.py',153),
-  ('lista -> A_CORCHETE C_CORCHETE','lista',2,'p_lista','parser.py',154),
-  ('elementos -> elementos COMA elemento','elementos',3,'p_elementos','parser.py',163),
-  ('elementos -> elemento','elementos',1,'p_elementos','parser.py',164),
-  ('elemento -> N_ENTERO','elemento',1,'p_elemento','parser.py',172),
-  ('elemento -> N_DECIMAL','elemento',1,'p_elemento','parser.py',173),
-  ('elemento -> N_BINARIO','elemento',1,'p_elemento','parser.py',174),
-  ('elemento -> VARIABLE','elemento',1,'p_elemento','parser.py',175),
-  ('elemento -> CADENA','elemento',1,'p_elemento','parser.py',176),
+  ('programa -> programa sentencia','programa',2,'p_programa','parser.py',20),
+  ('programa -> sentencia','programa',1,'p_programa','parser.py',21),
+  ('sentencia -> asignacion','sentencia',1,'p_sentencia','parser.py',30),
+  ('sentencia -> iteracion','sentencia',1,'p_sentencia','parser.py',31),
+  ('sentencia -> seleccion','sentencia',1,'p_sentencia','parser.py',32),
+  ('sentencia -> bloque_declaracion','sentencia',1,'p_sentencia','parser.py',33),
+  ('sentencia -> read','sentencia',1,'p_sentencia','parser.py',34),
+  ('sentencia -> write','sentencia',1,'p_sentencia','parser.py',35),
+  ('sentencia -> suma_los_ultimos','sentencia',1,'p_sentencia','parser.py',36),
+  ('read -> READ A_PARENTESIS elemento C_PARENTESIS','read',4,'p_read','parser.py',42),
+  ('write -> WRITE A_PARENTESIS elemento C_PARENTESIS','write',4,'p_write','parser.py',47),
+  ('bloque_declaracion -> INIT A_LLAVE declaraciones C_LLAVE','bloque_declaracion',4,'p_bloque_declaracion','parser.py',52),
+  ('declaraciones -> declaraciones declaracion','declaraciones',2,'p_declaraciones','parser.py',58),
+  ('declaraciones -> declaracion','declaraciones',1,'p_declaraciones','parser.py',59),
+  ('declaracion -> lista_variables DOS_PUNTOS tipo_dato','declaracion',3,'p_declaracion','parser.py',66),
+  ('lista_variables -> VARIABLE','lista_variables',1,'p_lista_variables','parser.py',71),
+  ('lista_variables -> lista_variables COMA VARIABLE','lista_variables',3,'p_lista_variables','parser.py',72),
+  ('tipo_dato -> FLOAT','tipo_dato',1,'p_tipo_dato','parser.py',77),
+  ('tipo_dato -> INT','tipo_dato',1,'p_tipo_dato','parser.py',78),
+  ('tipo_dato -> STR','tipo_dato',1,'p_tipo_dato','parser.py',79),
+  ('seleccion -> IF A_PARENTESIS condicion C_PARENTESIS bloque','seleccion',5,'p_seleccion','parser.py',85),
+  ('seleccion -> IF A_PARENTESIS condicion C_PARENTESIS bloque ELSE bloque','seleccion',7,'p_seleccion','parser.py',86),
+  ('iteracion -> WHILE A_PARENTESIS condicion C_PARENTESIS bloque','iteracion',5,'p_iteracion','parser.py',96),
+  ('condicion -> comparacion OR comparacion','condicion',3,'p_condicion','parser.py',102),
+  ('condicion -> comparacion AND comparacion','condicion',3,'p_condicion','parser.py',103),
+  ('condicion -> NOT comparacion','condicion',2,'p_condicion','parser.py',104),
+  ('condicion -> comparacion','condicion',1,'p_condicion','parser.py',105),
+  ('comparacion -> expresion comparador expresion','comparacion',3,'p_comparacion','parser.py',114),
+  ('comparacion -> elemento','comparacion',1,'p_comparacion','parser.py',115),
+  ('comparador -> MENORI','comparador',1,'p_comparador','parser.py',129),
+  ('comparador -> MENORQ','comparador',1,'p_comparador','parser.py',130),
+  ('comparador -> MAYORQ','comparador',1,'p_comparador','parser.py',131),
+  ('comparador -> MAYORI','comparador',1,'p_comparador','parser.py',132),
+  ('comparador -> IGUALI','comparador',1,'p_comparador','parser.py',133),
+  ('comparador -> DISTINTOQ','comparador',1,'p_comparador','parser.py',134),
+  ('bloque -> A_LLAVE programa C_LLAVE','bloque',3,'p_bloque','parser.py',140),
+  ('asignacion -> VARIABLE ASIGNACION lista','asignacion',3,'p_asignacion','parser.py',145),
+  ('asignacion -> VARIABLE ASIGNACION expresion','asignacion',3,'p_asignacion','parser.py',146),
+  ('suma_los_ultimos -> SUMA_LOS_ULTIMOS A_PARENTESIS N_ENTERO PUNTO_Y_COMA lista C_PARENTESIS','suma_los_ultimos',6,'p_sumaLosUltimos','parser.py',152),
+  ('lista -> A_CORCHETE elementos C_CORCHETE','lista',3,'p_lista','parser.py',163),
+  ('lista -> A_CORCHETE C_CORCHETE','lista',2,'p_lista','parser.py',164),
+  ('expresion -> expresion MAS termino','expresion',3,'p_expresion_mas','parser.py',173),
+  ('expresion -> expresion MENOS termino','expresion',3,'p_expresion_menos','parser.py',178),
+  ('expresion -> termino','expresion',1,'p_expresion_termino','parser.py',183),
+  ('termino -> termino MULTIPLICACION elemento','termino',3,'p_termino_multiplicacion','parser.py',188),
+  ('termino -> termino DIVISION elemento','termino',3,'p_termino_division','parser.py',193),
+  ('termino -> elemento','termino',1,'p_termino_elemento','parser.py',201),
+  ('elemento -> A_PARENTESIS expresion C_PARENTESIS','elemento',3,'p_elemento_expresion','parser.py',206),
+  ('elementos -> elementos COMA elemento','elementos',3,'p_elementos','parser.py',211),
+  ('elementos -> elemento','elementos',1,'p_elementos','parser.py',212),
+  ('elemento -> N_ENTERO','elemento',1,'p_elemento','parser.py',220),
+  ('elemento -> N_DECIMAL','elemento',1,'p_elemento','parser.py',221),
+  ('elemento -> N_BINARIO','elemento',1,'p_elemento','parser.py',222),
+  ('elemento -> VARIABLE','elemento',1,'p_elemento','parser.py',223),
+  ('elemento -> CADENA','elemento',1,'p_elemento','parser.py',224),
 ]

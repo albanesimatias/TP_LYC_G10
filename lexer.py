@@ -1,6 +1,6 @@
 import ply.lex as lex
 from pathlib import Path
-simbol_table = {''}
+
 reserved = {
     'if': 'IF',
     'else': 'ELSE',
@@ -14,7 +14,8 @@ reserved = {
     'or': 'OR',
     'and': 'AND',
     'not': 'NOT',
-    'suma_los_ultimos': 'SUMA_LOS_ULTIMOS'
+    'suma_los_ultimos': 'SUMA_LOS_ULTIMOS',
+    'contar_binarios': 'CONTAR_BINARIOS'
 }
 
 tokens = [
@@ -36,8 +37,8 @@ tokens = [
     'IGUALI',
     'MENORQ',
     'MAYORQ',
-    'SUMA',
-    'RESTA',
+    'MAS',
+    'MENOS',
     'DIVISION',
     'MULTIPLICACION',
     'COMA',
@@ -53,8 +54,8 @@ t_IGUALI = r'\=\='
 t_DISTINTOQ = r'!='
 t_MENORQ = r'\<'
 t_MAYORQ = r'\>'
-t_SUMA = r'\+'
-t_RESTA = r'-'
+t_MAS = r'\+'
+t_MENOS = r'-'
 t_MULTIPLICACION = r'\*'
 t_DIVISION = r'/'
 t_A_PARENTESIS = r'\('
