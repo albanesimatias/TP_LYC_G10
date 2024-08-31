@@ -11,7 +11,6 @@ def ejecutar_lexter():
         if not token:
             break
         print(token)
-    persistir_tabla_de_simbolos()
 
 
 def ejecutar_parser():
@@ -21,5 +20,5 @@ def ejecutar_parser():
     persistir_tabla_de_simbolos()
 
 
-ejecutar_lexter()
-# ejecutar_parser()
+# ejecutar_lexter()
+ejecutar_parser()

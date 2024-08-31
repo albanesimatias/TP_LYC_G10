@@ -240,7 +240,7 @@ def p_elemento(p):
 
 
 def p_error(p):
-    print(f"Syntax error in line {p.lineno or ''} at {p.value or ''}")
+    print(f"Error en la linea {p.lineno or ''} at {p.value or ''}")
 
 
 # Build the parser
