@@ -135,11 +135,3 @@ def t_error(t):
 
 # Build the lexer
 lexer = lex.lex()
-# path = Path('./TESTS/parser_test.txt')
-# data = path.read_text()
-# lexer.input(data)
-# while True:
-#     token = lexer.token()
-#     if not token:
-#         break
-#     print(token)

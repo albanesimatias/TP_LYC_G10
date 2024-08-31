@@ -240,13 +240,10 @@ def p_elemento(p):
 
 
 def p_error(p):
-    print(f"Syntax error in line {p.lineno}")
+    print(f"Syntax error in line {p.lineno or ''} at {p.value or ''}")
 
 
 # Build the parser
 parser = yacc.yacc()
-path = Path("./TESTS/parser_test.txt")
-code = path.read_text()
-result = parser.parse(code)
-persistir_tabla_de_simbolos()
+
 # print(result)
