@@ -14,6 +14,7 @@ precedence = (
     ('right', 'IGUALI'),
     ('left', 'MAYORQ', 'MENORQ', 'MAYORI', 'MENORI'),
     ('left', 'MAS', 'MENOS'),
+    ('right', 'UMENOS'),
     ('left', 'MULTIPLICACION', 'DIVISION'),
     ('left', 'A_PARENTESIS', 'C_PARENTESIS'),
 )
@@ -181,6 +182,11 @@ def p_lista(p):
 def p_expresion_mas(p):
     'expresion : expresion MAS termino'
     # p[0] = p[1] + p[3]
+
+
+def p_expresion_menos_unario(p):
+    'expresion : MENOS expresion %prec UMENOS'
+    # p[0] = -p[2]
 
 
 def p_expresion_menos(p):
