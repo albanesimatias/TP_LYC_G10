@@ -3,7 +3,7 @@ from parser import parser, persistir_tabla_de_simbolos, Path
 
 
 def ejecutar_lexter():
-    path_lexter = Path('./TESTS/parser_test.txt')
+    path_lexter = Path('./TESTS/lexer_test.txt')
     data = path_lexter.read_text()
     lexer.input(data)
     while True:
@@ -11,6 +11,7 @@ def ejecutar_lexter():
         if not token:
             break
         print(token)
+    persistir_tabla_de_simbolos()
 
 
 def ejecutar_parser():
@@ -21,4 +22,4 @@ def ejecutar_parser():
 
 
 ejecutar_lexter()
-ejecutar_parser()
+# ejecutar_parser()

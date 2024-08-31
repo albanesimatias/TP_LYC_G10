@@ -1,5 +1,15 @@
 from pathlib import Path
 
+
+class Constantes:
+    INT16_MIN = -32768
+    INT16_MAX = 32767
+    FLOAT32_MIN = -3.4e38
+    FLOAT32_MAX = 3.4e38
+    MAX_LEN_VAR = 20
+    MAX_LEN_CAD = 40
+
+
 tabla_de_simbolos = {}
 
 
@@ -19,10 +29,8 @@ def guardar_en_tabla_de_simbolos(token):
 
 def persistir_tabla_de_simbolos():
     path = Path('./tabla_de_simbolos.txt')
-
     # Encabezado
-    encabezado = f'{"NOMBRE":^20}|{"TIPODATO":^20}|{
-        "VALOR":^20}|{"LONGITUD":^20}\n'
+    encabezado = f'{"NOMBRE":^20}|{"TIPODATO":^20}|{"VALOR":^20}|{"LONGITUD":^20}\n'
     separador = '-'*85 + '\n'
 
     # Inicializamos el texto con el encabezado y separador

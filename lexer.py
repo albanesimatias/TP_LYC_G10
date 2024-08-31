@@ -1,6 +1,7 @@
 import ply.lex as lex
 from pathlib import Path
-from utils import guardar_en_tabla_de_simbolos
+from utils import guardar_en_tabla_de_simbolos, Constantes
+import re
 
 reserved = {
     'if': 'IF',
@@ -73,23 +74,28 @@ t_DOS_PUNTOS = r':'
 
 # Expresiones regulares con codigo de accion (validaciones/errores/ignorar)
 def t_COMENTARIO(t):
-    r'\*-.*-\*'
+    r'\*\-.*?\-\*'
     pass
 
 
 def t_VARIABLE(t):
     r'[a-zA-Z](\w|_|-)*'
     t.type = reserved.get(t.value, 'VARIABLE')
-    guardar_en_tabla_de_simbolos(t)
-    return t
+    if len(t.value) > Constantes.MAX_LEN_VAR:
+        print(f'La variable exede el tamaño de {Constantes.MAX_LEN_VAR} caracteres')
+        t.type = 'ERROR'
+    else:
+        guardar_en_tabla_de_simbolos(t)
+        return t
 
 
 def t_CADENA(t):
-    r'"[^"]*"'
-    guardar_en_tabla_de_simbolos(t)
-    if len(t.value) > 40:
-        raise Exception('La cadena exede el limite de caracteres (MAX_40)')
-    return t
+    r'"(\w|\s)*"'
+    if len(t.value) > Constantes.MAX_LEN_CAD:
+        print(f'La cadena exede el limite de {Constantes.MAX_LEN_CAD} caracteres')
+    else:
+        guardar_en_tabla_de_simbolos(t)
+        return t
 
 
 def t_N_BINARIO(t):
@@ -100,20 +106,20 @@ def t_N_BINARIO(t):
 
 def t_N_DECIMAL(t):
     r'-?\d+\.\d+'
-    if len(t.value) > 10:
-        raise Exception('Limite de 32bits para numeros decimales')
     t.value = float(t.value)
-    guardar_en_tabla_de_simbolos(t)
-    return t
+    if Constantes.FLOAT32_MIN <= t.value <= Constantes.FLOAT32_MAX:
+        guardar_en_tabla_de_simbolos(t)
+        return t
+    print('Limite de 32bits para numeros decimales')
 
 
 def t_N_ENTERO(t):
     r'-?\d+'
-    if len(t.value) > 5:
-        raise Exception('Limite de 16bits para numeros enteros')
     t.value = int(t.value)
-    guardar_en_tabla_de_simbolos(t)
-    return t
+    if Constantes.INT16_MIN <= t.value <= Constantes.INT16_MAX:
+        guardar_en_tabla_de_simbolos(t)
+        return t
+    print('Limite de 16bits para numeros enteros')
 
 
 # Regla que cuenta la cantidad de lineas
@@ -129,9 +135,9 @@ t_ignore = ' \t'
 
 
 def t_error(t):
-    print(f"Illegal character {t.value[0]} at line: {t.lexer.lineno}")
+    print(f"Caracter invalido '{t.value[0]}' en la linea: {t.lexer.lineno}")
     t.lexer.skip(1)
 
 
 # Build the lexer
-lexer = lex.lex()
+lexer = lex.lex(reflags=re.DOTALL)
