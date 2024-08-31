@@ -10,7 +10,7 @@ def ejecutar_lexter():
         token = lexer.token()
         if not token:
             break
-        print(token)
+        print(f'TOKEN: {token.type} LEXEMA: {token.value}')
 
 
 def ejecutar_parser():
