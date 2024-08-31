@@ -1,0 +1,10 @@
+NOMBRE               TIPODATO             VALOR               LONGITUD 
+_1                                        1                    
+_2                                        2                    
+var                                       var                  
+_23                                       23                   
+_4                                        4                    
+_5                                        5                    
+var2                                      var2                 
+_"hola"                                   "hola"              6 
+True                                      True                 

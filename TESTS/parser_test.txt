@@ -1,3 +1,18 @@
-if(1==1){
-var=1
+if(1==2 or 2>=1){
+    var=contar_binarios([1,23,4,5,2]);
+    if(1){
+        var2="hola";
+    }
 }
+read("hola");
+write("hola");
+
+while(True){
+    while(1==1){
+        var="hola"; *-Esto es un comentario-*
+    }
+    *-Esto es un comentario-*
+}
+
+*-Esto es un comentario-*
+

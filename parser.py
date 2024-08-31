@@ -3,11 +3,11 @@
 # parser.out -> se genera solo
 
 # Se importan los tokens generado previamente en el lexer
-from lexer import tokens  # , tabla_de_simbolos
+from lexer import tokens
 import ply.yacc as yacc  # analizador sintactico
 from pathlib import Path
-
-# tabla_de_simbolos = {}
+from utils import tabla_de_simbolos
+from utils import persistir_tabla_de_simbolos
 
 precedence = (
     ('right', 'ASIGNACION'),
@@ -23,31 +23,31 @@ def p_programa(p):
     '''programa : programa sentencia
                 | sentencia
     '''
-    if len(p) == 3:
-        p[0] = p[1] + p[2]
-    else:
-        p[0] = p[1]
+    # if len(p) == 3:
+    #     p[0] = p[1] + p[2]
+    # else:
+    #     p[0] = p[1]
 
 
 def p_sentencia(p):
-    '''sentencia : asignacion
+    '''sentencia : asignacion PUNTO_Y_COMA
                  | iteracion
                  | seleccion
                  | bloque_declaracion
-                 | read
-                 | write
+                 | read PUNTO_Y_COMA
+                 | write PUNTO_Y_COMA
     '''
-    p[0] = p[1]
+    # p[0] = p[1]
 
 
 def p_read(p):
     '''read : READ A_PARENTESIS elemento C_PARENTESIS'''
-    print(p[3])
+    # print(p[3])
 
 
 def p_write(p):
     '''write : WRITE A_PARENTESIS elemento C_PARENTESIS'''
-    print(p[3])
+    # print(p[3])
 
 
 def p_bloque_declaracion(p):
@@ -64,7 +64,7 @@ def p_declaraciones(p):
 
 
 def p_declaracion(p):
-    '''declaracion : lista_variables DOS_PUNTOS tipo_dato'''
+    '''declaracion : lista_variables DOS_PUNTOS tipo_dato PUNTO_Y_COMA'''
     # p[0] = p[1]
 
 
@@ -72,6 +72,7 @@ def p_lista_variables(p):
     '''lista_variables : VARIABLE
                        | lista_variables COMA VARIABLE
     '''
+    # p[0] = p[1]
 
 
 def p_tipo_dato(p):
@@ -79,24 +80,24 @@ def p_tipo_dato(p):
                  | INT
                  | STR
     '''
-    p[0] = p[1]
+    # p[0] = p[1]
 
 
 def p_seleccion(p):
     '''seleccion : IF A_PARENTESIS condicion C_PARENTESIS bloque
                  | IF A_PARENTESIS condicion C_PARENTESIS bloque ELSE bloque
     '''
-    if p[3]:
-        p[0] = p[5]
-    else:
-        if len(p) == 8:
-            p[0] = p[7]
+    # if p[3]:
+    #     p[0] = p[5]
+    # else:
+    #     if len(p) == 8:
+    #         p[0] = p[7]
 
 
 def p_iteracion(p):
     '''iteracion : WHILE A_PARENTESIS condicion C_PARENTESIS bloque'''
-    if p[3]:
-        p[0] = p[6]
+    # if p[3]:
+    #     p[0] = p[6]
 
 
 def p_condicion(p):
@@ -105,25 +106,26 @@ def p_condicion(p):
                  | NOT comparacion
                  | comparacion
     '''
-    match len(p):
-        case 4: p[0] = p[1] or p[3] if p[2] == 'or' else p[1] and p[3]
-        case 3: p[0] = not bool(p[2])
-        case _: p[0] = bool(p[1])
+    # print(p[0], p[1])
+    # match len(p):
+    #     case 4: p[0] = p[1] or p[3] if p[2] == 'or' else p[1] and p[3]
+    #     case 3: p[0] = not bool(p[2])
+    #     case _: p[0] = bool(p[1])
 
 
 def p_comparacion(p):
     '''comparacion : expresion comparador expresion
                    | elemento
     '''
-    if len(p) == 4:
-        match p[2]:
-            case '<=': p[0] = p[1] <= p[3]
-            case '>=': p[0] = p[1] >= p[3]
-            case '==': p[0] = p[1] == p[3]
-            case '>': p[0] = p[1] > p[3]
-            case '<': p[0] = p[1] < p[3]
-    if len(p) == 2:
-        p[0] = bool(p[1])
+    # if len(p) == 4:
+    #     match p[2]:
+    #         case '<=': p[0] = p[1] <= p[3]
+    #         case '>=': p[0] = p[1] >= p[3]
+    #         case '==': p[0] = p[1] == p[3]
+    #         case '>': p[0] = p[1] > p[3]
+    #         case '<': p[0] = p[1] < p[3]
+    # if len(p) == 2:
+    #     p[0] = bool(p[1])
 
 
 def p_comparador(p):
@@ -134,12 +136,12 @@ def p_comparador(p):
                   | IGUALI
                   | DISTINTOQ
      '''
-    p[0] = p[1]
+    # p[0] = p[1]
 
 
 def p_bloque(p):
     '''bloque : A_LLAVE programa C_LLAVE'''
-    p[0] = p[2]
+    # p[0] = p[2]
 
 
 def p_asignacion(p):
@@ -147,80 +149,80 @@ def p_asignacion(p):
                   | VARIABLE ASIGNACION expresion
                   | VARIABLE ASIGNACION condicion
     '''
-    p[0] = p[3]
+    # p[0] = p[3]
 
 
-def p_sumarLosUltimos(p):
-    '''suma_los_ultimos : SUMA_LOS_ULTIMOS  A_PARENTESIS N_ENTERO PUNTO_Y_COMA  lista  C_PARENTESIS
+def p_sumar_los_ultimos(p):
+    '''sumar_los_ultimos : SUMAR_LOS_ULTIMOS A_PARENTESIS N_ENTERO PUNTO_Y_COMA lista C_PARENTESIS
     '''
-    lista = p[5]
-    n = len(lista)-p[3]
-    ultimos = lista[n:]
-    p[0] = 0
-    for num in ultimos:
-        p[0] += num
+    # lista = p[5]
+    # n = len(lista)-p[3]
+    # ultimos = lista[n:]
+    # p[0] = 0
+    # for num in ultimos:
+    #     p[0] += num
 
 
-# def p_contar_binarios(p):
-#     '''contar_binarios : CONTAR_BINARIOS A_PARENTESIS lista C_PARENTESIS'''
-#     p[0] = p[1]
+def p_contar_binarios(p):
+    '''contar_binarios : CONTAR_BINARIOS A_PARENTESIS lista C_PARENTESIS'''
+    # p[0] = p[1]
 
 
 def p_lista(p):
     '''lista : A_CORCHETE elementos C_CORCHETE
              | A_CORCHETE C_CORCHETE
     '''
-    if len(p) == 4:
-        p[0] = p[2]
-    if len(p) == 3:
-        p[0] = []
+    # if len(p) == 4:
+    #     p[0] = p[2]
+    # if len(p) == 3:
+    #     p[0] = []
 
 
 def p_expresion_mas(p):
     'expresion : expresion MAS termino'
-    p[0] = p[1] + p[3]
+    # p[0] = p[1] + p[3]
 
 
 def p_expresion_menos(p):
     'expresion : expresion MENOS termino'
-    p[0] = p[1] - p[3]
+    # p[0] = p[1] - p[3]
 
 
 def p_expresion_termino(p):
     'expresion : termino'
-    p[0] = p[1]
+    # p[0] = p[1]
 
 
 def p_termino_multiplicacion(p):
     'termino : termino MULTIPLICACION elemento'
-    p[0] = p[1] * p[3]
+    # p[0] = p[1] * p[3]
 
 
 def p_termino_division(p):
     'termino : termino DIVISION elemento'
-    if type(p[1]) == str or type(p[3]) == str:
-        print("no se pueden dividir cadenas")
-    else:
-        p[0] = p[1] / p[3]
+    # if type(p[1]) == str or type(p[3]) == str:
+    #     print("no se pueden dividir cadenas")
+    # else:
+    #     p[0] = p[1] / p[3]
 
 
 def p_termino_elemento(p):
     'termino : elemento'
-    p[0] = p[1]
+    # p[0] = p[1]
 
 
 def p_elemento_expresion(p):
     'elemento : A_PARENTESIS expresion C_PARENTESIS'
-    p[0] = p[2]
+    # p[0] = p[2]
 
 
 def p_elementos(p):
     '''elementos : elementos COMA elemento
                  | elemento'''
-    if len(p) == 4:
-        p[0] = p[1] + [p[3]]
-    else:
-        p[0] = [p[1]]
+    # if len(p) == 4:
+    #     p[0] = p[1] + [p[3]]
+    # else:
+    #     p[0] = [p[1]]
 
 
 def p_elemento(p):
@@ -229,23 +231,23 @@ def p_elemento(p):
                 | N_BINARIO
                 | VARIABLE
                 | CADENA
-                | suma_los_ultimos
-                | condicion
+                | sumar_los_ultimos
+                | contar_binarios
     '''
-    p[0] = p[1]
+    # p[0] = p[1]
 
 # Error rule for syntax errors
 
 
 def p_error(p):
-    print(f"Syntax error in linea {p.lineno} at value {p.value}")
+    print(f"Syntax error in line {p.lineno}")
 
 
 # Build the parser
 parser = yacc.yacc()
 path = Path("./TESTS/parser_test.txt")
 code = path.read_text()
-print(code)
 result = parser.parse(code)
-# print(tabla_de_simbolos)
-print(result)
+print(tabla_de_simbolos)
+persistir_tabla_de_simbolos()
+# print(result)

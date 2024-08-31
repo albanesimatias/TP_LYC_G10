@@ -2,9 +2,6 @@ import ply.lex as lex
 from pathlib import Path
 from utils import guardar_en_tabla_de_simbolos
 
-# 'var':['tipo','long','valor']
-# tabla_de_simbolos = {}
-
 reserved = {
     'if': 'IF',
     'else': 'ELSE',
@@ -18,7 +15,8 @@ reserved = {
     'or': 'OR',
     'and': 'AND',
     'not': 'NOT',
-    'suma_los_ultimos': 'SUMA_LOS_ULTIMOS',
+    'sumar_los_ultimos': 'SUMAR_LOS_ULTIMOS',
+    'contar_binarios': 'CONTAR_BINARIOS'
 }
 
 tokens = [
@@ -82,19 +80,21 @@ def t_COMENTARIO(t):
 def t_VARIABLE(t):
     r'[a-zA-Z](\w|_|-)*'
     t.type = reserved.get(t.value, 'VARIABLE')
+    guardar_en_tabla_de_simbolos(t)
     return t
 
 
 def t_CADENA(t):
     r'"[^"]*"'
-    # guardar_en_tabla_de_simbolos("VARIABLE", "hola", tabla_de_simbolos)
+    guardar_en_tabla_de_simbolos(t)
     if len(t.value) > 40:
-        raise Exception('La cadena exed el limite de caracteres (MAX_40)')
+        raise Exception('La cadena exede el limite de caracteres (MAX_40)')
     return t
 
 
 def t_N_BINARIO(t):
     r'(0|1)+b'
+    guardar_en_tabla_de_simbolos(t)
     return t
 
 
@@ -103,6 +103,7 @@ def t_N_DECIMAL(t):
     if len(t.value) > 10:
         raise Exception('Limite de 32bits para numeros decimales')
     t.value = float(t.value)
+    guardar_en_tabla_de_simbolos(t)
     return t
 
 
@@ -111,6 +112,7 @@ def t_N_ENTERO(t):
     if len(t.value) > 5:
         raise Exception('Limite de 16bits para numeros enteros')
     t.value = int(t.value)
+    guardar_en_tabla_de_simbolos(t)
     return t
 
 
@@ -133,13 +135,9 @@ def t_error(t):
 
 # Build the lexer
 lexer = lex.lex()
-
-# path = Path('./TESTS/test_01.txt')
+# path = Path('./TESTS/parser_test.txt')
 # data = path.read_text()
-# lexer.input('hola var "cadena" 1 1.5')
-# print(tabla_de_simbolos)
-# guardar_en_tabla_de_simbolos("VARIABLE", "hola", tabla_de_simbolos)
-# print(tabla_de_simbolos)
+# lexer.input(data)
 # while True:
 #     token = lexer.token()
 #     if not token:
