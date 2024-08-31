@@ -20,5 +20,5 @@ def ejecutar_parser():
     persistir_tabla_de_simbolos()
 
 
-# ejecutar_lexter()
+ejecutar_lexter()
 ejecutar_parser()
