@@ -136,7 +136,7 @@ def p_condicion(p):
 
 def p_comparacion(p):
     '''comparacion : expresion comparador expresion
-                   | elemento
+                   | expresion
     '''
     # if len(p) == 4:
     #     match p[2]:
