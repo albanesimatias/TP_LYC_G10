@@ -82,7 +82,7 @@ def p_lista_variables(p):
                        | lista_variables COMA VARIABLE
     '''
     if len(p) == 4:
-        print(f'lista_variables ; variable -> lista_variables')
+        print(f'lista_variables , variable -> lista_variables')
     else:
         print('VARIABLE -> lista_variables')
 
@@ -173,7 +173,6 @@ def p_bloque(p):
 
 def p_asignacion(p):
     '''asignacion : VARIABLE ASIGNACION lista
-                  | VARIABLE ASIGNACION expresion
                   | VARIABLE ASIGNACION condicion
     '''
     # p[0] = p[3]
