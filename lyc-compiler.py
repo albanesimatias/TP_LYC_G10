@@ -4,7 +4,7 @@ from pathlib import Path
 
 
 def ejecutar_lexter():
-    path_lexter = Path('_internal\TESTS\lexer_test.txt')
+    path_lexter = Path('TESTS\lexer_test.txt')
     data = path_lexter.read_text()
     lexer.input(data)
     while True:
@@ -15,7 +15,7 @@ def ejecutar_lexter():
 
 
 def ejecutar_parser():
-    path_parser = Path("_internal\TESTS\parser_test.txt")
+    path_parser = Path("TESTS\parser_test.txt")
     code = path_parser.read_text()
     parser.parse(code)
     persistir_tabla_de_simbolos()
