@@ -5,42 +5,30 @@
 - Integrante 2: Matias Gallues
 - Integrante 3: Agustin Federico
 
-## Ejecución
+## Instalacion y ejecución
 
 **Requisitos**
    -Python 3.12
    -pip
-   -Paquete 'ply'
+   -'ply'
 
 Para ejecutar el codigo, sigue los siguientes pasos:
 
-1. **Clonar el repositorio:**
-   ```bash
-   git clone https://github.com/albanesimatias/TP_LYC_G10.git
-   ```
+1. **Descargar el zip del tag 1.0.0**
 
 2. **Instalar dependencias**
 
-   Si ya tenes pipenv instalado podes ejecutar:
-   ```bash
-   pipenv install
-   ```
-   Si no tenes pipenv podes instalar 'ply' globalmente
    ```bash
    pip install ply
    ```
 
 3. **Ejecutar**
 
-   Si estas usando pipenv
-   ```bash
-   pipenv shell
-   ```
-   ```bash
-   python parser.py
-   ```
+   lyc-compiler.exe
 
-   Si instalaste 'ply' globalmente simplemente ejecuta:
+   El mismo ejecutara en primera instancia un test del lexico donde verificamos que reconosca los tokens correctamente y luego se ejecutara automaticamente el parser con su propio test el cual mostrara las reglas que se van aplicando. Los archivo de tests estan dentro de la carpeta /TESTS/
+
+   Tambien se puede ejecutar directamente el lyc-compiler.py con el siguiente comando por consola.
    ```bash
-   python parser.py
+   python lyc-compiler.py
    ```
