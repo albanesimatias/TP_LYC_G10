@@ -102,6 +102,7 @@ def p_seleccion(p):
     '''
     if len(p) == 8:
         print('IF ( condicion ) bloque ELSE bloque -> seleccion')
+
     else:
         print('IF ( condicion ) bloque -> seleccion')
 
@@ -125,14 +126,18 @@ def p_condicion(p):
         print('comparacion -> condicion')
 
 
-def p_comparacion(p):
+def p_comparacion(p):  # < <= > >= ==
     '''comparacion : expresion comparador expresion
                    | expresion
     '''
+    # diccionario = {'<=':'BGE'}
+    # crear_terceto(CMP,exp1,exp1)
+    # aux=crear_terceto(BGE,None,None)
+    # apilar(aux)
     if len(p) == 4:
         print('expresion comparador expresion -> comparacion')
     else:
-        print('elemento -> comparacion')
+        print('expresion -> comparacion')
 
 
 def p_comparador(p):
@@ -153,7 +158,6 @@ def p_bloque(p):
 
 def p_asignacion(p):
     '''asignacion : VARIABLE ASIGNACION lista
-                  | VARIABLE ASIGNACION expresion
                   | VARIABLE ASIGNACION condicion
     '''
     print(f'VARIABLE ASIGNACION {p.slice[3].type} -> asignacion')
@@ -216,8 +220,13 @@ def p_termino_elemento(p):
 
 
 def p_elemento_expresion(p):
-    'elemento : A_PARENTESIS expresion C_PARENTESIS'
+    'elemento : A_PARENTESIS regla_parentesis expresion C_PARENTESIS'
     print('( expresion ) -> elemento')
+
+
+def p_regla_parentesis(p):
+    'regla_parentesis :'
+    print('------regla parentesis-------')
 
 
 def p_elementos(p):
@@ -237,7 +246,7 @@ def p_elemento(p):
                 | VARIABLE
                 | CADENA
                 | sumar_los_ultimos
-                | contar_binarios
+                | contar_binarios [1]
     '''
     print(f'{p.slice[1].type} -> elemento')
 
