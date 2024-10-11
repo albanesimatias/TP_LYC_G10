@@ -16,6 +16,7 @@ reserved = {
     'or': 'OR',
     'and': 'AND',
     'not': 'NOT',
+    'bin': 'BIN',
     'sumar_los_ultimos': 'SUMAR_LOS_ULTIMOS',
     'contar_binarios': 'CONTAR_BINARIOS'
 }
