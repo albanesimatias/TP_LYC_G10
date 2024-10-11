@@ -91,6 +91,7 @@ def p_tipo_dato(p):
     '''tipo_dato : FLOAT
                  | INT
                  | STR
+                 | BIN
     '''
     print(f'{p.slice[1].type} -> tipo_dato')
 
@@ -99,11 +100,6 @@ def p_seleccion(p):
     '''seleccion : IF A_PARENTESIS condicion C_PARENTESIS bloque
                  | IF A_PARENTESIS condicion C_PARENTESIS bloque ELSE bloque
     '''
-    # if p[3]:
-    #     p[0] = p[5]
-    # else:
-    #     if len(p) == 8:
-    #         p[0] = p[7]
     if len(p) == 8:
         print('IF ( condicion ) bloque ELSE bloque -> seleccion')
     else:
@@ -121,11 +117,6 @@ def p_condicion(p):
                  | NOT comparacion
                  | comparacion
     '''
-    # print(p[0], p[1])
-    # match len(p):
-    #     case 4: p[0] = p[1] or p[3] if p[2] == 'or' else p[1] and p[3]
-    #     case 3: p[0] = not bool(p[2])
-    #     case _: p[0] = bool(p[1])
     if len(p) == 4:
         print(f'comparacion {p.slice[2].type} comparacion -> condicion')
     if len(p) == 3:
@@ -138,15 +129,6 @@ def p_comparacion(p):
     '''comparacion : expresion comparador expresion
                    | expresion
     '''
-    # if len(p) == 4:
-    #     match p[2]:
-    #         case '<=': p[0] = p[1] <= p[3]
-    #         case '>=': p[0] = p[1] >= p[3]
-    #         case '==': p[0] = p[1] == p[3]
-    #         case '>': p[0] = p[1] > p[3]
-    #         case '<': p[0] = p[1] < p[3]
-    # if len(p) == 2:
-    #     p[0] = bool(p[1])
     if len(p) == 4:
         print('expresion comparador expresion -> comparacion')
     else:
@@ -161,13 +143,11 @@ def p_comparador(p):
                   | IGUALI
                   | DISTINTOQ
      '''
-    # p[0] = p[1]
     print(f'{p.slice[1].type} -> comparador')
 
 
 def p_bloque(p):
     '''bloque : A_LLAVE programa C_LLAVE'''
-    # p[0] = p[2]
     print('{ programa } -> bloque')
 
 
@@ -176,19 +156,12 @@ def p_asignacion(p):
                   | VARIABLE ASIGNACION expresion
                   | VARIABLE ASIGNACION condicion
     '''
-    # p[0] = p[3]
     print(f'VARIABLE ASIGNACION {p.slice[3].type} -> asignacion')
 
 
 def p_sumar_los_ultimos(p):
     '''sumar_los_ultimos : SUMAR_LOS_ULTIMOS A_PARENTESIS N_ENTERO PUNTO_Y_COMA lista C_PARENTESIS
     '''
-    # lista = p[5]
-    # n = len(lista)-p[3]
-    # ultimos = lista[n:]
-    # p[0] = 0
-    # for num in ultimos:
-    #     p[0] += num
     print('SUMAR_LOS_ULTIMOS (N_ENTERO ; lista ) -> sumar_los_ultimos')
 
 
@@ -201,10 +174,6 @@ def p_lista(p):
     '''lista : A_CORCHETE elementos C_CORCHETE
              | A_CORCHETE C_CORCHETE
     '''
-    # if len(p) == 4:
-    #     p[0] = p[2]
-    # if len(p) == 3:
-    #     p[0] = []
     if len(p) == 4:
         print('[elementos] -> lista')
     else:
@@ -213,62 +182,48 @@ def p_lista(p):
 
 def p_expresion_mas(p):
     'expresion : expresion MAS termino'
-    # p[0] = p[1] + p[3]
     print('expresion + termino -> expresion')
 
 
 def p_expresion_menos_unario(p):
     'expresion : MENOS expresion %prec UMENOS'
-    # p[0] = -p[2]
     print('MENOS expresion %prec UMENOS -> expresion')
 
 
 def p_expresion_menos(p):
     'expresion : expresion MENOS termino'
-    # p[0] = p[1] - p[3]
     print('expresion - termino -> expresion')
 
 
 def p_expresion_termino(p):
     'expresion : termino'
-    # p[0] = p[1]
     print('termino -> expresion')
 
 
 def p_termino_multiplicacion(p):
     'termino : termino MULTIPLICACION elemento'
-    # p[0] = p[1] * p[3]
     print('termino * elemento -> termino')
 
 
 def p_termino_division(p):
     'termino : termino DIVISION elemento'
-    # if type(p[1]) == str or type(p[3]) == str:
-    #     print("no se pueden dividir cadenas")
-    # else:
-    #     p[0] = p[1] / p[3]
     print('termino / elemento -> termino')
 
 
 def p_termino_elemento(p):
     'termino : elemento'
-    # p[0] = p[1]
     print('elemento -> termino')
 
 
 def p_elemento_expresion(p):
     'elemento : A_PARENTESIS expresion C_PARENTESIS'
-    # p[0] = p[2]
     print('( expresion ) -> elemento')
 
 
 def p_elementos(p):
     '''elementos : elementos COMA elemento
                  | elemento'''
-    # if len(p) == 4:
-    #     p[0] = p[1] + [p[3]]
-    # else:
-    #     p[0] = [p[1]]
+
     if len(p) == 4:
         print('elementos , elemento -> elementos')
     else:
@@ -284,7 +239,6 @@ def p_elemento(p):
                 | sumar_los_ultimos
                 | contar_binarios
     '''
-    # p[0] = p[1]
     print(f'{p.slice[1].type} -> elemento')
 
 
@@ -295,3 +249,6 @@ def p_error(p):
 
 # Build the parser
 parser = yacc.yacc()
+path_parser = Path("./TESTS/parser_test2.txt")
+code = path_parser.read_text()
+parser.parse(code)
