@@ -24,13 +24,7 @@ class TercetosManager:
         self.lista[indice].actualizar_terceto(valor)
 
     def print_tercetos(self):
+        i = 0
         for terceto in self.lista:
-            print(terceto)
-
-
-tm = TercetosManager()
-tm.crear_terceto('+', 2, 3)
-tm.crear_terceto('-', 2, 3)
-index = tm.crear_terceto('=', 'a', None)
-tm.actualizar_terceto(index, 4)
-tm.print_tercetos()
+            print(f'[{i}] {terceto}')
+            i += 1

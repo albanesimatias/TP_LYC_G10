@@ -8,6 +8,9 @@ import ply.yacc as yacc  # analizador sintactico
 from pathlib import Path
 from utils import tabla_de_simbolos
 from utils import persistir_tabla_de_simbolos
+from tercetos_manager import TercetosManager
+
+tm = TercetosManager()
 
 precedence = (
     ('right', 'ASIGNACION'),
@@ -124,6 +127,7 @@ def p_condicion(p):
         print('NOT comparacion -> condicion')
     if len(p) == 2:
         print('comparacion -> condicion')
+        p[0] = p[1]
 
 
 def p_comparacion(p):  # < <= > >= ==
@@ -138,6 +142,7 @@ def p_comparacion(p):  # < <= > >= ==
         print('expresion comparador expresion -> comparacion')
     else:
         print('expresion -> comparacion')
+        p[0] = p[1]
 
 
 def p_comparador(p):
@@ -161,12 +166,21 @@ def p_asignacion(p):
                   | VARIABLE ASIGNACION condicion
     '''
     print(f'VARIABLE ASIGNACION {p.slice[3].type} -> asignacion')
+    p[0] = f'[{tm.crear_terceto('=', p[1], p[3])}]'
 
 
 def p_sumar_los_ultimos(p):
     '''sumar_los_ultimos : SUMAR_LOS_ULTIMOS A_PARENTESIS N_ENTERO PUNTO_Y_COMA lista C_PARENTESIS
     '''
     print('SUMAR_LOS_ULTIMOS (N_ENTERO ; lista ) -> sumar_los_ultimos')
+    lista = p[5]
+    # cant = len(lista)
+    # n_ultimos = p[3]
+    # if (n_ultimos > cant and n_ultimos < 1):
+    #    p[0] = f'[{tm.crear_terceto(0, None, None)}]'
+
+    # ultimos = lista[n_ultimos-1::]
+    # for elem in ultimos:
 
 
 def p_contar_binarios(p):
@@ -180,53 +194,58 @@ def p_lista(p):
     '''
     if len(p) == 4:
         print('[elementos] -> lista')
+        p[0] = p[2]
     else:
         print('[] -> lista')
+        p[0] = []
 
 
 def p_expresion_mas(p):
     'expresion : expresion MAS termino'
     print('expresion + termino -> expresion')
+    p[0] = f'[{tm.crear_terceto('+', p[1], p[3])}]'
 
 
 def p_expresion_menos_unario(p):
     'expresion : MENOS expresion %prec UMENOS'
     print('MENOS expresion %prec UMENOS -> expresion')
+    p[0] = f'[{tm.crear_terceto('-', p[2], None)}]'
 
 
 def p_expresion_menos(p):
     'expresion : expresion MENOS termino'
     print('expresion - termino -> expresion')
+    p[0] = f'[{tm.crear_terceto('-', p[1], p[3])}]'
 
 
 def p_expresion_termino(p):
     'expresion : termino'
     print('termino -> expresion')
+    p[0] = p[1]
 
 
 def p_termino_multiplicacion(p):
     'termino : termino MULTIPLICACION elemento'
     print('termino * elemento -> termino')
+    p[0] = f'[{tm.crear_terceto('*', p[1], p[3])}]'
 
 
 def p_termino_division(p):
     'termino : termino DIVISION elemento'
     print('termino / elemento -> termino')
+    p[0] = f'[{tm.crear_terceto('/', p[1], p[3])}]'
 
 
 def p_termino_elemento(p):
     'termino : elemento'
     print('elemento -> termino')
+    p[0] = p[1]
 
 
 def p_elemento_expresion(p):
-    'elemento : A_PARENTESIS regla_parentesis expresion C_PARENTESIS'
+    'elemento : A_PARENTESIS expresion C_PARENTESIS'
     print('( expresion ) -> elemento')
-
-
-def p_regla_parentesis(p):
-    'regla_parentesis :'
-    print('------regla parentesis-------')
+    p[0] = p[2]
 
 
 def p_elementos(p):
@@ -235,8 +254,12 @@ def p_elementos(p):
 
     if len(p) == 4:
         print('elementos , elemento -> elementos')
+        if band_ultimos:
+            p[0] = p[1] + [p[3]]
     else:
         print('elemento -> elementos')
+        # p[0] = p[1]
+        p[0] = [p[1]]
 
 
 def p_elemento(p):
@@ -246,12 +269,14 @@ def p_elemento(p):
                 | VARIABLE
                 | CADENA
                 | sumar_los_ultimos
-                | contar_binarios [1]
+                | contar_binarios
     '''
     print(f'{p.slice[1].type} -> elemento')
-
+    p[0] = p[1]
 
 # Error rule for syntax errors
+
+
 def p_error(p):
     print(f"Error en la linea {p.lineno or ''} at {p.value or ''}")
 
@@ -261,3 +286,4 @@ parser = yacc.yacc()
 path_parser = Path("./TESTS/parser_test2.txt")
 code = path_parser.read_text()
 parser.parse(code)
+tm.print_tercetos()

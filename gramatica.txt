@@ -1,0 +1,45 @@
+i_elemento
+i_expresion
+i_termino
+
+'expresion : expresion MAS termino'              i_expresion = crear_terceto('+',i_expresion,i_termino)
+'expresion : MENOS expresion %prec UMENOS'
+'expresion : expresion MENOS termino'            i_expresion = crear_terceto('-',i_expresion,i_termino)
+'expresion : termino'                            i_expresion = i_termino
+'termino : termino MULTIPLICACION elemento'      i_termino = crear_terceto('*',i_termino,i_elemento)
+'termino : termino DIVISION elemento'            i_termino = crear_terceto('/',i_termino,i_elemento)
+'termino : elemento'                             i_termino = i_elemento
+'elemento : A_PARENTESIS expresion C_PARENTESIS' i_elemento = i expresion
+'''elemento : N_ENTERO                           i_elem = crear_terceto(p[1])
+            | N_DECIMAL                          i_elem = crear_terceto(p[1])
+            | N_BINARIO                          i_elem = crear_terceto(p[1])
+            | VARIABLE                           i_elem = crear_terceto(p[1])
+            | CADENA                             i_elem =crear_terceto(p[1])
+            | sumar_los_ultimos
+            | contar_binarios
+
+
+id = 1 + 2 * 3 
+
+lista = [0,1,2,3,4]
+[0] (lista,None,None)
+[1] (cte,None,None)
+[2] (cte,None,None)
+[3] (cte,None,None)
+[4] (finlista,None,None)
+[5] (=,id,[0])
+
+sumar_los_ultimos(2,[1,2,3,4,5])
+
+[1,2,3]
+len lista = 3 -1
+n_ultimos -= 1
+
+
+
+lista = [3,4,5]
+[+,2,3]
+[+,[1],4]
+[+,[2],5]
+[=,id,[3]]
+
