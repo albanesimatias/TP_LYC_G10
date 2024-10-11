@@ -254,8 +254,7 @@ def p_elementos(p):
 
     if len(p) == 4:
         print('elementos , elemento -> elementos')
-        if band_ultimos:
-            p[0] = p[1] + [p[3]]
+        p[0] = p[1] + [p[3]]
     else:
         print('elemento -> elementos')
         # p[0] = p[1]
