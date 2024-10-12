@@ -10,11 +10,11 @@ i_termino
 'termino : termino DIVISION elemento'            i_termino = crear_terceto('/',i_termino,i_elemento)
 'termino : elemento'                             i_termino = i_elemento
 'elemento : A_PARENTESIS expresion C_PARENTESIS' i_elemento = i expresion
-'''elemento : N_ENTERO                           i_elem = crear_terceto(p[1])
-            | N_DECIMAL                          i_elem = crear_terceto(p[1])
-            | N_BINARIO                          i_elem = crear_terceto(p[1])
-            | VARIABLE                           i_elem = crear_terceto(p[1])
-            | CADENA                             i_elem =crear_terceto(p[1])
+'''elemento : N_ENTERO                          
+            | N_DECIMAL                         
+            | N_BINARIO                         
+            | VARIABLE                          
+            | CADENA                            
             | sumar_los_ultimos
             | contar_binarios
 

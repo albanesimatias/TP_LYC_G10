@@ -10,6 +10,14 @@ class Constantes:
     MAX_LEN_CAD = 40
 
 
+conversion_tipos = {
+    'N_BINARIO': 'bin',
+    'N_ENTERO': 'int',
+    'N_DECIMAL': 'float',
+    'CADENA': 'str',
+    'VARIABLE': None
+}
+
 tabla_de_simbolos = {}
 
 
@@ -21,10 +29,17 @@ def guardar_en_tabla_de_simbolos(token):
         if token.type == 'VARIABLE':
             const_name = token.value
         tabla_de_simbolos[const_name] = {
-            'tipo': None, 'valor': t_value, 'longitud': None}
+            'tipo': conversion_tipos[token.type], 'valor': t_value, 'longitud': None}
         if token.type == 'CADENA':
             tabla_de_simbolos[const_name] = {
-                'tipo': None, 'valor': t_value, 'longitud': len(t_value)}
+                'tipo': conversion_tipos[token.type], 'valor': t_value, 'longitud': len(t_value)}
+
+
+def actualizar_en_tabla(id, tipo):
+    if not tabla_de_simbolos[id]['tipo']:
+        tabla_de_simbolos[id]['tipo'] = tipo
+        return True
+    return False
 
 
 def persistir_tabla_de_simbolos():

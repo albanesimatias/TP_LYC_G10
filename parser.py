@@ -6,49 +6,49 @@
 from lexer import tokens
 import ply.yacc as yacc  # analizador sintactico
 from pathlib import Path
-from utils import tabla_de_simbolos
+from utils import tabla_de_simbolos, actualizar_en_tabla
 from utils import persistir_tabla_de_simbolos
+
 from tercetos_manager import TercetosManager
-from queue import Queue,LifoQueue
+from queue import Queue, LifoQueue
 
 tm = TercetosManager()
-auxCantElementos=0
-auxComparador=0
+auxCantElementos = 0
+auxComparador = 0
 
 
 diccionarioComparadores = {
-    ">="    :   "BLT",
-    ">"     :   "BLE",
-    "<="    :   "BGT",
-    "<"     :   "BGE",
-    "<>"    :   "BEQ",
-    "=="    :   "BNE"
+    ">=":   "BLT",
+    ">":   "BLE",
+    "<=":   "BGT",
+    "<":   "BGE",
+    "<>":   "BEQ",
+    "==":   "BNE"
 }
 
-diccionarioComparadoresNot={
-    ">="    :   "BGE",
-    ">"     :   "BGT",
-    "<="    :   "BLE",
-    "<"     :   "BLT",
-    "<>"    :   "BNE",
-    "=="    :   "BEQ"
+diccionarioComparadoresNot = {
+    ">=":   "BGE",
+    ">":   "BGT",
+    "<=":   "BLE",
+    "<":   "BLT",
+    "<>":   "BNE",
+    "==":   "BEQ"
 }
 
-pilaComparadores= LifoQueue(0)
-pilaCantComparadores=LifoQueue(0)
-pilaVariables=LifoQueue(0)
+pilaComparadores = LifoQueue(0)
+pilaCantComparadores = LifoQueue(0)
+pilaVariables = LifoQueue(0)
+banderaNot = False
 
-#bandera_sumar_ultimos=False
-banderaNot=False
 
 def obtenerIndiceInt(variableString):
-    aux=variableString[1]
-    indice=2
-    while(indice<len(variableString)-1):
-        aux=aux+variableString[indice]
-        indice=indice+1
-    
+    aux = variableString[1]
+    indice = 2
+    while (indice < len(variableString)-1):
+        aux = aux+variableString[indice]
+        indice = indice+1
     return int(aux)
+
 
 precedence = (
     ('right', 'ASIGNACION'),
@@ -59,7 +59,6 @@ precedence = (
     ('left', 'MULTIPLICACION', 'DIVISION'),
     ('left', 'A_PARENTESIS', 'C_PARENTESIS'),
 )
-
 
 
 def p_start(p):
@@ -91,11 +90,13 @@ def p_sentencia(p):
 def p_read(p):
     '''read : READ A_PARENTESIS elemento C_PARENTESIS'''
     print(f'READ ( elemento ) -> read')
+    p[0] = tm.crear_terceto('read', p[3], None)
 
 
 def p_write(p):
     '''write : WRITE A_PARENTESIS elemento C_PARENTESIS'''
     print(f'WRITE ( elemento ) -> write')
+    p[0] = tm.crear_terceto('write', p[3], None)
 
 
 def p_bloque_declaracion(p):
@@ -111,16 +112,17 @@ def p_declaraciones(p):
     if len(p) == 3:
         print(f'declaraciones declaracion -> declaraciones')
     else:
-        print(f' declaracion -> declaraciones')
+        print(f'declaracion -> declaraciones')
 
 
 def p_declaracion(p):
     '''declaracion : lista_variables DOS_PUNTOS tipo_dato PUNTO_Y_COMA'''
-    print(f' lista_variables : tipo_dato ; -> declaracion')
-    while(not pilaVariables.empty()):
-        auxVar=pilaVariables.get()
-
-#DEFINIR
+    print(f'lista_variables : tipo_dato ; -> declaracion')
+    lista_ids = p[1]
+    tipo_dato = p[3]
+    for id in lista_ids:
+        if not actualizar_en_tabla(id, tipo_dato):
+            raise Exception(f'Se intento declarar la variable "{id}" que ya estaba declarada')
 
 
 def p_lista_variables(p):
@@ -129,10 +131,10 @@ def p_lista_variables(p):
     '''
     if len(p) == 4:
         print(f'lista_variables ; variable -> lista_variables')
-        pilaVariables.put(p[3])
+        p[0] = p[1] + [p[3]]
     else:
         print('VARIABLE -> lista_variables')
-        pilaVariables.put(p[1])
+        p[0] = [p[1]]
 
 
 def p_tipo_dato(p):
@@ -142,7 +144,7 @@ def p_tipo_dato(p):
                  | BIN
     '''
     print(f'{p.slice[1].type} -> tipo_dato')
-    p[0]= f'[{tm.crear_terceto(p[1],None,None)}]'
+    p[0] = p[1]
 
 
 def p_seleccion(p):
@@ -151,47 +153,45 @@ def p_seleccion(p):
     '''
     if len(p) == 9:
         print('IF ( condicion ) bloque ELSE bloque -> seleccion')
-        auxIndice=obtenerIndiceInt(p[6])
-        tm.actualizar_terceto(int(auxIndice),f'[{tm.indice}]')
-        p[0]=p[3]
+        auxIndice = obtenerIndiceInt(p[6])
+        tm.actualizar_terceto(int(auxIndice), f'[{tm.indice}]')
+        p[0] = p[3]
 
     else:
         print('IF ( condicion ) bloque -> seleccion')
         auxCant = pilaCantComparadores.get()
-        while(auxCant>0):
+        while (auxCant > 0):
             auxIndice = pilaComparadores.get()
-            tm.actualizar_terceto(auxIndice,f'[{tm.indice}]')
-            auxCant=auxCant-1
-        p[0]=p[3]
+            tm.actualizar_terceto(auxIndice, f'[{tm.indice}]')
+            auxCant = auxCant-1
+        p[0] = p[3]
 
 
 def p_bandera_else(p):
     'bandera_else : '
-    auxCant= pilaCantComparadores.get()
-    p[0] = tm.crear_terceto("BI",None,None)
-    auxIndice=0
-    while(auxCant>0):
+    auxCant = pilaCantComparadores.get()
+    p[0] = tm.crear_terceto("BI", None, None)
+    auxIndice = 0
+    while (auxCant > 0):
         auxIndice = pilaComparadores.get()
-        tm.actualizar_terceto(auxIndice,f'[{tm.indice}]')
-        auxCant=auxCant-1
-    p[0]=f'[{p[0]}]'
-        
+        tm.actualizar_terceto(auxIndice, f'[{tm.indice}]')
+        auxCant = auxCant-1
+    p[0] = f'[{p[0]}]'
 
 
 def p_iteracion(p):
     '''iteracion : WHILE A_PARENTESIS condicion C_PARENTESIS bloque'''
     print(' WHILE ( condicion ) bloque -> iteracion')
-    auxCant= pilaCantComparadores.get()
-    p[0]= tm.crear_terceto("BI",None,None)
-    auxIndice=0
-    if(auxCant==2):
-        auxIndice= pilaComparadores.get()
-        tm.actualizar_terceto(auxIndice,f'[{tm.indice}]')
-    auxIndice=pilaComparadores.get()
-    tm.actualizar_terceto(auxIndice,f'[{tm.indice}]')
-    tm.actualizar_terceto(p[0],auxIndice-1)
-    p[0]=f'[{p[0]}]'
-
+    auxCant = pilaCantComparadores.get()
+    p[0] = tm.crear_terceto("BI", None, None)
+    auxIndice = 0
+    if (auxCant == 2):
+        auxIndice = pilaComparadores.get()
+        tm.actualizar_terceto(auxIndice, f'[{tm.indice}]')
+    auxIndice = pilaComparadores.get()
+    tm.actualizar_terceto(auxIndice, f'[{tm.indice}]')
+    tm.actualizar_terceto(p[0], auxIndice-1)
+    p[0] = f'[{p[0]}]'
 
 
 def p_condicion(p):
@@ -203,54 +203,51 @@ def p_condicion(p):
     if len(p) == 5:
         print(f'comparacion {p.slice[2].type} comparacion -> condicion')
         aux = int(p[2])
-        tm.actualizar_terceto(aux,f'[{tm.indice}]')
+        tm.actualizar_terceto(aux, f'[{tm.indice}]')
         pilaCantComparadores.put(1)
-        p[0]=p[1]
+        p[0] = p[1]
 
     if len(p) == 4:
-        if(p[1]=='not'):
+        if (p[1] == 'not'):
             print('NOT comparacion -> condicion')
             pilaCantComparadores.put(1)
-            p[0]=p[3]
-            globals()['banderaNot']=False
+            p[0] = p[3]
+            globals()['banderaNot'] = False
         else:
             print(f'comparacion {p.slice[2].type} comparacion -> condicion')
             pilaCantComparadores.put(2)
-            p[0]=p[1]
+            p[0] = p[1]
 
     if len(p) == 2:
         print('comparacion -> condicion')
         pilaCantComparadores.put(1)
         p[0] = p[1]
 
+
 def p_bandera_or(p):
     'bandera_or : '
-    #p[0] = f'[{tm.crear_terceto("BI",None,None)}]'
-    p[0] = tm.crear_terceto("BI",None,None)
-    tm.actualizar_terceto(pilaComparadores.get(),f'[{tm.indice}]')
+    p[0] = tm.crear_terceto("BI", None, None)
+    tm.actualizar_terceto(pilaComparadores.get(), f'[{tm.indice}]')
+
 
 def p_bandera_not(p):
     'bandera_not : '
-    globals()['banderaNot']=True
-    #banderaNot = True
+    globals()['banderaNot'] = True
+
 
 def p_comparacion(p):  # < <= > >= ==
     '''comparacion : expresion comparador expresion
                    | expresion
     '''
-    # diccionario = {'<=':'BGE'}
-    # crear_terceto(CMP,exp1,exp1)
-    # aux=crear_terceto(BGE,None,None)
-    # apilar(aux)
     if len(p) == 4:
         print('expresion comparador expresion -> comparacion')
-        p[0] = f'[{tm.crear_terceto('CMP',p[1],p[3])}]'
+        p[0] = f'[{tm.crear_terceto('CMP', p[1], p[3])}]'
         global auxComparador
-        pilaComparadores.put(tm.crear_terceto(auxComparador,None,None))
+        pilaComparadores.put(tm.crear_terceto(auxComparador, None, None))
     else:
         print('expresion -> comparacion')
-        p[0] = f'[{tm.crear_terceto("CMP",p[1],0)}]'
-        pilaComparadores.put(tm.crear_terceto("BEQ",None,None))
+        p[0] = f'[{tm.crear_terceto("CMP", p[1], 0)}]'
+        pilaComparadores.put(tm.crear_terceto("BEQ", None, None))
 
 
 def p_comparador(p):
@@ -262,25 +259,18 @@ def p_comparador(p):
                   | DISTINTOQ
      '''
     print(f'{p.slice[1].type} -> comparador')
-    
-    global banderaNot
-    if(banderaNot):
-        #p[0] = f'[{tm.crear_terceto(diccionarioComparadoresNot.get(p[1]),None,None)}]'
-        #global auxComparador
-        globals()['auxComparador']=diccionarioComparadoresNot.get(p[1])
-        #p[0]=diccionarioComparadoresNot.get(p[1])
 
+    global banderaNot
+    if (banderaNot):
+        globals()['auxComparador'] = diccionarioComparadoresNot.get(p[1])
     else:
-        #p[0] = f'[{tm.crear_terceto(diccionarioComparadores.get(p[1]),None,None)}]'
-        #global auxComparador
-        globals()['auxComparador']=diccionarioComparadoresNot.get(p[1])
-        #p[0]=diccionarioComparadoresNot.get(p[1])
+        globals()['auxComparador'] = diccionarioComparadores.get(p[1])
 
 
 def p_bloque(p):
     '''bloque : A_LLAVE programa C_LLAVE'''
     print('{ programa } -> bloque')
-    p[0]=p[1]
+    p[0] = p[1]
 
 
 def p_asignacion(p):
@@ -291,22 +281,20 @@ def p_asignacion(p):
 
 
 def p_sumar_los_ultimos(p):
-    '''sumar_los_ultimos : SUMAR_LOS_ULTIMOS bandera_sumar_ultimos A_PARENTESIS N_ENTERO PUNTO_Y_COMA lista C_PARENTESIS
+    '''sumar_los_ultimos : SUMAR_LOS_ULTIMOS A_PARENTESIS N_ENTERO PUNTO_Y_COMA lista C_PARENTESIS
+                         | SUMAR_LOS_ULTIMOS A_PARENTESIS MENOS N_ENTERO PUNTO_Y_COMA lista C_PARENTESIS
     '''
     print('SUMAR_LOS_ULTIMOS (N_ENTERO ; lista ) -> sumar_los_ultimos')
-    lista = p[5]
-    cant = len(lista)
-    n_ultimos = p[3]
-    if (n_ultimos > cant and n_ultimos < 1):
-        p[0] = f'[{tm.crear_terceto(0, None, None)}]'
+    indice_terceto_anterior = f'[{tm.crear_terceto(0, None, None)}]'
+    if len(p) == 6:
+        lista = p[5]
+        n_ultimos = int(p[3])
+        if n_ultimos >= 1:
+            ultimos = lista[n_ultimos-1:]
+            for elem in ultimos:
+                indice_terceto_anterior = f'[{tm.crear_terceto('+', elem, indice_terceto_anterior)}]'
+    p[0] = indice_terceto_anterior
 
-    ultimos = lista[n_ultimos-1::]
-    #for elem in ultimos:
-
-
-def p_bandera_sumar_ultimos(p):
-    'bandera_sumar_ultimos : '
-    bandera_sumar_ultimos=True
 
 def p_contar_binarios(p):
     '''contar_binarios : CONTAR_BINARIOS A_PARENTESIS lista C_PARENTESIS'''
@@ -322,8 +310,7 @@ def p_lista(p):
         p[0] = p[2]
     else:
         print('[] -> lista')
-        p[0] = f'[{tm.crear_terceto(None,None,None)}]'
-    
+        p[0] = f'[{tm.crear_terceto(None, None, None)}]'
 
 
 def p_expresion_mas(p):
@@ -383,14 +370,7 @@ def p_elementos(p):
         p[0] = p[1] + [p[3]]
     else:
         print('elemento -> elementos')
-        
-        #if(bandera_sumar_ultimos):
-
-        
-        #p[0] = p[1]
-
-
-        #p[0] = [p[1]]
+        p[0] = [p[1]]
 
 
 def p_elemento(p):
@@ -403,18 +383,15 @@ def p_elemento(p):
                 | contar_binarios
     '''
     print(f'{p.slice[1].type} -> elemento')
-    
-    aux=str(p[1])
-    if aux[0]=='[':
-        p[0] = p[1]
-    else:
-        p[0]= f'[{tm.crear_terceto(p[1],None,None)}]'
-    
+
+    # aux = str(p[1])
+    # if aux[0] == '[':
+    p[0] = p[1]
+    # else:
+    #    p[0] = f'[{tm.crear_terceto(p[1], None, None)}]'
 
 
 # Error rule for syntax errors
-
-
 def p_error(p):
     print(f"Error en la linea {p.lineno or ''} at {p.value or ''}")
 
@@ -425,3 +402,4 @@ path_parser = Path("./TESTS/parser_test2.txt")
 code = path_parser.read_text()
 parser.parse(code)
 tm.print_tercetos()
+persistir_tabla_de_simbolos()
