@@ -21,7 +21,7 @@ class TercetosManager:
         return self.indice - 1
 
     def actualizar_terceto(self, indice, valor):
-        self.lista[indice].actualizar_terceto(valor)
+        self.lista[int(indice)].actualizar_terceto(valor)
 
     def print_tercetos(self):
         i = 0
