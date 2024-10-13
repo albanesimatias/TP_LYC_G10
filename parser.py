@@ -8,7 +8,7 @@ import ply.yacc as yacc  # analizador sintactico
 from pathlib import Path
 from utils import tabla_de_simbolos, actualizar_en_tabla
 from utils import persistir_tabla_de_simbolos
-
+from exp_manager import ExpMagager
 from tercetos_manager import TercetosManager
 from queue import Queue, LifoQueue
 
@@ -39,6 +39,7 @@ pilaComparadores = LifoQueue(0)
 pilaCantComparadores = LifoQueue(0)
 pilaVariables = LifoQueue(0)
 banderaNot = False
+exp_manager = ExpMagager()
 
 
 def obtenerIndiceInt(variableString):
@@ -277,6 +278,9 @@ def p_asignacion(p):
     '''asignacion : VARIABLE ASIGNACION expresion
     '''
     print(f'VARIABLE ASIGNACION {p.slice[3].type} -> asignacion')
+    exp_manager.validar_tipo(tabla_de_simbolos, p[1], p[3])
+    if not exp_manager.is_ok():
+        raise Exception('Incompatibilidad de tipos')
     p[0] = f'[{tm.crear_terceto('=', p[1], p[3])}]'
 
 
@@ -316,18 +320,21 @@ def p_lista(p):
 def p_expresion_mas(p):
     'expresion : expresion MAS termino'
     print('expresion + termino -> expresion')
+    exp_manager.validar_tipo(tabla_de_simbolos, p[1], p[3])
     p[0] = f'[{tm.crear_terceto('+', p[1], p[3])}]'
 
 
 def p_expresion_menos_unario(p):
     'expresion : MENOS expresion %prec UMENOS'
     print('MENOS expresion %prec UMENOS -> expresion')
+    exp_manager.validar_tipo(tabla_de_simbolos, p[2], p[2])
     p[0] = f'[{tm.crear_terceto('-', p[2], None)}]'
 
 
 def p_expresion_menos(p):
     'expresion : expresion MENOS termino'
     print('expresion - termino -> expresion')
+    exp_manager.validar_tipo(tabla_de_simbolos, p[1], p[3])
     p[0] = f'[{tm.crear_terceto('-', p[1], p[3])}]'
 
 
@@ -340,12 +347,14 @@ def p_expresion_termino(p):
 def p_termino_multiplicacion(p):
     'termino : termino MULTIPLICACION elemento'
     print('termino * elemento -> termino')
+    exp_manager.validar_tipo(tabla_de_simbolos, p[1], p[3])
     p[0] = f'[{tm.crear_terceto('*', p[1], p[3])}]'
 
 
 def p_termino_division(p):
     'termino : termino DIVISION elemento'
     print('termino / elemento -> termino')
+    exp_manager.validar_tipo(tabla_de_simbolos, p[1], p[3])
     p[0] = f'[{tm.crear_terceto('/', p[1], p[3])}]'
 
 
