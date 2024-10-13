@@ -80,7 +80,7 @@ def t_COMENTARIO(t):
 
 
 def t_VARIABLE(t):
-    r'[a-zA-Z](\w|_|-)*'
+    r'[a-zA-Z](\w|_)*'
     t.type = reserved.get(t.value, 'VARIABLE')
     if len(t.value) > Constantes.MAX_LEN_VAR:
         print(f'La variable exede el tamaño de {Constantes.MAX_LEN_VAR} caracteres')
