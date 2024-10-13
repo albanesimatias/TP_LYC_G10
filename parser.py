@@ -237,9 +237,12 @@ def p_bandera_not(p):
 
 
 def p_comparacion(p):  # < <= > >= ==
-    '''comparacion : expresion comparador expresion
+    '''comparacion : expresion  comparador expresion
                    | expresion
     '''
+    if not exp_manager.is_ok():
+        raise Exception('No se pueden comparar distintos tipos de datos')
+    exp_manager.reiniciar()
     if len(p) == 4:
         print('expresion comparador expresion -> comparacion')
         p[0] = f'[{tm.crear_terceto('CMP', p[1], p[3])}]'
@@ -281,6 +284,7 @@ def p_asignacion(p):
     exp_manager.validar_tipo(tabla_de_simbolos, p[1], p[3])
     if not exp_manager.is_ok():
         raise Exception('Incompatibilidad de tipos')
+    exp_manager.reiniciar()
     p[0] = f'[{tm.crear_terceto('=', p[1], p[3])}]'
 
 
@@ -341,6 +345,7 @@ def p_expresion_menos(p):
 def p_expresion_termino(p):
     'expresion : termino'
     print('termino -> expresion')
+    exp_manager.validar_tipo(tabla_de_simbolos, p[1], p[1])
     p[0] = p[1]
 
 
