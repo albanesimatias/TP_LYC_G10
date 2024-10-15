@@ -37,10 +37,10 @@ Para ejecutar el codigo, sigue los siguientes pasos:
    pipenv shell
    ```
    ```bash
-   python parser.py
+   python lyc-compiler-2.0.0.py
    ```
 
    Si instalaste 'ply' globalmente simplemente ejecuta:
    ```bash
-   python parser.py
+   python lyc-compiler-2.0.0.py
    ```
