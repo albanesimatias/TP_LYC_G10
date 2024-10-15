@@ -31,45 +31,23 @@ class ExpMagager:
     def reiniciar(self):
         self.exp_check = []
 
+    def validar_elemento(self, elemento, tabla_de_simbolos):
+        if not is_index(elemento):
+            key = get_key(elemento)
+            tipo = tabla_de_simbolos[key]['tipo']
+            if is_none(tipo):
+                raise Exception(f'La variable {elemento} no esta declarado')
+            if tipo != self.exp_check[0]:
+                self.exp_check[1] = False
+
     def validar_tipo(self, tabla_de_simbolos, elemento, elemento2='[]'):
         if len(self.exp_check) != 0:
-            if not self.exp_check[1]:
-                return
-            if is_index(elemento):
-                if is_index(elemento2):
-                    return
-                else:
-                    key = get_key(elemento2)
-                    tipo = tabla_de_simbolos[key]['tipo']
-                    if is_none(tipo):
-                        raise Exception(f'La variable {elemento2} no esta declarado')
-                    if tipo != self.exp_check[0]:
-                        self.exp_check[1] = False
-            elif is_index(elemento2):
-                if is_index(elemento):
-                    return
-                else:
-                    key = get_key(elemento)
-                    tipo = tabla_de_simbolos[key]['tipo']
-                    if is_none(tipo):
-                        raise Exception(f'La variable {elemento} no esta declarado')
-                    if tipo != self.exp_check[0]:
-                        self.exp_check[1] = False
-            else:
-                key1 = get_key(elemento)
-                key2 = get_key(elemento2)
-                tipo = tabla_de_simbolos[key1]['tipo']
-                tipo2 = tabla_de_simbolos[key2]['tipo']
-                if is_none(tipo, tipo2):
-                    raise Exception(f'La variable {elemento} o {elemento2} no esta declarado')
-                valid_exp = tipo == self.exp_check[0] and tipo2 == self.exp_check[0]
-                if not valid_exp:
-                    self.exp_check[1] = False
+            if self.exp_check[1]:
+                self.validar_elemento(elemento, tabla_de_simbolos)
+                self.validar_elemento(elemento2, tabla_de_simbolos)
         else:
-            key1 = get_key(elemento)
-            key2 = get_key(elemento2)
-            tipo = tabla_de_simbolos[key1]['tipo']
-            tipo2 = tabla_de_simbolos[key2]['tipo']
+            tipo = tabla_de_simbolos[get_key(elemento)]['tipo']
+            tipo2 = tabla_de_simbolos[get_key(elemento2)]['tipo']
             if is_none(tipo, tipo2):
                 raise Exception(f'La variable {elemento} o {elemento2} no esta declarado')
             valid_exp = tipo == tipo2

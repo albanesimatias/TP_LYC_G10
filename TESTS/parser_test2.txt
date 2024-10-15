@@ -1,17 +1,11 @@
 init{
-    var1: int;
-    var2: str;
-    var3: bin;
-    var4: float;
-    var5,var6,var7: int;
+    var:int;
+    var2:int;
+    var3:float;
+    cad:str;
 }
-*-
-read("hola");
-var1 = 1 + "hola";
-var2 = "hola";
-var3 = 01010b;
-var7 = (1+2)*(2/2)+id;
-write(id);
-var4 = sumar_los_ultimos(3;[1,2,3,4,5]);-*
-var6 = sumar_los_ultimos(100;[1,2,3,4,5]);
-var5 = sumar_los_ultimos(-1;[1,2,3,4,5]);
+
+var = -15;
+var2 = 10;
+var = var;
+cad = "asd";
