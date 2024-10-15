@@ -14,7 +14,16 @@ def is_id(elemento):
     return re.match(regex, elemento)
 
 
+def is_cad(elemento):
+    cad = str(elemento)
+    regex = r'"(\w|\s)*"'
+    return re.match(regex, cad)
+
+
 def get_key(elemento):
+    if is_cad(elemento):
+        elemento = str(elemento).replace('"', '')
+        return '_'+str(elemento)
     if not is_id(str(elemento)):
         return '_'+str(elemento)
     return str(elemento)

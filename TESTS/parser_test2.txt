@@ -5,7 +5,4 @@ init{
     cad:str;
 }
 
-var = -15;
-var2 = 10;
-var = var;
-cad = "asd";
+cad = "asd" + var3;
