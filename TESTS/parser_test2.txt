@@ -1,8 +1,0 @@
-init{
-    var:int;
-    var2:int;
-    var3:float;
-    cad:str;
-}
-
-cad = "asd" + var3;

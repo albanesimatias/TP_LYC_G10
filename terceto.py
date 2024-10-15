@@ -26,4 +26,4 @@ class Terceto:
                 print("Indice invalido\n")
 
     def __str__(self):
-        return f'Terceto: ({self.valor1}, {self.valor2}, {self.valor3})'
+        return f'({self.valor1}, {self.valor2}, {self.valor3})'

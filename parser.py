@@ -6,11 +6,11 @@
 from lexer import tokens
 import ply.yacc as yacc  # analizador sintactico
 from pathlib import Path
-from utils import tabla_de_simbolos, actualizar_en_tabla
-from utils import persistir_tabla_de_simbolos
-from exp_manager import ExpMagager
+from utils import tabla_de_simbolos, actualizar_en_tabla, persistir_tabla_de_simbolos, guardar_en_tabla_de_simbolos
+from exp_manager import ExpMagager, get_key
 from tercetos_manager import TercetosManager
-from queue import Queue, LifoQueue
+from queue import LifoQueue
+from i_token import Itoken
 
 tm = TercetosManager()
 auxCantElementos = 0
@@ -293,20 +293,32 @@ def p_sumar_los_ultimos(p):
                          | SUMAR_LOS_ULTIMOS A_PARENTESIS MENOS N_ENTERO PUNTO_Y_COMA lista C_PARENTESIS
     '''
     print('SUMAR_LOS_ULTIMOS (N_ENTERO ; lista ) -> sumar_los_ultimos')
-    indice_terceto_anterior = f'[{tm.crear_terceto(0, None, None)}]'
-    if len(p) == 6:
+    suma = 0
+    if len(p) == 7:
         lista = p[5]
         n_ultimos = int(p[3])
         if n_ultimos >= 1:
             ultimos = lista[n_ultimos-1:]
             for elem in ultimos:
-                indice_terceto_anterior = f'[{tm.crear_terceto('+', elem, indice_terceto_anterior)}]'
-    p[0] = indice_terceto_anterior
+                suma += elem
+    tipo = 'N_DECIMAL' if isinstance(suma, float) else 'N_ENTERO'
+    guardar_en_tabla_de_simbolos(Itoken(suma, tipo))
+    p[0] = suma
 
 
 def p_contar_binarios(p):
     '''contar_binarios : CONTAR_BINARIOS A_PARENTESIS lista C_PARENTESIS'''
     print('CONTAR_BINARIOS ( lista ) -> contar_binarios')
+    cont = 0
+    lista = p[3]
+    for elemento in lista:
+        key = get_key(elemento)
+        if not tabla_de_simbolos[key]['tipo']:
+            raise Exception(f'"{elemento}" no esta declarado en el bloque init')
+        if tabla_de_simbolos[key]['tipo'] == 'bin':
+            cont += 1
+    guardar_en_tabla_de_simbolos(Itoken(cont, 'N_ENTERO'))
+    p[0] = cont
 
 
 def p_lista(p):
@@ -397,23 +409,20 @@ def p_elemento(p):
                 | contar_binarios
     '''
     print(f'{p.slice[1].type} -> elemento')
-
-    # aux = str(p[1])
-    # if aux[0] == '[':
     p[0] = p[1]
-    # else:
-    #    p[0] = f'[{tm.crear_terceto(p[1], None, None)}]'
 
 
 # Error rule for syntax errors
 def p_error(p):
-    print(f"Error en la linea {p.lineno or ''} at {p.value or ''}")
+    raise Exception(f"Error en la linea {p.lineno or ''} at {p.value or ''}")
 
 
-# Build the parser
-parser = yacc.yacc()
-path_parser = Path("./TESTS/parser_test2.txt")
-code = path_parser.read_text()
-parser.parse(code)
-tm.print_tercetos()
-persistir_tabla_de_simbolos()
+def ejecutar_parser():
+    # Build the parser
+    parser = yacc.yacc()
+    path_parser = Path("./TESTS/parser_test.txt")
+    code = path_parser.read_text()
+    parser.parse(code)
+    tm.print_tercetos()
+    tm.guardar_tercetos_txt()
+    persistir_tabla_de_simbolos()

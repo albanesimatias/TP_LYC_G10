@@ -20,9 +20,17 @@ def is_cad(elemento):
     return re.match(regex, cad)
 
 
+def is_bin(elemento):
+    cad = str(elemento)
+    regex = r'(0|1)+b'
+    return re.match(regex, cad)
+
+
 def get_key(elemento):
     if is_cad(elemento):
         elemento = str(elemento).replace('"', '')
+        return '_'+str(elemento)
+    if is_bin(elemento):
         return '_'+str(elemento)
     if not is_id(str(elemento)):
         return '_'+str(elemento)

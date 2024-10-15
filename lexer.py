@@ -142,3 +142,14 @@ def t_error(t):
 
 # Build the lexer
 lexer = lex.lex(reflags=re.DOTALL)
+
+
+def ejecutar_lexer():
+    path_lexter = Path('./TESTS/lexer_test.txt')
+    data = path_lexter.read_text()
+    lexer.input(data)
+    while True:
+        token = lexer.token()
+        if not token:
+            break
+        print(f'TOKEN: {token.type} LEXEMA: {token.value}')

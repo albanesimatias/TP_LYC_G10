@@ -28,11 +28,12 @@ def guardar_en_tabla_de_simbolos(token):
     if const_name not in tabla_de_simbolos and token.value not in tabla_de_simbolos and token.type in include:
         if token.type == 'VARIABLE':
             const_name = token.value
-        tabla_de_simbolos[const_name] = {
-            'tipo': conversion_tipos[token.type], 'valor': t_value, 'longitud': None}
-        if token.type == 'CADENA':
+            tabla_de_simbolos[const_name] = {'tipo': conversion_tipos[token.type], 'valor': None, 'longitud': None}
+        elif token.type == 'CADENA':
             tabla_de_simbolos[const_name] = {
                 'tipo': conversion_tipos[token.type], 'valor': t_value, 'longitud': len(t_value)}
+        else:
+            tabla_de_simbolos[const_name] = {'tipo': conversion_tipos[token.type], 'valor': token.value, 'longitud': None}
 
 
 def actualizar_en_tabla(id, tipo):

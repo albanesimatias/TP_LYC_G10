@@ -1,4 +1,5 @@
 from terceto import Terceto
+from pathlib import Path
 
 
 class TercetosManager:
@@ -28,3 +29,12 @@ class TercetosManager:
         for terceto in self.lista:
             print(f'[{i}] {terceto}')
             i += 1
+
+    def guardar_tercetos_txt(self):
+        path = Path('./intermediate-code.txt')
+        text = ''
+        i = 0
+        for terceto in self.lista:
+            text += f'[{i}]{terceto}\n'
+            i += 1
+        path.write_text(text)
