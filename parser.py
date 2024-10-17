@@ -238,20 +238,13 @@ def p_bandera_not(p):
 
 def p_comparacion(p):  # < <= > >= ==
     '''comparacion : expresion  comparador expresion
-                   | expresion
     '''
-    if not exp_manager.is_ok():
-        raise Exception('No se pueden comparar distintos tipos de datos')
+    print('expresion comparador expresion -> comparacion')
+    exp_manager.validar_tipo(tabla_de_simbolos, p[3], p[2])
+    p[0] = f'[{tm.crear_terceto('CMP', p[1], p[3])}]'
+    global auxComparador
+    pilaComparadores.put(tm.crear_terceto(auxComparador, None, None))
     exp_manager.reiniciar()
-    if len(p) == 4:
-        print('expresion comparador expresion -> comparacion')
-        p[0] = f'[{tm.crear_terceto('CMP', p[1], p[3])}]'
-        global auxComparador
-        pilaComparadores.put(tm.crear_terceto(auxComparador, None, None))
-    else:
-        print('expresion -> comparacion')
-        p[0] = f'[{tm.crear_terceto("CMP", p[1], 0)}]'
-        pilaComparadores.put(tm.crear_terceto("BEQ", None, None))
 
 
 def p_comparador(p):
@@ -269,6 +262,7 @@ def p_comparador(p):
         globals()['auxComparador'] = diccionarioComparadoresNot.get(p[1])
     else:
         globals()['auxComparador'] = diccionarioComparadores.get(p[1])
+    p[0] = p.lineno(1)
 
 
 def p_bloque(p):
@@ -281,9 +275,9 @@ def p_asignacion(p):
     '''asignacion : VARIABLE ASIGNACION expresion
     '''
     print(f'VARIABLE ASIGNACION {p.slice[3].type} -> asignacion')
-    exp_manager.validar_tipo(tabla_de_simbolos, p[1], p[3])
-    if not exp_manager.is_ok():
-        raise Exception('Incompatibilidad de tipos')
+    exp_manager.validar_tipo(tabla_de_simbolos, p[3], p.lineno(2))
+    if exp_manager.exp_check[0] != tabla_de_simbolos[p[1]]['tipo']:
+        raise Exception(f'En la linea {p.lineno(2)} se intento asignar a {p[1]} el tipo de dato {exp_manager.exp_check[0]} y {p[1]} es de tipo {tabla_de_simbolos[p[1]]['tipo']}')
     exp_manager.reiniciar()
     p[0] = f'[{tm.crear_terceto('=', p[1], p[3])}]'
 
@@ -324,42 +318,45 @@ def p_contar_binarios(p):
 def p_expresion_mas(p):
     'expresion : expresion MAS termino'
     print('expresion + termino -> expresion')
-    exp_manager.validar_tipo(tabla_de_simbolos, p[1], p[3])
+    exp_manager.validar_tipo(tabla_de_simbolos, p[1], p.lineno(2))
+    exp_manager.validar_tipo(tabla_de_simbolos, p[3], p.lineno(2))
     p[0] = f'[{tm.crear_terceto('+', p[1], p[3])}]'
 
 
 def p_expresion_menos_unario(p):
     'expresion : MENOS expresion %prec UMENOS'
     print('MENOS expresion %prec UMENOS -> expresion')
-    exp_manager.validar_tipo(tabla_de_simbolos, p[2], p[2])
+    exp_manager.validar_tipo(tabla_de_simbolos, p[2], p.lineno(1))
     p[0] = f'[{tm.crear_terceto('-', p[2], None)}]'
 
 
 def p_expresion_menos(p):
     'expresion : expresion MENOS termino'
     print('expresion - termino -> expresion')
-    exp_manager.validar_tipo(tabla_de_simbolos, p[1], p[3])
+    exp_manager.validar_tipo(tabla_de_simbolos, p[1], p.lineno(2))
+    exp_manager.validar_tipo(tabla_de_simbolos, p[3], p.lineno(2))
     p[0] = f'[{tm.crear_terceto('-', p[1], p[3])}]'
 
 
 def p_expresion_termino(p):
     'expresion : termino'
     print('termino -> expresion')
-    exp_manager.validar_tipo(tabla_de_simbolos, p[1], p[1])
     p[0] = p[1]
 
 
 def p_termino_multiplicacion(p):
     'termino : termino MULTIPLICACION elemento'
     print('termino * elemento -> termino')
-    exp_manager.validar_tipo(tabla_de_simbolos, p[1], p[3])
+    exp_manager.validar_tipo(tabla_de_simbolos, p[1], p.lineno(2))
+    exp_manager.validar_tipo(tabla_de_simbolos, p[3], p.lineno(2))
     p[0] = f'[{tm.crear_terceto('*', p[1], p[3])}]'
 
 
 def p_termino_division(p):
     'termino : termino DIVISION elemento'
     print('termino / elemento -> termino')
-    exp_manager.validar_tipo(tabla_de_simbolos, p[1], p[3])
+    exp_manager.validar_tipo(tabla_de_simbolos, p[1], p.lineno(2))
+    exp_manager.validar_tipo(tabla_de_simbolos, p[3], p.lineno(2))
     p[0] = f'[{tm.crear_terceto('/', p[1], p[3])}]'
 
 
