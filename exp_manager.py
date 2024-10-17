@@ -37,8 +37,8 @@ def get_key(elemento):
     return str(elemento)
 
 
-def is_none(tipo, tipo2=False):
-    return tipo is None or tipo2 is None
+def is_none(tipo):
+    return tipo is None
 
 
 class ExpMagager:
@@ -48,28 +48,27 @@ class ExpMagager:
     def reiniciar(self):
         self.exp_check = []
 
-    def validar_elemento(self, elemento, tabla_de_simbolos):
+    def validar_elemento(self, elemento, tabla_de_simbolos, line_error):
         if not is_index(elemento):
             key = get_key(elemento)
             tipo = tabla_de_simbolos[key]['tipo']
             if is_none(tipo):
-                raise Exception(f'La variable {elemento} no esta declarado')
+                raise Exception(f'En la linea {line_error} la variable {elemento} no esta declarada')
             if tipo != self.exp_check[0]:
                 self.exp_check[1] = False
+                raise Exception(f'En la linea {line_error} se intento realizar una operacion con el tipo de dato {tipo} y {self.exp_check[0]}')
 
-    def validar_tipo(self, tabla_de_simbolos, elemento, elemento2='[]'):
+    def validar_tipo(self, tabla_de_simbolos, elemento, line_error):
         if len(self.exp_check) != 0:
             if self.exp_check[1]:
-                self.validar_elemento(elemento, tabla_de_simbolos)
-                self.validar_elemento(elemento2, tabla_de_simbolos)
+                self.validar_elemento(elemento, tabla_de_simbolos, line_error)
+
         else:
             tipo = tabla_de_simbolos[get_key(elemento)]['tipo']
-            tipo2 = tabla_de_simbolos[get_key(elemento2)]['tipo']
-            if is_none(tipo, tipo2):
-                raise Exception(f'La variable {elemento} o {elemento2} no esta declarado')
-            valid_exp = tipo == tipo2
+            if is_none(tipo):
+                raise Exception(f'Error en la linea {line_error} la variable {elemento} no esta declarada')
             self.exp_check.append(tipo)
-            self.exp_check.append(valid_exp)
+            self.exp_check.append(True)
 
     def is_ok(self):
         return self.exp_check[1]
