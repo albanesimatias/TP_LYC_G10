@@ -12,7 +12,7 @@ if(1==1){
     write("hola");
 }
 else{
-    read("chau");
+    read(var7);
 }
 
 if(1==1 and 2==2){
@@ -38,7 +38,7 @@ while(1==1){
 var = ((1+2)*3/2)-2;
 var2 = -5 + 2 -(-3);
 
-var = sumar_los_ultimos(4;[1,2,3,45,1]);
+var = sumar_los_ultimos(4;[1,2,3,1]);
 cont = contar_binarios([1,2,3,1111b,101b,3.5,var7,var8]);
 
 *-Errores-*
