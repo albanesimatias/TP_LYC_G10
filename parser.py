@@ -89,8 +89,8 @@ def p_sentencia(p):
 
 
 def p_read(p):
-    '''read : READ A_PARENTESIS elemento C_PARENTESIS'''
-    print(f'READ ( elemento ) -> read')
+    '''read : READ A_PARENTESIS VARIABLE C_PARENTESIS'''
+    print(f'READ ( VARIABLE ) -> read')
     p[0] = tm.crear_terceto('read', p[3], None)
 
 
@@ -289,8 +289,8 @@ def p_asignacion(p):
 
 
 def p_sumar_los_ultimos(p):
-    '''sumar_los_ultimos : SUMAR_LOS_ULTIMOS A_PARENTESIS N_ENTERO PUNTO_Y_COMA lista C_PARENTESIS
-                         | SUMAR_LOS_ULTIMOS A_PARENTESIS MENOS N_ENTERO PUNTO_Y_COMA lista C_PARENTESIS
+    '''sumar_los_ultimos : SUMAR_LOS_ULTIMOS A_PARENTESIS N_ENTERO PUNTO_Y_COMA lista_ctes C_PARENTESIS
+                         | SUMAR_LOS_ULTIMOS A_PARENTESIS MENOS N_ENTERO PUNTO_Y_COMA lista_ctes C_PARENTESIS
     '''
     print('SUMAR_LOS_ULTIMOS (N_ENTERO ; lista ) -> sumar_los_ultimos')
     suma = 0
@@ -319,18 +319,6 @@ def p_contar_binarios(p):
             cont += 1
     guardar_en_tabla_de_simbolos(Itoken(cont, 'N_ENTERO'))
     p[0] = cont
-
-
-def p_lista(p):
-    '''lista : A_CORCHETE elementos C_CORCHETE
-             | A_CORCHETE C_CORCHETE
-    '''
-    if len(p) == 4:
-        print('[elementos] -> lista')
-        p[0] = p[2]
-    else:
-        print('[] -> lista')
-        p[0] = f'[{tm.crear_terceto(None, None, None)}]'
 
 
 def p_expresion_mas(p):
@@ -387,6 +375,32 @@ def p_elemento_expresion(p):
     p[0] = p[2]
 
 
+def p_lista(p):
+    '''lista : A_CORCHETE elementos C_CORCHETE
+    '''
+    print('[elementos] -> lista')
+    p[0] = p[2]
+
+
+def p_lista_ctes(p):
+    '''lista_ctes : A_CORCHETE elementos_ctes C_CORCHETE
+    '''
+    print('[elementos_ctes] -> lista_ctes')
+    p[0] = p[2]
+
+
+def p_elementos_ctes(p):
+    '''elementos_ctes : elementos_ctes COMA elemento_cte
+                 | elemento_cte'''
+
+    if len(p) == 4:
+        print('elementos_ctes , elemento_cte -> elementos_ctes')
+        p[0] = p[1] + [p[3]]
+    else:
+        print('elemento_cte -> elementos_ctes')
+        p[0] = [p[1]]
+
+
 def p_elementos(p):
     '''elementos : elementos COMA elemento
                  | elemento'''
@@ -409,6 +423,13 @@ def p_elemento(p):
                 | contar_binarios
     '''
     print(f'{p.slice[1].type} -> elemento')
+    p[0] = p[1]
+
+
+def p_elemento_cte(p):
+    '''elemento_cte : N_ENTERO
+                    | N_DECIMAL
+    '''
     p[0] = p[1]
 
 
