@@ -86,7 +86,8 @@ def t_VARIABLE(t):
         print(f'La variable exede el tamaño de {Constantes.MAX_LEN_VAR} caracteres')
         t.type = 'ERROR'
     else:
-        guardar_en_tabla_de_simbolos(t)
+        if t.type == 'VARIABLE':
+            guardar_en_tabla_de_simbolos(t)
         return t
 
 
