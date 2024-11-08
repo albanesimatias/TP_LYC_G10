@@ -23,16 +23,17 @@ tabla_de_simbolos = {}
 
 def guardar_en_tabla_de_simbolos(token):
     t_value = str(token.value).replace('"', '')
-    const_name = const_name = '_' + t_value
+    transform_key = {'VARIABLE': '', 'N_BINARIO': '_', 'N_DECIMAL': '_', 'N_ENTERO': '_', 'CADENA': '__'}
     include = ['VARIABLE', 'CADENA', 'N_BINARIO', 'N_DECIMAL', 'N_ENTERO']
-    if const_name not in tabla_de_simbolos and token.value not in tabla_de_simbolos and token.type in include:
+    const_name = transform_key[token.type] + t_value
+
+    if const_name not in tabla_de_simbolos and token.type in include:
         if token.type == 'VARIABLE':
-            const_name = token.value
             tabla_de_simbolos[const_name] = {'tipo': conversion_tipos[token.type], 'valor': None, 'longitud': None}
-        elif token.type == 'CADENA':
+        if token.type == 'CADENA':
             tabla_de_simbolos[const_name] = {
                 'tipo': conversion_tipos[token.type], 'valor': t_value, 'longitud': len(t_value)}
-        else:
+        if token.type in ['N_DECIMAL', 'N_BINARIO', 'N_ENTERO']:
             tabla_de_simbolos[const_name] = {'tipo': conversion_tipos[token.type], 'valor': token.value, 'longitud': None}
 
 
