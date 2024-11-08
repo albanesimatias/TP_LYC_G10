@@ -91,12 +91,14 @@ def p_sentencia(p):
 def p_read(p):
     '''read : READ A_PARENTESIS VARIABLE C_PARENTESIS'''
     print(f'READ ( VARIABLE ) -> read')
+    exp_manager.reiniciar()
     p[0] = tm.crear_terceto('read', p[3], None)
 
 
 def p_write(p):
     '''write : WRITE A_PARENTESIS elemento C_PARENTESIS'''
     print(f'WRITE ( elemento ) -> write')
+    exp_manager.reiniciar()
     p[0] = tm.crear_terceto('write', p[3], None)
 
 
@@ -240,6 +242,7 @@ def p_comparacion(p):  # < <= > >= ==
     '''comparacion : expresion  comparador expresion
     '''
     print('expresion comparador expresion -> comparacion')
+    exp_manager.validar_tipo(tabla_de_simbolos, p[1], p[2])
     exp_manager.validar_tipo(tabla_de_simbolos, p[3], p[2])
     p[0] = f'[{tm.crear_terceto('CMP', p[1], p[3])}]'
     global auxComparador
@@ -415,8 +418,20 @@ def p_elemento(p):
                 | N_DECIMAL
                 | N_BINARIO
                 | VARIABLE
-                | CADENA
-                | sumar_los_ultimos
+    '''
+    print(f'{p.slice[1].type} -> elemento')
+    p[0] = p[1]
+
+
+def p_elemento_cadena(p):
+    '''elemento : CADENA
+    '''
+    print(f'{p.slice[1].type} -> elemento')
+    p[0] = p[1]
+
+
+def p_elemento_funcion(p):
+    '''elemento : sumar_los_ultimos
                 | contar_binarios
     '''
     print(f'{p.slice[1].type} -> elemento')
