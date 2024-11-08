@@ -29,7 +29,7 @@ def is_bin(elemento):
 def get_key(elemento):
     if is_cad(elemento):
         elemento = str(elemento).replace('"', '')
-        return '_'+str(elemento)
+        return '__'+str(elemento)
     if is_bin(elemento):
         return '_'+str(elemento)
     if not is_id(str(elemento)):
@@ -56,7 +56,7 @@ class ExpMagager:
                 raise Exception(f'En la linea {line_error} la variable {elemento} no esta declarada')
             if tipo != self.exp_check[0]:
                 self.exp_check[1] = False
-                raise Exception(f'En la linea {line_error} se intento realizar una operacion con el tipo de dato {tipo} y {self.exp_check[0]}')
+                raise Exception(f'En la linea {line_error} se intento realizar una operacion con el tipo de dato {self.exp_check[0]} y {tipo}')
 
     def validar_tipo(self, tabla_de_simbolos, elemento, line_error):
         if len(self.exp_check) != 0:
