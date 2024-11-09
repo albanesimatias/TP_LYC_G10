@@ -2,9 +2,10 @@ from pathlib import Path
 from terceto import Terceto
 from utils import *
 import re
-lista_prioridades = [[]]
 
-diccionarioComparadoresAssembler = {
+etiquetas = set()
+
+diccionario_comparadores = {
     "BLT":   "JB",
     "BLE":   "JBE",
     "BGT":   "JA",
@@ -16,19 +17,23 @@ diccionarioComparadoresAssembler = {
 
 
 class AssemblerBuilder:
-    def init(self, tercetos: list, assembler):
+    def __init__(self, tercetos: list):
         self.tercetos = tercetos
         self.assembler = list()
 
-    def traducirTercetosAAssembler(self):
+    def traducir_tercetos(self):
         i = 0
         i_max = len(self.tercetos)
         while (i < i_max):
             self.traducir_terceto(self.tercetos[i])
             i += 1
+        for etiqueta in etiquetas:
+            operacion = f'ETIQ_{etiqueta}\n'
+            print(etiqueta)
+            self.assembler[etiqueta] = operacion + self.assembler[etiqueta]
 
-    def traducir_terceto(self, terceto):
-        aux = terceto.valor1()
+    def traducir_terceto(self, terceto: Terceto):
+        aux = terceto.valor1
 
         match aux:
             case '+':
@@ -45,16 +50,20 @@ class AssemblerBuilder:
                 self.traducir_write(terceto)
             case 'read':
                 self.traducir_read(terceto)
-            case 'salto':
+            case 'CMP':
+                self.traducir_CMP(terceto)
+            case 'FIN':
+                self.assembler.append('')
+            case _:
                 self.traducir_salto(terceto)
 
     def traducir_operacion_intermedia(self, terceto: Terceto):
         operacion = ''
         if not is_index(terceto.valor2):
-            cmd = 'FILD' if tabla_de_simbolos[get_key(terceto.valor2)].tipo == 'int' else 'FLD'
+            cmd = 'FILD' if tabla_de_simbolos[get_key(terceto.valor2)]['tipo'] == 'int' else 'FLD'
             operacion += f'{cmd} {get_key(terceto.valor2)}\n'
         if not is_index(terceto.valor3) and not terceto.valor3 is None:
-            cmd = 'FILD' if tabla_de_simbolos[get_key(terceto.valor3)].tipo == 'int' else 'FLD'
+            cmd = 'FILD' if tabla_de_simbolos[get_key(terceto.valor3)]['tipo'] == 'int' else 'FLD'
             operacion += f'{cmd} {get_key(terceto.valor3)}\n'
         if not is_index(terceto.valor2) and is_index(terceto.valor3):
             operacion += f'FXCH\n'
@@ -88,27 +97,73 @@ class AssemblerBuilder:
         self.assembler.append(operacion)
 
     def traducir_asignacion(self, terceto: Terceto):
-        # = id cte_str
-        # = id id
-        # = id []
         operacion = ''
-        if is_index(terceto.valor3):
-            operacion += f'FSTP {terceto.valor2}'
+        cmd = ''
+        if tabla_de_simbolos[get_key(terceto.valor2)]['tipo'] == 'int':
+            if not is_index(terceto.valor3):
+                cmd = f'FILD {get_key(terceto.valor3)}\n'
+            cmd += 'FISTP'
+            operacion += f'{cmd} {get_key(terceto.valor2)}\n'
+            self.assembler.append(operacion)
+        elif tabla_de_simbolos[get_key(terceto.valor2)]['tipo'] == 'float':
+            if not is_index(terceto.valor3):
+                cmd = f'FLD {get_key(terceto.valor3)}\n'
+            cmd += 'FSTP'
+            operacion += f'{cmd} {get_key(terceto.valor2)}\n'
+            self.assembler.append(operacion)
+        else:
+            operacion = f'mov rax, {get_key(terceto.valor3)}\n'
+            operacion = f'mov {terceto.valor2}, rax\n'
+            self.assembler.append(operacion)
 
-    def traducir_write(terceto):
+    def traducir_write(self, terceto: Terceto):
+        operacion = ''
+        operacion += 'CALL '
+        if not is_index(terceto.valor2) and not terceto.valor2 is None:
+            if tabla_de_simbolos[get_key(terceto.valor2)]['tipo'] == 'int':
+                cmd = 'DisplayInteger'
+            elif tabla_de_simbolos[get_key(terceto.valor2)]['tipo'] == 'float':
+                cmd = 'DisplayFloat'
+            else:
+                cmd = 'displayString'
+        operacion += f'{cmd} {get_key(terceto.valor2)}\n'
+        self.assembler.append(operacion)
+
+    def traducir_read(self, terceto: Terceto):
+        operacion = ''
+        operacion += 'CALL '
+        if not is_index(terceto.valor2) and not terceto.valor2 is None:
+            if tabla_de_simbolos[get_key(terceto.valor2)]['tipo'] == 'int':
+                cmd = 'GetInteger'
+            elif tabla_de_simbolos[get_key(terceto.valor2)]['tipo'] == 'float':
+                cmd = 'GetFloat'
+            else:
+                cmd = 'getString'
+            operacion += f'{cmd} {get_key(terceto.valor2)}\n'
+        self.assembler.append(operacion)
+
+    def traducir_CMP(self, terceto: Terceto):
+        operacion = ''
+        if not is_index(terceto.valor3):
+            cmd = 'FILD' if tabla_de_simbolos[get_key(terceto.valor3)]['tipo'] == 'int' else 'FLD'
+            operacion += f'{cmd} {get_key(terceto.valor3)}\n'
+        if not is_index(terceto.valor2):
+            cmd = 'FILD' if tabla_de_simbolos[get_key(terceto.valor2)]['tipo'] == 'int' else 'FLD'
+            operacion += f'{cmd} {get_key(terceto.valor2)}\n'
+        if not is_index(terceto.valor3) and is_index(terceto.valor2):
+            operacion += f'FXCH\n'
+        if is_index(terceto.valor2) and is_index(terceto.valor3):
+            operacion += f'FXCH\n'
+        operacion += 'FCOM\nFSTSW ax\nSAHF\n'
+        self.assembler.append(operacion)
+
+    def traducir_salto(self, terceto: Terceto):
+        operacion = ''
+        salto = diccionario_comparadores[terceto.valor1]
+        indice = int(convertir_indice(terceto.valor2))
+        operacion += f'{salto} ETIQ_{indice}\n'
+        self.assembler.append(operacion)
+        etiquetas.add(indice)
+
+    def traducir_tabla_de_simbolos(self):
         pass
-
-    def traducir_read(terceto):
-        pass
-
-    def traducir_salto(terceto):
-        pass
-
-    # def traducirTercetoAAssembler2(terceto):
-    #    aux = terceto.getValor3()
-    #    if (aux is None):
-    #        traducirNoOperacion(terceto)
-    #    else:
-    #        traducirOperacion(terceto)
-    # def traducirOperacion(terceto):
-    #    pass
