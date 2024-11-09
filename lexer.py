@@ -137,8 +137,8 @@ t_ignore = ' \t'
 
 
 def t_error(t):
-    print(f"Caracter invalido '{t.value[0]}' en la linea: {t.lexer.lineno}")
-    t.lexer.skip(1)
+    raise Exception(f"Caracter invalido '{t.value[0]}' en la linea: {t.lexer.lineno}")
+    # t.lexer.skip(1)
 
 
 # Build the lexer
