@@ -11,6 +11,7 @@ from exp_manager import ExpMagager, get_key
 from tercetos_manager import TercetosManager
 from queue import LifoQueue
 from i_token import Itoken
+from assembler_builder import AssemblerBuilder
 
 tm = TercetosManager()
 auxCantElementos = 0
@@ -65,6 +66,11 @@ precedence = (
 def p_start(p):
     '''start : programa'''
     print('FIN')
+    tm.crear_terceto("FIN", None, None)
+    ab = AssemblerBuilder(tm.lista)
+    ab.traducir_tercetos()
+    for op in ab.assembler:
+        print(op)
 
 
 def p_programa(p):
@@ -458,6 +464,6 @@ def ejecutar_parser():
     path_parser = Path("./TESTS/assembler_test.txt")
     code = path_parser.read_text()
     parser.parse(code)
-    tm.print_tercetos()
+    # tm.print_tercetos()
     tm.guardar_tercetos_txt()
     persistir_tabla_de_simbolos()
