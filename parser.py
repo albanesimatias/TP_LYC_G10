@@ -280,6 +280,8 @@ def p_asignacion(p):
     print(f'VARIABLE ASIGNACION {p.slice[3].type} -> asignacion')
     exp_manager.validar_tipo(tabla_de_simbolos, p[3], p.lineno(2))
     if exp_manager.exp_check[0] != tabla_de_simbolos[p[1]]['tipo']:
+        if tabla_de_simbolos[p[1]]['tipo'] == None:
+            raise Exception(f'La variable "{p[1]}" no esta declarada')
         raise Exception(f'En la linea {p.lineno(2)} se intento asignar a {p[1]} el tipo de dato {exp_manager.exp_check[0]} y {p[1]} es de tipo {tabla_de_simbolos[p[1]]["tipo"]}')
     exp_manager.reiniciar()
     p[0] = f'[{tm.crear_terceto("=", p[1], p[3])}]'
@@ -453,7 +455,7 @@ def p_error(p):
 def ejecutar_parser():
     # Build the parser
     parser = yacc.yacc()
-    path_parser = Path("./TESTS/parser_test.txt")
+    path_parser = Path("./TESTS/assembler_test.txt")
     code = path_parser.read_text()
     parser.parse(code)
     tm.print_tercetos()
