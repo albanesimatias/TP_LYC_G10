@@ -24,13 +24,14 @@ class AssemblerBuilder:
     def traducir_tercetos(self):
         i = 0
         i_max = len(self.tercetos)
+        self.crear_data()
         while (i < i_max):
             self.traducir_terceto(self.tercetos[i])
             i += 1
         for etiqueta in etiquetas:
             operacion = f'ETIQ_{etiqueta}\n'
-            print(etiqueta)
             self.assembler[etiqueta] = operacion + self.assembler[etiqueta]
+        self.crear_end()
 
     def traducir_terceto(self, terceto: Terceto):
         aux = terceto.valor1
@@ -165,5 +166,29 @@ class AssemblerBuilder:
         self.assembler.append(operacion)
         etiquetas.add(indice)
 
-    def traducir_tabla_de_simbolos(self):
-        pass
+    def crear_data(self):
+        operacion = 'include macros2.asm\ninclude number.asm\n.MODEL  LARGE\n.386\n.STACK 200h\n\n;variables de la tabla de simbolos\n'
+        operacion += '.DATA\n\n'
+
+        for id, values in tabla_de_simbolos.items():
+            nombre = id
+            tipo = values['tipo']
+            valor = values['valor']
+            longitud = values['longitud']
+
+            if tipo == "int" or tipo == "float":
+                valor_numerico = valor if valor else '?'
+                operacion += f"{nombre:<15} {'dd':<10} {valor_numerico:<5}\n" if valor else f"{nombre:<15} {'dd':<10} ?\n"
+            if tipo == "str":
+                valor_str = f'{'"'+valor+'"':<5}, $, {longitud:<4} dup (?)\n' if valor else f'{'"",'} $, {'39':<4} dup (?)\n'
+                operacion += f"{nombre:<15} {'db':<10} {valor_str}"
+            if tipo == "bin":
+                valor_str = f'{'"'+valor+'"':<5}' if valor else f'{'"", $,':<4}'
+                operacion += f"{nombre:<15} {'db':<10} {valor_str} {'39':<4}\n"
+
+        operacion += "\n.CODE\n\n"
+        self.assembler.append(operacion)
+
+    def crear_end(self):
+        operacion = '\nmov ax, 4C00h\nint 21h'
+        self.assembler.append(operacion)

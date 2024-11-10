@@ -1,0 +1,13 @@
+init {
+    var:int;
+    vars:str;
+    var_bin: bin;
+}
+
+var = 4+2;
+vars = "Hola mundo";
+if(not 1+(1+1) < 2){
+    while( 1 < 1){
+        var = 1;
+    }
+}
