@@ -32,6 +32,7 @@ def guardar_en_tabla_de_simbolos(token):
         if token.type == 'VARIABLE':
             tabla_de_simbolos[const_name] = {'tipo': conversion_tipos[token.type], 'valor': None, 'longitud': None}
         if token.type == 'CADENA':
+            const_name = const_name.replace(' ', '_')
             tabla_de_simbolos[const_name] = {
                 'tipo': conversion_tipos[token.type], 'valor': t_value, 'longitud': len(t_value)}
         if token.type in ['N_DECIMAL', 'N_BINARIO', 'N_ENTERO']:
@@ -96,6 +97,7 @@ def is_bin(elemento):
 def get_key(elemento):
     if is_cad(elemento):
         elemento = str(elemento).replace('"', '')
+        elemento = elemento.replace(' ', '_')
         return '__'+str(elemento)
     if is_bin(elemento):
         return '_'+str(elemento)
@@ -111,4 +113,4 @@ def is_none(tipo):
 def convertir_indice(indice):
     n = str(indice).replace('[', '')
     n = n.replace(']', '')
-    return float(n)
+    return int(n)
