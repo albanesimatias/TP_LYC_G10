@@ -1,13 +1,10 @@
 init {
     var:int;
-    vars:str;
-    var_bin: bin;
+    var2: int;
 }
 
-var = 4+2;
-vars = "Hola mundo";
-if(not 1+(1+1) < 2){
-    while( 1 < 1){
-        var = 1;
-    }
-}
+
+var = 1 + 2 * (3/3) + 5 + 5 - 5;
+var2 = 5*6*7+46/2;
+
+var = var + var2;
