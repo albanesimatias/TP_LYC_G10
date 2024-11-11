@@ -24,13 +24,13 @@ class AssemblerBuilder:
     def traducir_tercetos(self):
         i = 0
         i_max = len(self.tercetos)
-        self.crear_data()
         while (i < i_max):
             self.traducir_terceto(self.tercetos[i])
             i += 1
         for etiqueta in etiquetas:
-            operacion = f'ETIQ_{etiqueta}\n'
+            operacion = f'ETIQ_{etiqueta}:\n'
             self.assembler[etiqueta] = operacion + self.assembler[etiqueta]
+        self.crear_data()
         self.crear_end()
 
     def traducir_terceto(self, terceto: Terceto):
@@ -113,8 +113,8 @@ class AssemblerBuilder:
             operacion += f'{cmd} {get_key(terceto.valor2)}\n'
             self.assembler.append(operacion)
         else:
-            operacion = f'mov rax, {get_key(terceto.valor3)}\n'
-            operacion = f'mov {terceto.valor2}, rax\n'
+            operacion = f'lea ax, {get_key(terceto.valor3)}\n'
+            operacion += f'mov {terceto.valor2}, ax\n'
             self.assembler.append(operacion)
 
     def traducir_write(self, terceto: Terceto):
@@ -180,15 +180,15 @@ class AssemblerBuilder:
                 valor_numerico = valor if valor else '?'
                 operacion += f"{nombre:<15} {'dd':<10} {valor_numerico:<5}\n" if valor else f"{nombre:<15} {'dd':<10} ?\n"
             if tipo == "str":
-                valor_str = f'{'"'+valor+'"':<5}, $, {longitud:<4} dup (?)\n' if valor else f'{'"",'} $, {'39':<4} dup (?)\n'
-                operacion += f"{nombre:<15} {'db':<10} {valor_str}"
+                valor_str = f'{'db':<10} {'0Dh, "'+valor+'"':<5}, "$", {longitud:<4} dup (?)\n' if valor else f'{'dw':<10} "?"\n'
+                operacion += f"{nombre:<15} {valor_str}"
             if tipo == "bin":
-                valor_str = f'{'"'+valor+'"':<5}' if valor else f'{'"", $,':<4}'
+                valor_str = f'{'0Dh, "'+valor+'"':<5}' if valor else f'{'"", ?,':<4}'
                 operacion += f"{nombre:<15} {'db':<10} {valor_str} {'39':<4}\n"
 
-        operacion += "\n.CODE\n\n"
-        self.assembler.append(operacion)
+        operacion += "\n.CODE\n\nstart:\nmov ax,@data\nmov ds,ax\nFINIT;"
+        self.assembler.insert(0, operacion)
 
     def crear_end(self):
-        operacion = '\nmov ax, 4C00h\nint 21h'
+        operacion = '\nmov ax, 4C00h\nint 21h\nEND start'
         self.assembler.append(operacion)
