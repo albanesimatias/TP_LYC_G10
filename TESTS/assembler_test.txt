@@ -1,10 +1,12 @@
 init {
     var:int;
     var2: int;
+    var_str: str;
 }
-
 
 var = 1 + 2 * (3/3) + 5 + 5 - 5;
 var2 = 5*6*7+46/2;
-
 var = var + var2;
+var_str = "Hola mundo";
+
+write(var_str);

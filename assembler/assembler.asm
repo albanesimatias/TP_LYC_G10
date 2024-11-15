@@ -9,6 +9,7 @@ include number.asm
 
 var             dd         ?
 var2            dd         ?
+var_str         dw         "?"
 _1              dd         1    
 _2              dd         2    
 _3              dd         3    
@@ -16,6 +17,7 @@ _5              dd         5
 _6              dd         6    
 _7              dd         7    
 _46             dd         46   
+__Hola_mundo    db         0Dh, "Hola mundo", "$", 10   dup (?)
 
 .CODE
 
@@ -66,6 +68,11 @@ FILD var2
 FADD
 
 FISTP var
+
+lea ax, __Hola_mundo
+mov var_str, ax
+
+CALL displayString var_str
 
 
 
