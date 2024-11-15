@@ -28,44 +28,55 @@ FINIT;
 FILD _3
 FILD _3
 FDIV
+FFREE st(0)
 
 FILD _2
 FXCH
 FMUL
+FFREE st(0)
 
 FILD _1
 FXCH
 FADD
+FFREE st(0)
 
 FILD _5
 FADD
+FFREE st(0)
 
 FILD _5
 FADD
+FFREE st(0)
 
 FILD _5
 FSUB
+FFREE st(0)
 
 FISTP var
 
 FILD _5
 FILD _6
 FMUL
+FFREE st(0)
 
 FILD _7
 FMUL
+FFREE st(0)
 
 FILD _46
 FILD _2
 FDIV
+FFREE st(0)
 
 FADD
+FFREE st(0)
 
 FISTP var2
 
 FILD var
 FILD var2
 FADD
+FFREE st(0)
 
 FISTP var
 
