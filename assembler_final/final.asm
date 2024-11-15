@@ -8,16 +8,22 @@ include number.asm
 .DATA
 
 var             dd         ?
-var2            dd         ?
+cont            dd         ?
 var_str         dw         "?"
+i               dd         ?
 _1              dd         1    
 _2              dd         2    
 _3              dd         3    
 _5              dd         5    
-_6              dd         6    
-_7              dd         7    
-_46             dd         46   
 __Hola_mundo    db         0Dh, "Hola mundo", "$", 10   dup (?)
+__hola          db         0Dh, "hola", "$", 4    dup (?)
+_0              dd         ?
+_4              dd         4    
+__iterando      db         0Dh, "iterando", "$", 8    dup (?)
+_2.5            dd         2.5  
+_1111b          db         0Dh, "1111b" 39  
+_101b           db         0Dh, "101b" 39  
+_3.5            dd         3.5  
 
 .CODE
 
@@ -54,36 +60,56 @@ FFREE st(0)
 
 FISTP var
 
-FILD _5
-FILD _6
-FMUL
-FFREE st(0)
-
-FILD _7
-FMUL
-FFREE st(0)
-
-FILD _46
-FILD _2
-FDIV
-FFREE st(0)
-
-FADD
-FFREE st(0)
-
-FISTP var2
-
-FILD var
-FILD var2
-FADD
-FFREE st(0)
-
-FISTP var
-
 lea ax, __Hola_mundo
 mov var_str, ax
 
 CALL displayString var_str
+
+FILD _1
+FILD _1
+FCOM
+FSTSW ax
+SAHF
+
+JNE ETIQ_13
+
+CALL displayString __hola
+
+JMP ETIQ_14
+
+ETIQ_13:
+CALL displayString var_str
+
+ETIQ_14:
+FILD _0
+FISTP i
+
+ETIQ_15:
+FILD _4
+FILD i
+FCOM
+FSTSW ax
+SAHF
+
+JAE ETIQ_21
+
+CALL displayString __iterando
+
+FILD i
+FILD _1
+FADD
+FFREE st(0)
+
+FISTP i
+
+JMP ETIQ_15
+
+ETIQ_21:
+FILD _1
+FISTP var
+
+FILD _2
+FISTP cont
 
 
 
