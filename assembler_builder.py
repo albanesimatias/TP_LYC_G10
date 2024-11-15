@@ -77,16 +77,19 @@ class AssemblerBuilder:
     def traducir_suma(self, terceto: Terceto):
         operacion = self.traducir_operacion_intermedia(terceto)
         operacion += f'FADD\n'
+        operacion += "FFREE st(0)\n"
         self.assembler.append(operacion)
 
     def traducir_resta(self, terceto: Terceto):
         operacion = self.traducir_operacion_intermedia(terceto)
         operacion += f'FSUB\n'
+        operacion += "FFREE st(0)\n"
         self.assembler.append(operacion)
 
     def traducir_multiplicacion(self, terceto: Terceto):
         operacion = self.traducir_operacion_intermedia(terceto)
         operacion += f'FMUL\n'
+        operacion += "FFREE st(0)\n"
         self.assembler.append(operacion)
 
     def traducir_division(self, terceto: Terceto):
@@ -94,6 +97,7 @@ class AssemblerBuilder:
         if terceto.valor3 == 0:
             raise Exception('No se puede dividir por 0')
         operacion += f'FDIV\n'
+        operacion += "FFREE st(0)\n"
         self.assembler.append(operacion)
 
     def traducir_asignacion(self, terceto: Terceto):
