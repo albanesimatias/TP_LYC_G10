@@ -10,20 +10,19 @@ include number.asm
 var             dd         ?
 cont            dd         ?
 var_str         dw         "?"
+var_float       dd         ?
 i               dd         ?
 _1              dd         1    
 _2              dd         2    
 _3              dd         3    
 _5              dd         5    
 __Hola_mundo    db         0Dh, "Hola mundo", "$", 10   dup (?)
-__hola          db         0Dh, "hola", "$", 4    dup (?)
+_3_5            dd         3.5  
 _0              dd         ?
 _4              dd         4    
-__iterando      db         0Dh, "iterando", "$", 8    dup (?)
-_2.5            dd         2.5  
-_1111b          db         0Dh, "1111b" 39  
-_101b           db         0Dh, "101b" 39  
-_3.5            dd         3.5  
+_2_5            dd         2.5  
+_1111b          db         0Dh, "1111b", "$", 31   dup (?)
+_101b           db         0Dh, "101b", "$", 31   dup (?)
 
 .CODE
 
@@ -31,6 +30,7 @@ start:
 mov ax,@data
 mov ds,ax
 FINIT;
+
 FILD _3
 FILD _3
 FDIV
@@ -63,7 +63,8 @@ FISTP var
 lea ax, __Hola_mundo
 mov var_str, ax
 
-CALL displayString var_str
+FLD _3_5
+FSTP var_float
 
 FILD _1
 FILD _1
@@ -73,12 +74,14 @@ SAHF
 
 JNE ETIQ_13
 
-CALL displayString __hola
+FILD var
+FISTP var
 
 JMP ETIQ_14
 
 ETIQ_13:
-CALL displayString var_str
+FILD var
+FISTP var
 
 ETIQ_14:
 FILD _0
@@ -91,9 +94,7 @@ FCOM
 FSTSW ax
 SAHF
 
-JAE ETIQ_21
-
-CALL displayString __iterando
+JAE ETIQ_20
 
 FILD i
 FILD _1
@@ -104,7 +105,7 @@ FISTP i
 
 JMP ETIQ_15
 
-ETIQ_21:
+ETIQ_20:
 FILD _1
 FISTP var
 

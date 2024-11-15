@@ -2,23 +2,27 @@ init {
     var:int;
     cont: int;
     var_str: str;
+    var_float: float;
     i: int;
 }
 
 var = 1 + 2 * (3/3) + 5 + 5 - 5;
 var_str = "Hola mundo";
-write(var_str);
+var_float = 3.5;
+*-write(var_str);-* *-Esta comentado porque no funcionan las macros-*
 
 if(1==1){
-    write("hola");
+    *-write("hola");-* *-Esta comentado porque no funcionan las macros-*
+    var = var;
 }
 else{
-    write(var_str);
+    *-write(var_str);-* *-Esta comentado porque no funcionan las macros-*
+    var = var;
 }
 
 i = 0;
 while(i < 4){
-    write("iterando");
+    *-write("iterando");-* *-Esta comentado porque no funcionan las macros-*
     i = i + 1;
 }
 
