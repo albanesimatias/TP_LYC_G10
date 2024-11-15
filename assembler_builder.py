@@ -197,6 +197,6 @@ class AssemblerBuilder:
         self.assembler.append(operacion)
 
     def crear_asm(self):
-        path = Path('assembler/assembler.asm')
+        path = Path('assembler_final/final.asm')
         text = '\n'.join(self.assembler)
         path.write_text(text)
