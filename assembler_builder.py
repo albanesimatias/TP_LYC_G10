@@ -1,7 +1,6 @@
 from pathlib import Path
 from terceto import Terceto
 from utils import *
-import re
 
 etiquetas = set()
 
@@ -192,3 +191,8 @@ class AssemblerBuilder:
     def crear_end(self):
         operacion = '\nmov ax, 4C00h\nint 21h\nEND start'
         self.assembler.append(operacion)
+
+    def crear_asm(self):
+        path = Path('assembler/assembler.asm')
+        text = '\n'.join(self.assembler)
+        path.write_text(text)

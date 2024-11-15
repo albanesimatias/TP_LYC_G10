@@ -69,8 +69,7 @@ def p_start(p):
     tm.crear_terceto("FIN", None, None)
     ab = AssemblerBuilder(tm.lista)
     ab.traducir_tercetos()
-    for op in ab.assembler:
-        print(op)
+    ab.crear_asm()
 
 
 def p_programa(p):
