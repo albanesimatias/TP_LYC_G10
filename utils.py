@@ -24,11 +24,11 @@ tabla_de_simbolos = {}
 
 def guardar_en_tabla_de_simbolos(token):
     t_value = str(token.value).replace('"', '')
-    transform_key = {'VARIABLE': '', 'N_BINARIO': '_', 'N_DECIMAL': '_', 'N_ENTERO': '_', 'CADENA': '__'}
+    # transform_key = {'VARIABLE': '', 'N_BINARIO': '_', 'N_DECIMAL': '_', 'N_ENTERO': '_', 'CADENA': '__'}
     include = ['VARIABLE', 'CADENA', 'N_BINARIO', 'N_DECIMAL', 'N_ENTERO']
-    const_name = transform_key[token.type] + t_value
+    const_name = get_key(token.value)
 
-    if const_name not in tabla_de_simbolos and token.type in include:
+    if const_name not in tabla_de_simbolos:
         if token.type == 'VARIABLE':
             tabla_de_simbolos[const_name] = {'tipo': conversion_tipos[token.type], 'valor': None, 'longitud': None}
         if token.type == 'CADENA':
@@ -94,6 +94,12 @@ def is_bin(elemento):
     return re.match(regex, cad)
 
 
+def is_float(elemento):
+    cad = str(elemento)
+    regex = r'\d+\.\d+'
+    return re.match(regex, cad)
+
+
 def get_key(elemento):
     if is_cad(elemento):
         elemento = str(elemento).replace('"', '')
@@ -101,6 +107,9 @@ def get_key(elemento):
         return '__'+str(elemento)
     if is_bin(elemento):
         return '_'+str(elemento)
+    if is_float(elemento):
+        elemento = str(elemento).replace('.', '_')
+        return '_' + elemento
     if not is_id(str(elemento)):
         return '_'+str(elemento)
     return str(elemento)

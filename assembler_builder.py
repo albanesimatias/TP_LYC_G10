@@ -186,10 +186,10 @@ class AssemblerBuilder:
                 valor_str = f'{'db':<10} {'0Dh, "'+valor+'"':<5}, "$", {longitud:<4} dup (?)\n' if valor else f'{'dw':<10} "?"\n'
                 operacion += f"{nombre:<15} {valor_str}"
             if tipo == "bin":
-                valor_str = f'{'0Dh, "'+valor+'"':<5}' if valor else f'{'"", ?,':<4}'
-                operacion += f"{nombre:<15} {'db':<10} {valor_str} {'39':<4}\n"
+                valor_bin = f'{'db':<10} {'0Dh, "'+valor+'"':<5}, "$", {'31':<4} dup (?)\n' if valor else f'{'dw':<10} "?"\n'
+                operacion += f"{nombre:<15} {valor_bin}"
 
-        operacion += "\n.CODE\n\nstart:\nmov ax,@data\nmov ds,ax\nFINIT;"
+        operacion += "\n.CODE\n\nstart:\nmov ax,@data\nmov ds,ax\nFINIT;\n"
         self.assembler.insert(0, operacion)
 
     def crear_end(self):
